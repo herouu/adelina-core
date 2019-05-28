@@ -1,4 +1,4 @@
-package top.alertcode.adelina.framework.other;
+package top.alertcode.adelina.framework.utils;
 
 
 import top.alertcode.adelina.framework.commons.model.TreeNode;

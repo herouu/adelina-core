@@ -2,7 +2,7 @@ package top.alertcode.adelina.framework.responses;
 
 import org.springframework.http.HttpStatus;
 import top.alertcode.adelina.framework.commons.model.ErrorCode;
-import top.alertcode.adelina.framework.other.ResponseUtils;
+import top.alertcode.adelina.framework.utils.ResponseUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
