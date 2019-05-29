@@ -32,7 +32,7 @@ public interface IEnum {
     /**
      * 获取枚举值
      *
-     * @return
+     * @return int
      */
     int getValue();
 

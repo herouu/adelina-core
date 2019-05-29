@@ -87,8 +87,8 @@ public final class EncryptUtils {
     /**
      * 对字符串进行md5加密
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return String
      */
     public static String md5(String str) {
         try {
@@ -114,7 +114,7 @@ public final class EncryptUtils {
     /**
      * 对字符串进行md5加密(16位）
      *
-     * @param str
+     * @param str 字符串
      * @return 返回MD5 16位字符串
      */
     public static String md516(String str) {
@@ -127,6 +127,8 @@ public final class EncryptUtils {
 
     /**
      * 对字符串进行sha256加密
+     * @param str 字符串
+     * @return String
      */
     public static String sha256(String str) {
         try {
@@ -153,8 +155,8 @@ public final class EncryptUtils {
     /**
      * 对字符串进行sha1加密
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return String
      */
     public static String sha1(String str) {
         try {

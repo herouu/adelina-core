@@ -19,8 +19,8 @@ public abstract class TreeUtils {
     /**
      * 递归查找子节点
      *
-     * @param treeNodes
-     * @return
+     * @param treeNodes 子节点
+     * @return T extends TreeNode
      */
     public static <T extends TreeNode> T findChildren(T treeNode, List<T> treeNodes) {
         treeNodes.stream().filter(e -> Objects.equals(treeNode.getId(), e.getParentId())).forEach(e -> treeNode.getChildrens().add(findChildren(e, treeNodes)));

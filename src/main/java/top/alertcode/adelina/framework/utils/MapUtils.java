@@ -496,7 +496,7 @@ public final class MapUtils {
     }
 
     public static <K, V> Map<K, V> emptyIfNull(final Map<K, V> map) {
-        return map == null ? Collections.<K, V>emptyMap() : map;
+        return map == null ? Collections.emptyMap() : map;
     }
 
     public static boolean isEmpty(final Map<?, ?> map) {
@@ -591,7 +591,7 @@ public final class MapUtils {
 
     public static <K, V> void populateMap(final Map<K, V> map, final Iterable<? extends V> elements,
                                           final Transformer<V, K> keyTransformer) {
-        populateMap(map, elements, keyTransformer, TransformerUtils.<V>nopTransformer());
+        populateMap(map, elements, keyTransformer, TransformerUtils.nopTransformer());
     }
 
     public static <K, V, E> void populateMap(final Map<K, V> map, final Iterable<? extends E> elements,
@@ -606,7 +606,7 @@ public final class MapUtils {
 
     public static <K, V> void populateMap(final MultiMap<K, V> map, final Iterable<? extends V> elements,
                                           final Transformer<V, K> keyTransformer) {
-        populateMap(map, elements, keyTransformer, TransformerUtils.<V>nopTransformer());
+        populateMap(map, elements, keyTransformer, TransformerUtils.nopTransformer());
     }
 
     public static <K, V, E> void populateMap(final MultiMap<K, V> map, final Iterable<? extends E> elements,

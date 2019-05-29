@@ -243,6 +243,12 @@
         <xmlunit2.version>2.6.2</xmlunit2.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+
+        </dependencies>
+    </dependencyManagement>
+
     <!--<distributionManagement>-->
         <!--<snapshotRepository>-->
             <!--<id>sonatype-nexus-snapshots</id>-->

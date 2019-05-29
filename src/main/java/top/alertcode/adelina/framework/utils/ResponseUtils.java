@@ -70,8 +70,8 @@ public abstract class ResponseUtils {
     /**
      * 获取异常信息
      *
-     * @param exception
-     * @return
+     * @param exception 异常
+     * @return FailedResponseBuilder
      */
     public static FailedResponse.FailedResponseBuilder exceptionMsg(FailedResponse.FailedResponseBuilder failedResponseBuilder, Exception exception) {
         if (exception instanceof MethodArgumentNotValidException) {

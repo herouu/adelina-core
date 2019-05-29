@@ -583,7 +583,7 @@ public final class CollectionUtils {
         }
     }
 
-    public static boolean isFull(final Collection<? extends Object> coll) {
+    public static boolean isFull(final Collection<?> coll) {
         if (coll == null) {
             throw new NullPointerException("The collection must not be null");
         }
@@ -599,7 +599,7 @@ public final class CollectionUtils {
         }
     }
 
-    public static int maxSize(final Collection<? extends Object> coll) {
+    public static int maxSize(final Collection<?> coll) {
         if (coll == null) {
             throw new NullPointerException("The collection must not be null");
         }
@@ -617,13 +617,13 @@ public final class CollectionUtils {
 
     public static <O extends Comparable<? super O>> List<O> collate(Iterable<? extends O> a,
                                                                     Iterable<? extends O> b) {
-        return collate(a, b, ComparatorUtils.<O>naturalComparator(), true);
+        return collate(a, b, ComparatorUtils.naturalComparator(), true);
     }
 
     public static <O extends Comparable<? super O>> List<O> collate(final Iterable<? extends O> a,
                                                                     final Iterable<? extends O> b,
                                                                     final boolean includeDuplicates) {
-        return collate(a, b, ComparatorUtils.<O>naturalComparator(), includeDuplicates);
+        return collate(a, b, ComparatorUtils.naturalComparator(), includeDuplicates);
     }
 
     public static <O> List<O> collate(final Iterable<? extends O> a, final Iterable<? extends O> b,
@@ -732,7 +732,7 @@ public final class CollectionUtils {
             return getFreq(obj, cardinalityB);
         }
 
-        private final int getFreq(final Object obj, final Map<?, Integer> freqMap) {
+        private int getFreq(final Object obj, final Map<?, Integer> freqMap) {
             final Integer count = freqMap.get(obj);
             if (count != null) {
                 return count.intValue();

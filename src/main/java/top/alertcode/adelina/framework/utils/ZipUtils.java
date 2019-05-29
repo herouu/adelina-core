@@ -108,7 +108,7 @@ public class ZipUtils {
      * @param str 压缩前的文本
      * @return 返回压缩后的文本
      */
-    public static final String zip(String str) {
+    public static String zip(String str) {
         if (str == null) {
             return null;
         }
@@ -150,7 +150,7 @@ public class ZipUtils {
      * @param compressedStr 压缩后的文本（Base64格式）
      * @return 解压后的字符串
      */
-    public static final String unZip(String compressedStr) {
+    public static String unZip(String compressedStr) {
         if (compressedStr == null) {
             return null;
         }

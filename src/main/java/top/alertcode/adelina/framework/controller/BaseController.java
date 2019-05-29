@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Caratacus
  */
+@SuppressWarnings("ALL")
 public class BaseController {
 
     @Resource
@@ -26,16 +27,17 @@ public class BaseController {
      * 成功返回
      *
      * @param object
-     * @return
+     * @return JsonResponse 
      */
+    @SuppressWarnings("JavaDoc")
     public <T> JsonResponse<T> success(T object) {
-        return JsonResponse.<T>success(response, object);
+        return JsonResponse.success(response, object);
     }
 
     /**
      * 成功返回
      *
-     * @return
+     * @return JsonResponse
      */
     public JsonResponse<Void> success() {
         return success(HttpStatus.OK);
@@ -46,10 +48,10 @@ public class BaseController {
      *
      * @param status
      * @param object
-     * @return
+     * @return JsonResponse  
      */
     public <T> JsonResponse<T> success(HttpStatus status, T object) {
-        return JsonResponse.<T>success(response, status, object);
+        return JsonResponse.success(response, status, object);
     }
 
 
@@ -57,10 +59,10 @@ public class BaseController {
      * 成功返回
      *
      * @param status
-     * @return
+     * @return JsonResponse
      */
     public JsonResponse<Void> success(HttpStatus status) {
-        return JsonResponse.<Void>success(response, status);
+        return JsonResponse.success(response, status);
     }
 
 

@@ -116,8 +116,8 @@ public enum ErrorCodeEnum {
     /**
      * 转换为ErrorCode(自定义返回消息)
      *
-     * @param msg
-     * @return
+     * @param msg 错误消息
+     * @return ErrorCode
      */
     public ErrorCode convert(String msg) {
         return ErrorCode.builder().httpCode(httpCode()).show(show()).error(name()).msg(msg).build();
@@ -126,7 +126,7 @@ public enum ErrorCodeEnum {
     /**
      * 转换为ErrorCode
      *
-     * @return
+     * @return ErrorCode
      */
     public ErrorCode convert() {
         return ErrorCode.builder().httpCode(httpCode()).show(show()).error(name()).msg(msg()).build();

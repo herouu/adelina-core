@@ -25,7 +25,7 @@ public class JsonResponse<T> implements Serializable {
     /**
      * 不需要返回结果
      *
-     * @param status
+     * @param status HttpStatus
      */
     public static JsonResponse<Void> success(HttpServletResponse response, HttpStatus status) {
         response.setStatus(status.value());
@@ -36,7 +36,7 @@ public class JsonResponse<T> implements Serializable {
     /**
      * 成功返回
      *
-     * @param object
+     * @param object 数据
      */
     public static <T> JsonResponse<T> success(HttpServletResponse response, T object) {
         return success(response, HttpStatus.OK, object);
@@ -46,8 +46,8 @@ public class JsonResponse<T> implements Serializable {
     /**
      * 成功返回
      *
-     * @param status
-     * @param object
+     * @param status HttpStatus
+     * @param object 数据
      */
     public static <T> JsonResponse<T> success(HttpServletResponse response, HttpStatus status, T object) {
         response.setStatus(status.value());
@@ -58,8 +58,8 @@ public class JsonResponse<T> implements Serializable {
     /**
      * 失败返回
      *
-     * @param errorCode
-     * @param exception
+     * @param errorCode ErrorCode
+     * @param exception exception
      */
     public static <T> JsonResponse<T> failure(ErrorCode errorCode, Exception exception) {
         return ResponseUtils.exceptionMsg(FailedResponse.builder().msg(errorCode.getMsg()), exception)

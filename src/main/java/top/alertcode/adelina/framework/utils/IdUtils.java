@@ -7,6 +7,7 @@ import java.util.UUID;
 /**
  * Created by gizmo on 15/12/11.
  */
+@SuppressWarnings("ALL")
 public final class IdUtils {
     private static SecureRandom random = new SecureRandom();
 
@@ -40,8 +41,19 @@ public final class IdUtils {
      * 采用将UUID字符串转换成26位小写字母+26位大写字母+0-9十个数字组成的8位字符串
      * 测试时有千万分之一的重复机率
      * 注：字符串区分大小写
-     * @param prefix 前缀随机字符位数
      * @return
+     */
+    public static String generateBaseShortUUID() {
+        return generateBaseShortUUID();
+    }
+
+    /***
+     * 获取8位的UUID字符串
+     * 采用将UUID字符串转换成26位小写字母+26位大写字母+0-9十个数字组成的8位字符串
+     * 测试时有千万分之一的重复机率
+     * 注：字符串区分大小写
+     * @param prefix 前缀随机字符位数
+     * @return String
      */
     public static String generateBaseShortUUID(int prefix) {
         StringBuffer shortBuffer = new StringBuffer();
@@ -49,7 +61,7 @@ public final class IdUtils {
         // 62
         int CHAR_ARRAY_LENGTH = 0x3E;
         if(prefix >0) {
-            for(int i=0; i < prefix; i++){
+            for(int i = 0; i < prefix; i++){
                 Random random = new Random();
                 int r = random.nextInt(CHAR_ARRAY_LENGTH-1);
                 shortBuffer.append(chars[r]);
@@ -68,7 +80,7 @@ public final class IdUtils {
      * 采用将UUID字符串转换成26位小写字母+26位大写字母+0-9十个数字组成的8位字符串
      * 测试时有千万分之一的重复机率
      * 注：字符串区分大小写
-     * @return
+     * @return String
      */
     public static String generateShortUUID8() {
         return generateBaseShortUUID(0);
@@ -78,7 +90,7 @@ public final class IdUtils {
      * 采用将UUID字符串转换成26位小写字母+26位大写字母+0-9十个数字组成的8位字符串
      * 在generateShortUUID8方法基础上添加随机数降低重复机率
      * 注：字符串区分大小写
-     * @return
+     * @return String
      */
     public static String generateShortUUID10() {
         return generateBaseShortUUID(2);
