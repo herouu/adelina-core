@@ -6,6 +6,9 @@ import java.util.List;
 
 /**
  * Created by gizmo on 15/12/11.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public final class IDGeneratorUtils {
     private static final String DATE_FORMAT = "yyyyMMddHHmm";
@@ -13,6 +16,11 @@ public final class IDGeneratorUtils {
     private IDGeneratorUtils() {
     }
 
+    /**
+     * <p>generateNano.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public static String generateNano() {
         String dateStr = DateFormatUtils.format(DateUtils.now(), DATE_FORMAT);
         String nanoStr = String.valueOf(System.nanoTime());
@@ -21,10 +29,21 @@ public final class IDGeneratorUtils {
         return dateStr + disturbNanoStr;
     }
 
+    /**
+     * <p>generateNano.</p>
+     *
+     * @param append a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String generateNano(String append) {
         return generateNano() + append;
     }
 
+    /**
+     * <p>generateMillis.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public static String generateMillis() {
         String dateStr = DateFormatUtils.format(DateUtils.now(), DATE_FORMAT);
         String millsStr = String.valueOf(System.currentTimeMillis());
@@ -33,6 +52,12 @@ public final class IDGeneratorUtils {
         return dateStr + distrubMillsStr;
     }
 
+    /**
+     * <p>generateMillis.</p>
+     *
+     * @param append a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String generateMillis(String append) {
         return generateMillis() + append;
     }

@@ -8,6 +8,9 @@ import java.util.Date;
 
 /**
  * Created by wanghongmeng on 2015/6/24.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public final class DateFormatUtils extends org.apache.commons.lang3.time.DateFormatUtils {
     private static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -15,6 +18,14 @@ public final class DateFormatUtils extends org.apache.commons.lang3.time.DateFor
     private DateFormatUtils() {
     }
 
+    /**
+     * <p>formatDateTime.</p>
+     *
+     * @param format a {@link java.lang.String} object.
+     * @param args   a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     * @throws java.text.ParseException if any.
+     */
     public static String formatDateTime(String format, String... args) throws ParseException {
         if (StringUtils.isEmpty(format)) {
             return StringUtils.EMPTY;
@@ -38,6 +49,7 @@ public final class DateFormatUtils extends org.apache.commons.lang3.time.DateFor
         return org.apache.commons.lang3.time.DateFormatUtils.format(date, DEFAULT_DATETIME_FORMAT);
     }
 
+    /** {@inheritDoc} */
     public static String format(String dateStr, String format) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date date = sdf.parse(dateStr);

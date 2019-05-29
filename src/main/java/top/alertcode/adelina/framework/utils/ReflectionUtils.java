@@ -7,24 +7,52 @@ import java.util.*;
 
 /**
  * Created by gizmo on 15/12/11.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public final class ReflectionUtils {
+    /**
+     * Constant <code>CGLIB_CLASS_SEPARATOR="$$"</code>
+     */
     public static final String CGLIB_CLASS_SEPARATOR = "$$";
 
     private ReflectionUtils() {
     }
 
+    /**
+     * <p>invokeGetterMethod.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param propertyName a {@link java.lang.String} object.
+     * @return a {@link java.lang.Object} object.
+     */
     public static Object invokeGetterMethod(Object obj, String propertyName) {
         String getterMethodName = "get" + StringUtils.capitalize(propertyName);
         return invokeMethod(obj, getterMethodName, new Class[]{},
                 new Object[]{});
     }
 
+    /**
+     * <p>invokeSetterMethod.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param propertyName a {@link java.lang.String} object.
+     * @param value a {@link java.lang.Object} object.
+     */
     public static void invokeSetterMethod(Object obj, String propertyName,
                                           Object value) {
         invokeSetterMethod(obj, propertyName, value, null);
     }
 
+    /**
+     * <p>invokeSetterMethod.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param propertyName a {@link java.lang.String} object.
+     * @param value a {@link java.lang.Object} object.
+     * @param propertyType a {@link java.lang.Class} object.
+     */
     public static void invokeSetterMethod(Object obj, String propertyName,
                                           Object value, Class<?> propertyType) {
         Class<?> type = propertyType != null ? propertyType : value.getClass();
@@ -33,6 +61,13 @@ public final class ReflectionUtils {
                 new Object[]{value});
     }
 
+    /**
+     * <p>getFieldValue.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param fieldName a {@link java.lang.String} object.
+     * @return a {@link java.lang.Object} object.
+     */
     public static Object getFieldValue(final Object obj, final String fieldName) {
         Field field = getAccessibleField(obj, fieldName);
 
@@ -49,6 +84,13 @@ public final class ReflectionUtils {
         return result;
     }
 
+    /**
+     * <p>setFieldValue.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param fieldName a {@link java.lang.String} object.
+     * @param value a {@link java.lang.Object} object.
+     */
     public static void setFieldValue(final Object obj, final String fieldName,
                                      final Object value) {
         Field field = getAccessibleField(obj, fieldName);
@@ -64,6 +106,13 @@ public final class ReflectionUtils {
         }
     }
 
+    /**
+     * <p>getAccessibleField.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param fieldName a {@link java.lang.String} object.
+     * @return a {@link java.lang.reflect.Field} object.
+     */
     public static Field getAccessibleField(final Object obj, final String fieldName) {
         AssertUtils.notNull(obj, "object不能为空");
 
@@ -79,6 +128,12 @@ public final class ReflectionUtils {
         return null;
     }
 
+    /**
+     * <p>getUserClass.</p>
+     *
+     * @param clazz a {@link java.lang.Class} object.
+     * @return a {@link java.lang.Class} object.
+     */
     public static Class<?> getUserClass(Class<?> clazz) {
         if (clazz != null && clazz.getName().contains(CGLIB_CLASS_SEPARATOR)) {
             Class<?> superClass = clazz.getSuperclass();
@@ -89,6 +144,15 @@ public final class ReflectionUtils {
         return clazz;
     }
 
+    /**
+     * <p>invokeMethod.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param methodName a {@link java.lang.String} object.
+     * @param parameterTypes an array of {@link java.lang.Class} objects.
+     * @param args an array of {@link java.lang.Object} objects.
+     * @return a {@link java.lang.Object} object.
+     */
     public static Object invokeMethod(final Object obj,
                                       final String methodName, final Class<?>[] parameterTypes,
                                       final Object[] args) {
@@ -105,6 +169,14 @@ public final class ReflectionUtils {
         }
     }
 
+    /**
+     * <p>getAccessibleMethod.</p>
+     *
+     * @param obj a {@link java.lang.Object} object.
+     * @param methodName a {@link java.lang.String} object.
+     * @param parameterTypes a {@link java.lang.Class} object.
+     * @return a {@link java.lang.reflect.Method} object.
+     */
     public static Method getAccessibleMethod(final Object obj,
                                              final String methodName, final Class<?>... parameterTypes) {
         AssertUtils.notNull(obj, "object不能为空");
@@ -120,16 +192,30 @@ public final class ReflectionUtils {
                 return method;
 
             } catch (NoSuchMethodException e) {// NOSONAR
-                // Method不在当前类定义,继续向上转型
+                // Method不在当前类定�?,继续向上转型
             }
         }
         return null;
     }
 
+    /**
+     * <p>getSuperClassGenricType.</p>
+     *
+     * @param clazz a {@link java.lang.Class} object.
+     * @param <T> a T object.
+     * @return a {@link java.lang.Class} object.
+     */
     public static <T> Class<T> getSuperClassGenricType(final Class clazz) {
         return getSuperClassGenricType(clazz, 0);
     }
 
+    /**
+     * <p>getSuperClassGenricType.</p>
+     *
+     * @param clazz a {@link java.lang.Class} object.
+     * @param index a int.
+     * @return a {@link java.lang.Class} object.
+     */
     public static Class getSuperClassGenricType(final Class clazz,
                                                 final int index) {
 
@@ -151,6 +237,12 @@ public final class ReflectionUtils {
         return (Class) params[index];
     }
 
+    /**
+     * <p>convertReflectionExceptionToUnchecked.</p>
+     *
+     * @param e a {@link java.lang.Exception} object.
+     * @return a {@link java.lang.RuntimeException} object.
+     */
     public static RuntimeException convertReflectionExceptionToUnchecked(Exception e) {
         if (e instanceof IllegalAccessException
                 || e instanceof IllegalArgumentException
@@ -165,6 +257,13 @@ public final class ReflectionUtils {
         return new RuntimeException("Unexpected Checked Exception.", e);
     }
 
+    /**
+     * <p>newInstance.</p>
+     *
+     * @param cls a {@link java.lang.Class} object.
+     * @param <T> a T object.
+     * @return a T object.
+     */
     public static <T> T newInstance(Class<T> cls) {
         T r = null;
         try {
@@ -175,6 +274,16 @@ public final class ReflectionUtils {
         return r;
     }
 
+    /**
+     * <p>extractToMap.</p>
+     *
+     * @param collection a {@link java.util.Collection} object.
+     * @param keyPropertyName a {@link java.lang.String} object.
+     * @param valuePropertyName a {@link java.lang.String} object.
+     * @param <K> a K object.
+     * @param <V> a V object.
+     * @return a {@link java.util.Map} object.
+     */
     public static <K, V> Map<K, V> extractToMap(final Collection<?> collection, final String keyPropertyName, final String valuePropertyName) {
         Map<K, V> map = new HashMap<K, V>();
         if (CollectionUtils.isEmpty(collection)) {
@@ -196,6 +305,15 @@ public final class ReflectionUtils {
         return map;
     }
 
+    /**
+     * <p>tranToMap.</p>
+     *
+     * @param collection a {@link java.util.Collection} object.
+     * @param keyPropertyName a {@link java.lang.String} object.
+     * @param <K> a K object.
+     * @param <V> a V object.
+     * @return a {@link java.util.Map} object.
+     */
     public static <K, V> Map<K, V> tranToMap(final Collection<V> collection, final String keyPropertyName) {
         Map<K, V> map = new HashMap<K, V>();
         if (CollectionUtils.isEmpty(collection)) {
@@ -216,6 +334,14 @@ public final class ReflectionUtils {
         return map;
     }
 
+    /**
+     * <p>extractToList.</p>
+     *
+     * @param collection a {@link java.util.Collection} object.
+     * @param propertyName a {@link java.lang.String} object.
+     * @param <K> a K object.
+     * @return a {@link java.util.List} object.
+     */
     public static <K> List<K> extractToList(final Collection<?> collection, final String propertyName) {
         List<K> list = new ArrayList<K>();
         if (CollectionUtils.isEmpty(collection)) {
@@ -236,10 +362,17 @@ public final class ReflectionUtils {
         return list;
     }
 
+    /**
+     * <p>getExistAccessibleField.</p>
+     *
+     * @param value a {@link java.lang.Object} object.
+     * @param propertyName a {@link java.lang.String} object.
+     * @return a {@link java.lang.reflect.Field} object.
+     */
     public static Field getExistAccessibleField(Object value, String propertyName) {
         Field propertyField = getAccessibleField(value, propertyName);
         if (propertyField == null) {
-            throw new RuntimeException(value.getClass().getSimpleName() + " 没有【" + propertyName + "】属性");
+            throw new RuntimeException(value.getClass().getSimpleName() + " 没有�?" + propertyName + "】属�?");
         }
         return propertyField;
     }

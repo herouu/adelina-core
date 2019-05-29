@@ -12,6 +12,9 @@ import java.sql.SQLException;
 
 /**
  * Created by gizmo on 15/12/11.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public final class DataBaseUtils {
     private static final Logger log = LoggerFactory.getLogger(DataBaseUtils.class);
@@ -19,6 +22,15 @@ public final class DataBaseUtils {
     private DataBaseUtils() {
     }
 
+    /**
+     * <p>isAddDuplicate.</p>
+     *
+     * @param dataSource a {@link javax.sql.DataSource} object.
+     * @param entity     a {@link java.lang.Object} object.
+     * @param tableName  a {@link java.lang.String} object.
+     * @param properties a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean isAddDuplicate(DataSource dataSource, Object entity, String tableName, String... properties) {
         checkParameter(dataSource, entity, tableName, properties);
 
@@ -44,6 +56,15 @@ public final class DataBaseUtils {
         }
     }
 
+    /**
+     * <p>isUpdateDuplicate.</p>
+     *
+     * @param dataSource a {@link javax.sql.DataSource} object.
+     * @param entity a {@link java.lang.Object} object.
+     * @param tableName a {@link java.lang.String} object.
+     * @param properties a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean isUpdateDuplicate(DataSource dataSource, Object entity, String tableName, String... properties) {
         checkParameter(dataSource, entity, tableName, properties);
 

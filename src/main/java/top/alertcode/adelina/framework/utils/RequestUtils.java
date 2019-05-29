@@ -36,9 +36,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
- * Request 请求工具类
+ * Request 请求工具�?
  *
  * @author Caratacus
+ * @version $Id: $Id
  */
 @SuppressWarnings("ALL")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -48,8 +49,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式GET
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isGet(HttpServletRequest request) {
         return HttpMethod.GET.toString().equalsIgnoreCase(request.getMethod());
@@ -58,8 +59,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式POST
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isPost(HttpServletRequest request) {
         return HttpMethod.POST.toString().equalsIgnoreCase(request.getMethod());
@@ -68,8 +69,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式PUT
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isPut(HttpServletRequest request) {
         return HttpMethod.PUT.toString().equalsIgnoreCase(request.getMethod());
@@ -78,8 +79,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式DELETE
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isDelete(HttpServletRequest request) {
         return HttpMethod.DELETE.toString().equalsIgnoreCase(request.getMethod());
@@ -88,8 +89,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式PATCH
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isPatch(HttpServletRequest request) {
         return HttpMethod.PATCH.toString().equalsIgnoreCase(request.getMethod());
@@ -98,8 +99,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式TRACE
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isTrace(HttpServletRequest request) {
         return HttpMethod.TRACE.toString().equalsIgnoreCase(request.getMethod());
@@ -108,8 +109,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式HEAD
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isHead(HttpServletRequest request) {
         return HttpMethod.HEAD.toString().equalsIgnoreCase(request.getMethod());
@@ -118,8 +119,8 @@ public abstract class RequestUtils {
     /**
      * 判断请求方式OPTIONS
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isOptions(HttpServletRequest request) {
         return HttpMethod.OPTIONS.toString().equalsIgnoreCase(request.getMethod());
@@ -128,8 +129,8 @@ public abstract class RequestUtils {
     /**
      * 获取请求
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a {@link java.lang.String} object.
      */
     public static String getRequestBody(HttpServletRequest request) {
         String requestBody = null;
@@ -156,8 +157,8 @@ public abstract class RequestUtils {
     /**
      * 获取请求
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return an array of byte.
      */
     public static byte[] getByteBody(HttpServletRequest request) {
         byte[] body = new byte[0];
@@ -170,10 +171,10 @@ public abstract class RequestUtils {
     }
 
     /**
-     * 是否包含请求体
+     * 是否包含请求�?
      *
-     * @param request
-     * @return
+     * @param request a {@link javax.servlet.http.HttpServletRequest} object.
+     * @return a boolean.
      */
     public static boolean isContainBody(HttpServletRequest request) {
         return isPost(request) || isPut(request) || isPatch(request);

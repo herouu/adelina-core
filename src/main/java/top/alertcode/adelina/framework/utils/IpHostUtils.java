@@ -8,6 +8,12 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 
+/**
+ * <p>IpHostUtils class.</p>
+ *
+ * @author Bob
+ * @version $Id: $Id
+ */
 public class IpHostUtils {
 
     private static volatile String cachedIpAddress;
@@ -15,10 +21,20 @@ public class IpHostUtils {
     private IpHostUtils() {
     }
 
+    /**
+     * <p>getHostName.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public static String getHostName() {
         return getLocalHost().getHostName();
     }
 
+    /**
+     * <p>getIp.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public static String getIp() {
         if (StringUtils.isNotBlank(cachedIpAddress)) {
             return cachedIpAddress;

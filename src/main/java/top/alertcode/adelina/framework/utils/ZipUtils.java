@@ -8,15 +8,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.*;
 
-/**
- * @author zhangxu
- * 创建时间：2019/3/1
- * 功能描述:
- * <p>
- * 修订记录：
- * @version 1.0
- **/
 
+/**
+ * <p>ZipUtils class.</p>
+ *
+ * @author alertcode
+ * @version $Id: $Id
+ */
 public class ZipUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ZipUtils.class);
@@ -27,8 +25,9 @@ public class ZipUtils {
 
     /**
      * 使用gzip对字符串进行压缩
-     * @param primStr 要进行压缩的字符串
-     * @return 返回byte[]Base64的压缩结果
+     *
+     * @param primStr 要进行压缩的字符�?
+     * @return 返回byte[]Base64的压缩结�?
      */
     public static String gzip(String primStr) {
         if (primStr == null || primStr.length() == 0) {
@@ -40,7 +39,7 @@ public class ZipUtils {
             gzip = new GZIPOutputStream(out);
             gzip.write(primStr.getBytes());
         } catch (IOException e) {
-           log.error("-------------压缩字符串发生异常：{}",e.getMessage());
+            log.error("-------------压缩字符串发生异常：{}",e.getMessage());
         }finally{
             if(gzip!=null){
                 try {
@@ -53,10 +52,12 @@ public class ZipUtils {
         return new sun.misc.BASE64Encoder().encode(out.toByteArray());
     }
 
-    /***
-     * 对使用gzip压缩的字符串进行解压缩
-     * @param compressedStr gzip压缩结果的Base64字符串
-     * @return 解压缩结果
+    /**
+     *
+     * 对使用gzip压缩的字符串进行解压�?
+     *
+     * @param compressedStr gzip压缩结果的Base64字符�?
+     * @return 解压缩结�?
      */
     public static String unGzip(String compressedStr){
         if(compressedStr==null){
@@ -105,6 +106,7 @@ public class ZipUtils {
 
     /**
      * 使用zip对字符串进行压缩
+     *
      * @param str 压缩前的文本
      * @return 返回压缩后的文本
      */
@@ -146,9 +148,10 @@ public class ZipUtils {
 
 
     /**
-     * 使用zip进行解压缩
-     * @param compressedStr 压缩后的文本（Base64格式）
-     * @return 解压后的字符串
+     * 使用zip进行解压�?
+     *
+     * @param compressedStr 压缩后的文本（Base64格式�?
+     * @return 解压后的字符�?
      */
     public static String unZip(String compressedStr) {
         if (compressedStr == null) {

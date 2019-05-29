@@ -2,11 +2,20 @@ package top.alertcode.adelina.framework.utils;
 
 /**
  * Created by gizmo on 15/12/11.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public final class PasswordStrengthUtils {
     private PasswordStrengthUtils() {
     }
 
+    /**
+     * <p>getStrength.</p>
+     *
+     * @param password a {@link java.lang.String} object.
+     * @return a {@link top.alertcode.adelina.framework.utils.PasswordStrengthUtils.Level} object.
+     */
     public static Level getStrength(String password) {
         if (StringUtils.isBlank(password)) {
             throw new NullPointerException();

@@ -18,13 +18,20 @@ import javax.servlet.http.HttpServletRequest;
  * 基础Service实现 继承于Mybatis-plus
  * </p>
  *
- * @author Caratacus
+ * @author Bob
+ * @version $Id: $Id
  */
 @Transactional(readOnly = true)
 public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl implements IBaseService<T> {
     @Resource
     protected HttpServletRequest request;
 
+    /**
+     * <p>getPage.</p>
+     *
+     * @param <T> a T object.
+     * @return a {@link com.baomidou.mybatisplus.extension.plugins.pagination.Page} object.
+     */
     protected <T> Page<T> getPage() {
         int index = 1;
         // 页数

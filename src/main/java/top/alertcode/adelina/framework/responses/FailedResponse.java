@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 /**
  * 失败返回
  *
- * @author Caratacus
+ * @author Bob
+ * @version $Id: $Id
  */
 @Getter
 @ToString
@@ -20,11 +21,11 @@ public class FailedResponse extends JsonResponse {
 
     private static final long serialVersionUID = 1L;
     /**
-     * http 状态码
+     * http 状�?�码
      */
     private Integer status;
     /**
-     * 错误状态码
+     * 错误状�?�码
      */
     private String error;
     /**
@@ -36,11 +37,11 @@ public class FailedResponse extends JsonResponse {
      */
     private String exception;
     /**
-     * 客户端是否展示
+     * 客户端是否展�?
      */
     private Boolean show;
     /**
-     * 当前时间戳
+     * 当前时间�?
      */
     private LocalDateTime time;
 

@@ -25,12 +25,13 @@ package top.alertcode.adelina.framework.commons.enums;
  * 通用枚举
  * </p>
  *
- * @author Caratacus
+ * @author Bob
+ * @version $Id: $Id
  */
 public interface IEnum {
 
     /**
-     * 获取枚举值
+     * 获取枚举�?
      *
      * @return int
      */

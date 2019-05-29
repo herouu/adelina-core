@@ -4,9 +4,10 @@ package top.alertcode.adelina.framework.commons.model;
 import lombok.*;
 
 /**
- * 业务异常类
+ * 业务异常�?
  *
- * @author Caratacus
+ * @author Bob
+ * @version $Id: $Id
  */
 @Getter
 @ToString
@@ -20,7 +21,7 @@ public class ErrorCode {
      */
     private String error;
     /**
-     * http状态码
+     * http状�?�码
      */
     private int httpCode;
     /**

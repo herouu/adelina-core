@@ -13,6 +13,9 @@ import java.security.SecureRandom;
 
 /**
  * Created by gizmo on 15/12/5.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public final class EncryptUtils {
     private static final int RANDOM_LENGTH = 48;
@@ -25,10 +28,20 @@ public final class EncryptUtils {
     private EncryptUtils() {
     }
 
+    /**
+     * <p>generateRandom.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public static String generateRandom() {
         return generateSecureRandom(RANDOM_LENGTH);
     }
 
+    /**
+     * <p>generateSalt.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public static String generateSalt() {
         return generateSecureRandom(SALT_LENGTH);
     }
@@ -44,13 +57,20 @@ public final class EncryptUtils {
         }
     }
 
+    /**
+     * <p>encryptPassword.</p>
+     *
+     * @param password a {@link java.lang.String} object.
+     * @param salt     a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String encryptPassword(String password, String salt) {
         try {
             if (StringUtils.isBlank(password)) {
                 throw new IllegalArgumentException("密码不能为空");
             }
             if (StringUtils.isBlank(salt)) {
-                throw new IllegalArgumentException("盐值不能为空");
+                throw new IllegalArgumentException("盐�?�不能为�?");
             }
 
             SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(PASSWORD_ALGORITHMS);
@@ -64,13 +84,21 @@ public final class EncryptUtils {
         }
     }
 
+    /**
+     * <p>validatePassword.</p>
+     *
+     * @param password a {@link java.lang.String} object.
+     * @param token a {@link java.lang.String} object.
+     * @param encryptPassword a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean validatePassword(String password, String token, String encryptPassword) {
         try {
             if (StringUtils.isBlank(password)) {
                 throw new IllegalArgumentException("密码不能为空");
             }
             if (StringUtils.isBlank(token)) {
-                throw new IllegalArgumentException("盐值不能为空");
+                throw new IllegalArgumentException("盐�?�不能为�?");
             }
             if (StringUtils.isBlank(encryptPassword)) {
                 throw new IllegalArgumentException("加密密码不能为空");
@@ -87,7 +115,7 @@ public final class EncryptUtils {
     /**
      * 对字符串进行md5加密
      *
-     * @param str 字符串
+     * @param str 字符�?
      * @return String
      */
     public static String md5(String str) {
@@ -114,7 +142,7 @@ public final class EncryptUtils {
     /**
      * 对字符串进行md5加密(16位）
      *
-     * @param str 字符串
+     * @param str 字符�?
      * @return 返回MD5 16位字符串
      */
     public static String md516(String str) {
@@ -127,7 +155,8 @@ public final class EncryptUtils {
 
     /**
      * 对字符串进行sha256加密
-     * @param str 字符串
+     *
+     * @param str 字符�?
      * @return String
      */
     public static String sha256(String str) {
@@ -155,7 +184,7 @@ public final class EncryptUtils {
     /**
      * 对字符串进行sha1加密
      *
-     * @param str 字符串
+     * @param str 字符�?
      * @return String
      */
     public static String sha1(String str) {

@@ -41,10 +41,12 @@ import java.util.Optional;
 
 /**
  * The type Response utils.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
-
 public abstract class ResponseUtils {
 
     /**
@@ -104,7 +106,7 @@ public abstract class ResponseUtils {
             StringBuilder builder = new StringBuilder("校验失败:");
             List<ObjectError> allErrors = ((MethodArgumentNotValidException) exception).getBindingResult().getAllErrors();
             allErrors.stream().findFirst().ifPresent(error -> {
-                builder.append(((FieldError) error).getField()).append("字段规则为").append(error.getDefaultMessage());
+                builder.append(((FieldError) error).getField()).append("字段规则�?").append(error.getDefaultMessage());
                 failedResponseBuilder.msg(error.getDefaultMessage());
             });
             failedResponseBuilder.exception(builder.toString());
@@ -113,14 +115,14 @@ public abstract class ResponseUtils {
             StringBuilder builder = new StringBuilder("参数字段");
             MissingServletRequestParameterException ex = (MissingServletRequestParameterException) exception;
             builder.append(ex.getParameterName());
-            builder.append("校验不通过");
+            builder.append("校验不�?�过");
             failedResponseBuilder.exception(builder.toString()).msg(ex.getMessage());
             return failedResponseBuilder;
         } else if (exception instanceof MissingPathVariableException) {
             StringBuilder builder = new StringBuilder("路径字段");
             MissingPathVariableException ex = (MissingPathVariableException) exception;
             builder.append(ex.getVariableName());
-            builder.append("校验不通过");
+            builder.append("校验不�?�过");
             failedResponseBuilder.exception(builder.toString()).msg(ex.getMessage());
             return failedResponseBuilder;
         } else if (exception instanceof ConstraintViolationException) {
@@ -130,7 +132,7 @@ public abstract class ResponseUtils {
             if (first.isPresent()) {
                 ConstraintViolation<?> constraintViolation = first.get();
                 builder.append(constraintViolation.getPropertyPath().toString());
-                builder.append("校验不通过");
+                builder.append("校验不�?�过");
                 failedResponseBuilder.exception(builder.toString()).msg(constraintViolation.getMessage());
             }
             return failedResponseBuilder;

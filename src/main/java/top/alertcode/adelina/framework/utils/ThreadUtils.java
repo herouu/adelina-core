@@ -7,11 +7,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by gizmo on 15/12/11.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public final class ThreadUtils {
     private ThreadUtils() {
     }
 
+    /**
+     * <p>sleep.</p>
+     *
+     * @param millis a long.
+     */
     public static void sleep(long millis) {
         try {
             Thread.sleep(millis);
@@ -19,6 +27,14 @@ public final class ThreadUtils {
         }
     }
 
+    /**
+     * <p>gracefulShutdown.</p>
+     *
+     * @param pool               a {@link java.util.concurrent.ExecutorService} object.
+     * @param shutdownTimeout    a int.
+     * @param shutdownNowTimeout a int.
+     * @param timeUnit           a {@link java.util.concurrent.TimeUnit} object.
+     */
     public static void gracefulShutdown(ExecutorService pool, int shutdownTimeout, int shutdownNowTimeout,
                                         TimeUnit timeUnit) {
         pool.shutdown();
@@ -35,6 +51,13 @@ public final class ThreadUtils {
         }
     }
 
+    /**
+     * <p>normalShutdown.</p>
+     *
+     * @param pool a {@link java.util.concurrent.ExecutorService} object.
+     * @param timeout a int.
+     * @param timeUnit a {@link java.util.concurrent.TimeUnit} object.
+     */
     public static void normalShutdown(ExecutorService pool, int timeout, TimeUnit timeUnit) {
         try {
             pool.shutdownNow();

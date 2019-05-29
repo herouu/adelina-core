@@ -3,6 +3,9 @@ package top.alertcode.adelina.framework.exception;
 
 /**
  * The type Framework util exception.
+ *
+ * @author Bob
+ * @version $Id: $Id
  */
 public class FrameworkUtilException extends RuntimeException {
     /**

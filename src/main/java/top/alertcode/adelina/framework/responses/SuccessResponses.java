@@ -5,7 +5,8 @@ import lombok.*;
 /**
  * 成功返回
  *
- * @author Caratacus
+ * @author Bob
+ * @version $Id: $Id
  */
 @Getter
 @ToString
@@ -17,11 +18,11 @@ public class SuccessResponses<T> extends JsonResponse<T> {
 
     private static final long serialVersionUID = 1L;
     /**
-     * http 状态码
+     * http 状�?�码
      */
     private Integer status;
     /**
-     * 结果集返回
+     * 结果集返�?
      */
     private T result;
 

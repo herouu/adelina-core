@@ -12,7 +12,8 @@ import java.util.List;
  * 树形节点
  * </p>
  *
- * @author Caratacus
+ * @author Bob
+ * @version $Id: $Id
  */
 @Data
 @NoArgsConstructor

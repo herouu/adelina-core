@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 业务异常枚举
  *
- * @author Caratacus
+ * @author Bob
+ * @version $Id: $Id
  */
 public enum ErrorCodeEnum {
 
@@ -36,15 +37,15 @@ public enum ErrorCodeEnum {
     /**
      * 405
      */
-    METHOD_NOT_ALLOWED(HttpServletResponse.SC_METHOD_NOT_ALLOWED, true, "请求方式不支持"),
+    METHOD_NOT_ALLOWED(HttpServletResponse.SC_METHOD_NOT_ALLOWED, true, "请求方式不支�?"),
     /**
      * 406
      */
-    NOT_ACCEPTABLE(HttpServletResponse.SC_NOT_ACCEPTABLE, true, "不可接受该请求"),
+    NOT_ACCEPTABLE(HttpServletResponse.SC_NOT_ACCEPTABLE, true, "不可接受该请�?"),
     /**
      * 411
      */
-    LENGTH_REQUIRED(HttpServletResponse.SC_LENGTH_REQUIRED, true, "长度受限制"),
+    LENGTH_REQUIRED(HttpServletResponse.SC_LENGTH_REQUIRED, true, "长度受限�?"),
     /**
      * 415
      */
@@ -52,11 +53,11 @@ public enum ErrorCodeEnum {
     /**
      * 416
      */
-    REQUESTED_RANGE_NOT_SATISFIABLE(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE, true, "不能满足请求的范围"),
+    REQUESTED_RANGE_NOT_SATISFIABLE(HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE, true, "不能满足请求的范�?"),
     /**
      * 500
      */
-    INTERNAL_SERVER_ERROR(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, true, "服务器正在升级，请耐心等待"),
+    INTERNAL_SERVER_ERROR(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, true, "服务器正在升级，请�?�心等待"),
     /**
      * 503
      */
@@ -67,13 +68,13 @@ public enum ErrorCodeEnum {
     DEMO_SYSTEM_CANNOT_DO(HttpServletResponse.SC_SERVICE_UNAVAILABLE, true, "演示系统，无法该操作"),
     //----------------------------------------------------业务异常----------------------------------------------------
     /**
-     * 用户名密码错误
+     * 用户名密码错�?
      */
-    USERNAME_OR_PASSWORD_IS_WRONG(HttpServletResponse.SC_BAD_REQUEST, true, "用户名密码错误"),
+    USERNAME_OR_PASSWORD_IS_WRONG(HttpServletResponse.SC_BAD_REQUEST, true, "用户名密码错�?"),
     /**
-     * 用户被禁用
+     * 用户被禁�?
      */
-    USER_IS_DISABLED(HttpServletResponse.SC_NOT_ACCEPTABLE, true, "用户被禁用"),
+    USER_IS_DISABLED(HttpServletResponse.SC_NOT_ACCEPTABLE, true, "用户被禁�?"),
     /**
      * 未找到该用户
      */
@@ -103,6 +104,12 @@ public enum ErrorCodeEnum {
         this.show = show;
     }
 
+    /**
+     * <p>getErrorCode.</p>
+     *
+     * @param errorCode a {@link java.lang.String} object.
+     * @return a {@link top.alertcode.adelina.framework.commons.enums.ErrorCodeEnum} object.
+     */
     public static ErrorCodeEnum getErrorCode(String errorCode) {
         ErrorCodeEnum[] enums = ErrorCodeEnum.values();
         for (ErrorCodeEnum errorCodeEnum : enums) {
@@ -114,7 +121,7 @@ public enum ErrorCodeEnum {
     }
 
     /**
-     * 转换为ErrorCode(自定义返回消息)
+     * 转换为ErrorCode(自定义返回消�?)
      *
      * @param msg 错误消息
      * @return ErrorCode
@@ -132,14 +139,29 @@ public enum ErrorCodeEnum {
         return ErrorCode.builder().httpCode(httpCode()).show(show()).error(name()).msg(msg()).build();
     }
 
+    /**
+     * <p>httpCode.</p>
+     *
+     * @return a int.
+     */
     public int httpCode() {
         return this.httpCode;
     }
 
+    /**
+     * <p>msg.</p>
+     *
+     * @return a {@link java.lang.String} object.
+     */
     public String msg() {
         return this.msg;
     }
 
+    /**
+     * <p>show.</p>
+     *
+     * @return a boolean.
+     */
     public boolean show() {
         return this.show;
     }
