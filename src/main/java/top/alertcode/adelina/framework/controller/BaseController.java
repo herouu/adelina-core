@@ -12,22 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * SuperController
  *
- * @author Caratacus
+ * @author Bob
  */
-@SuppressWarnings("ALL")
 public class BaseController {
 
+    /**
+     * The Request.
+     */
     @Resource
     protected HttpServletRequest request;
 
+    /**
+     * The Response.
+     */
     @Resource
     protected HttpServletResponse response;
 
     /**
      * 成功返回
      *
-     * @param object
-     * @return JsonResponse 
+     * @param <T>    the type parameter
+     * @param object the object
+     * @return JsonResponse json response
      */
     @SuppressWarnings("JavaDoc")
     public <T> JsonResponse<T> success(T object) {
@@ -37,7 +43,7 @@ public class BaseController {
     /**
      * 成功返回
      *
-     * @return JsonResponse
+     * @return JsonResponse json response
      */
     public JsonResponse<Void> success() {
         return success(HttpStatus.OK);
@@ -46,9 +52,10 @@ public class BaseController {
     /**
      * 成功返回
      *
-     * @param status
-     * @param object
-     * @return JsonResponse  
+     * @param <T>    the type parameter
+     * @param status the status
+     * @param object the object
+     * @return JsonResponse json response
      */
     public <T> JsonResponse<T> success(HttpStatus status, T object) {
         return JsonResponse.success(response, status, object);
@@ -58,8 +65,8 @@ public class BaseController {
     /**
      * 成功返回
      *
-     * @param status
-     * @return JsonResponse
+     * @param status the status
+     * @return JsonResponse json response
      */
     public JsonResponse<Void> success(HttpStatus status) {
         return JsonResponse.success(response, status);

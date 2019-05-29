@@ -31,7 +31,7 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import top.alertcode.adelina.framework.commons.enums.ErrorCodeEnum;
 import top.alertcode.adelina.framework.commons.model.ErrorCode;
-import top.alertcode.adelina.framework.responses.FailedResponse;
+import top.alertcode.adelina.framework.responses.FailedResponse.FailedResponseBuilder;
 import top.alertcode.adelina.framework.responses.JsonResponse;
 
 import javax.validation.ConstraintViolation;
@@ -40,40 +40,66 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * response输出工具类
- *
- * @author Caratacus
+ * The type Response utils.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
+
 public abstract class ResponseUtils {
 
+    /**
+     * Send fail json response.
+     *
+     * @param code the code
+     * @return the json response
+     */
     public static JsonResponse sendFail(ErrorCode code) {
         return sendFail(code, null);
     }
 
 
+    /**
+     * Send fail json response.
+     *
+     * @param codeEnum the code enum
+     * @return the json response
+     */
     public static JsonResponse sendFail(ErrorCodeEnum codeEnum) {
         return sendFail(codeEnum.convert(), null);
     }
 
 
+    /**
+     * Send fail json response.
+     *
+     * @param codeEnum  the code enum
+     * @param exception the exception
+     * @return the json response
+     */
     public static JsonResponse sendFail(ErrorCodeEnum codeEnum, Exception exception) {
         return sendFail(codeEnum.convert(), exception);
     }
 
 
+    /**
+     * Send fail json response.
+     *
+     * @param code      the code
+     * @param exception the exception
+     * @return the json response
+     */
     public static JsonResponse sendFail(ErrorCode code, Exception exception) {
         return JsonResponse.failure(code, exception);
     }
 
     /**
-     * 获取异常信息
+     * Exception msg failed response builder.
      *
-     * @param exception 异常
-     * @return FailedResponseBuilder
+     * @param failedResponseBuilder the failed response builder
+     * @param exception             the exception
+     * @return the failed response builder
      */
-    public static FailedResponse.FailedResponseBuilder exceptionMsg(FailedResponse.FailedResponseBuilder failedResponseBuilder, Exception exception) {
+    public static FailedResponseBuilder exceptionMsg(FailedResponseBuilder failedResponseBuilder, Exception exception) {
         if (exception instanceof MethodArgumentNotValidException) {
             StringBuilder builder = new StringBuilder("校验失败:");
             List<ObjectError> allErrors = ((MethodArgumentNotValidException) exception).getBindingResult().getAllErrors();
