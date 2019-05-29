@@ -8,12 +8,6 @@
     <artifactId>train-framework-core</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <!--<parent>-->
-    <!--<groupId>org.sonatype.oss</groupId>-->
-    <!--<artifactId>oss-parent</artifactId>-->
-    <!--<version>9</version>-->
-    <!--</parent>-->
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
