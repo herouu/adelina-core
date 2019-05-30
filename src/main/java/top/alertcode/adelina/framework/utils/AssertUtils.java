@@ -16,10 +16,9 @@ public final class AssertUtils extends Assert {
     }
 
     /**
-     * <p>isTrue.</p>
+     * {@inheritDoc}
      *
-     * @param expression a boolean.
-     * @param message    a {@link java.lang.String} object.
+     * <p>isTrue.</p>
      */
     public static void isTrue(boolean expression, String message) {
         if (!expression) {
@@ -53,7 +52,12 @@ public final class AssertUtils extends Assert {
         isFalse(expression, "[Assertion failed] - this expression must be true");
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @param object  a {@link java.lang.Object} object.
+     * @param message a {@link java.lang.String} object.
+     */
     public static void isNull(Object object, String message) {
         if (object != null) {
             throw new IllegalArgumentException(message);
@@ -69,6 +73,9 @@ public final class AssertUtils extends Assert {
      * {@inheritDoc}
      *
      * <p>notNull.</p>
+     *
+     * @param object a {@link java.lang.Object} object.
+     * @param message a {@link java.lang.String} object.
      */
     public static void notNull(Object object, String message) {
         if (object == null) {
@@ -182,6 +189,8 @@ public final class AssertUtils extends Assert {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * <p>notEmpty.</p>
      *
      * @param collection a {@link java.util.Collection} object.
@@ -221,6 +230,10 @@ public final class AssertUtils extends Assert {
      * {@inheritDoc}
      *
      * <p>isInstanceOf.</p>
+     *
+     * @param type a {@link java.lang.Class} object.
+     * @param obj a {@link java.lang.Object} object.
+     * @param message a {@link java.lang.String} object.
      */
     public static void isInstanceOf(Class<?> type, Object obj, String message) {
         notNull(type, "Type to check against must not be null");
@@ -238,11 +251,9 @@ public final class AssertUtils extends Assert {
     }
 
     /**
-     * <p>isAssignable.</p>
+     * {@inheritDoc}
      *
-     * @param superType a {@link java.lang.Class} object.
-     * @param subType a {@link java.lang.Class} object.
-     * @param message a {@link java.lang.String} object.
+     * <p>isAssignable.</p>
      */
     public static void isAssignable(Class<?> superType, Class<?> subType, String message) {
         notNull(superType, "Type to check against must not be null");

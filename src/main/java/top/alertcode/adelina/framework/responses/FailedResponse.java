@@ -21,11 +21,11 @@ public class FailedResponse extends JsonResponse {
 
     private static final long serialVersionUID = 1L;
     /**
-     * http 状�?�码
+     * http 状码
      */
     private Integer status;
     /**
-     * 错误状�?�码
+     * 错误状态码
      */
     private String error;
     /**
@@ -37,11 +37,11 @@ public class FailedResponse extends JsonResponse {
      */
     private String exception;
     /**
-     * 客户端是否展�?
+     * 客户端是否展
      */
     private Boolean show;
     /**
-     * 当前时间�?
+     * 当前时间
      */
     private LocalDateTime time;
 
