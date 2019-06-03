@@ -18,6 +18,8 @@ public class BaseServiceTest extends BaseTest {
     private RepaymentAuditServiceImpl service;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private CommonService commonService;
 
     @Test
     public void getById() {
@@ -29,5 +31,11 @@ public class BaseServiceTest extends BaseTest {
     public void testRedis() {
         Object sss = redisTemplate.opsForValue().get("sss");
         System.out.println(sss.toString());
+    }
+
+    @Test
+    public void testCommonService() {
+        RepaymentAudit byId = commonService.getById(RepaymentAudit.class, 1);
+        System.out.println(byId);
     }
 }
