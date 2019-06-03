@@ -9,7 +9,7 @@ package top.alertcode.adelina.framework.service;
  * @author Bob
  * @version $Id: $Id
  */
-public interface IBaseService<T> {
+public interface IBaseService<T>  {
 
 }
 
