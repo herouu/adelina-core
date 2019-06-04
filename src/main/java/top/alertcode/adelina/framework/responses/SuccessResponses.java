@@ -18,11 +18,11 @@ public class SuccessResponses<T> extends JsonResponse<T> {
 
     private static final long serialVersionUID = 1L;
     /**
-     * http 状�?�码
+     * http 状态码
      */
     private Integer status;
     /**
-     * 结果集返�?
+     * 结果集
      */
     private T result;
 
