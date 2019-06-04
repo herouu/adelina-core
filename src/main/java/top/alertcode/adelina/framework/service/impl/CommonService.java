@@ -1,6 +1,7 @@
 package top.alertcode.adelina.framework.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -13,6 +14,7 @@ import top.alertcode.adelina.framework.utils.CollectionUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -84,6 +86,37 @@ public class CommonService extends BaseService implements BeanFactoryAware {
         }
         return true;
     }
+
+
+    /**
+     * 根据 entity 条件，删除记录
+     *
+     * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
+     */
+
+    public <T> boolean removeByWrapper(Wrapper<T> queryWrapper) {
+        List list = super.list(queryWrapper);
+        if (CollectionUtils.isNotEmpty(list)) {
+            deleteByIds(list);
+        }
+        return true;
+    }
+
+    /**
+     * 删除（根据ID 批量删除）
+     *
+     * @param idList 主键ID列表
+     */
+    public <T> boolean deleteByIds(Collection<T> idList) {
+        boolean b = super.removeByIds(idList);
+        if (CollectionUtils.isNotEmpty(idList)) {
+            for (T t : idList) {
+                tableCacheDao.delete(getHName(t.getClass()), getId(t));
+            }
+        }
+        return b;
+    }
+
 
 //    region
 
