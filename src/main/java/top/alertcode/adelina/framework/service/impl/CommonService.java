@@ -40,4 +40,14 @@ public class CommonService extends BaseService implements BeanFactoryAware {
         super.save(entity);
         return entity;
     }
+
+    public boolean deleteById(Serializable id) {
+        return super.removeById(id);
+    }
+
+    @Override
+    public boolean updateById(Object entity) {
+        return super.updateById(entity);
+    }
+
 }

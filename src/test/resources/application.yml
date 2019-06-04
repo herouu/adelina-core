@@ -10,3 +10,5 @@ spring:
           host: localhost
           port: 6379
           database: 0
+swagger:
+  base-package: top.alertcode.adelina.framework.entity.controller

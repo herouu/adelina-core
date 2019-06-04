@@ -37,7 +37,7 @@ public class BaseController {
      * @return JsonResponse json response
      */
     @SuppressWarnings("JavaDoc")
-    public <T> JsonResponse<T> success(T object) {
+    public <T> JsonResponse<T> jsonData(T object) {
         return JsonResponse.success(response, object);
     }
 
@@ -46,8 +46,8 @@ public class BaseController {
      *
      * @return JsonResponse json response
      */
-    public JsonResponse<Void> success() {
-        return success(HttpStatus.OK);
+    public JsonResponse<Void> jsonData() {
+        return jsonData(HttpStatus.OK);
     }
 
     /**
@@ -58,7 +58,7 @@ public class BaseController {
      * @param object the object
      * @return JsonResponse json response
      */
-    public <T> JsonResponse<T> success(HttpStatus status, T object) {
+    public <T> JsonResponse<T> jsonData(HttpStatus status, T object) {
         return JsonResponse.success(response, status, object);
     }
 
@@ -69,7 +69,7 @@ public class BaseController {
      * @param status the status
      * @return JsonResponse json response
      */
-    public JsonResponse<Void> success(HttpStatus status) {
+    public JsonResponse<Void> jsonData(HttpStatus status) {
         return JsonResponse.success(response, status);
     }
 
