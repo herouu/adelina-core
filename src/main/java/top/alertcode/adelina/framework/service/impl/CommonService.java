@@ -43,7 +43,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     }
 
 
-    public <T> T getById(Class<T> clazz, Serializable id) {
+    public <T> T cacheGetById(Class<T> clazz, Serializable id) {
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             return (T) tableCacheDao.get(getHName(clazz), Objects.toString(id));
         } else {
@@ -53,20 +53,19 @@ public class CommonService extends BaseService implements BeanFactoryAware {
         }
     }
 
-    public <T> T insertData(T entity) {
+    public <T> T cacheInsertData(T entity) {
         super.save(entity);
         tableCacheDao.add(getHName(entity.getClass()), getId(entity), JSON.toJSONString(entity));
         return entity;
     }
 
 
-    public boolean deleteById(Class clazz, Serializable id) {
+    public boolean cacheDeleteById(Class clazz, Serializable id) {
         tableCacheDao.delete(getHName(clazz), id.toString());
         return super.removeById(id);
     }
 
-    @Override
-    public boolean updateById(Object entity) {
+    public boolean cacheUpdateById(Object entity) {
         boolean b = super.updateById(entity);
         tableCacheDao.delete(getHName(entity.getClass()), getId(entity));
         tableCacheDao.add(getHName(entity.getClass()), getId(entity), JSON.toJSONString(entity));
@@ -74,14 +73,14 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     }
 
 
-    public <T> boolean saveBatch(List<T> entityList) {
+    public <T> boolean cacheSaveBatch(Collection<T> entityList) {
         super.saveBatch(entityList);
         HashMap<String, String> map = new HashMap<>();
         if (CollectionUtils.isNotEmpty(entityList)) {
             for (Object o : entityList) {
                 map.put(getId(o), JSON.toJSONString(o));
             }
-            String name = getHName(entityList.get(0).getClass());
+            String name = getHName(CollectionUtils.get(entityList, 0).getClass());
             tableCacheDao.addAll(name, map);
         }
         return true;
@@ -94,10 +93,10 @@ public class CommonService extends BaseService implements BeanFactoryAware {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
-    public <T> boolean removeByWrapper(Wrapper<T> queryWrapper) {
+    public <T> boolean cacheRemove(Wrapper<T> queryWrapper) {
         List list = super.list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
-            deleteByIds(list);
+            cacheDeleteByIds(list);
         }
         return true;
     }
@@ -107,7 +106,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
      *
      * @param idList 主键ID列表
      */
-    public <T> boolean deleteByIds(Collection<T> idList) {
+    public <T> boolean cacheDeleteByIds(Collection<T> idList) {
         boolean b = super.removeByIds(idList);
         if (CollectionUtils.isNotEmpty(idList)) {
             for (T t : idList) {
@@ -115,6 +114,43 @@ public class CommonService extends BaseService implements BeanFactoryAware {
             }
         }
         return b;
+    }
+
+
+    /**
+     * 根据 whereEntity 条件，更新记录
+     *
+     * @param entity        实体对象
+     * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
+     */
+    public <T> void cacheUpdate(T entity, Wrapper<T> updateWrapper) {
+        List<T> list = super.list(updateWrapper);
+        HashMap<String, String> map = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            super.removeByIds(list);
+            cacheTbUpdateBatch(list, map);
+        }
+    }
+
+
+    /**
+     * 根据ID 批量更新
+     */
+    public <T> void cacheUpdateBatchById(Collection<T> entityList) {
+        HashMap<String, String> map = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(entityList)) {
+            super.updateBatchById(entityList);
+            cacheTbUpdateBatch(entityList, map);
+        }
+    }
+
+    private <T> void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map) {
+        for (T t : entityList) {
+            map.put(getId(t), JSON.toJSONString(entityList));
+        }
+        String[] str = null;
+        tableCacheDao.delete(getHName(entityList.getClass()), map.keySet().toArray(str));
+        tableCacheDao.addAll(getHName(entityList.getClass()), map);
     }
 
 
