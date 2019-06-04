@@ -12,7 +12,7 @@ package top.alertcode.adelina.framework.commons.enums;
 public interface IEnum {
 
     /**
-     * 获取枚举�?
+     * 获取枚举
      *
      * @return int
      */
