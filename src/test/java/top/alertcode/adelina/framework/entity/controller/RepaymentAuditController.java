@@ -35,12 +35,12 @@ public class RepaymentAuditController extends BaseController {
     public JsonResponse insertData() {
         RepaymentAudit repaymentAudit = new RepaymentAudit();
         repaymentAudit.setApplyRepaymentAmount(new BigDecimal(123));
-        return jsonData(commonService.insertData(repaymentAudit));
+        return jsonData(commonService.cacheInsertData(repaymentAudit));
     }
 
     @PutMapping("/deleteData")
     public JsonResponse deleteData(@RequestParam String id) {
-        return jsonData(commonService.deleteById(RepaymentAudit.class, id));
+        return jsonData(commonService.cacheDeleteById(RepaymentAudit.class, id));
     }
 
     @PutMapping("/updateById")

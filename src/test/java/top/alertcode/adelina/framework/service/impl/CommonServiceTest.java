@@ -25,6 +25,6 @@ public class CommonServiceTest extends BaseTest {
     public void insertData() {
         RepaymentAudit repaymentAudit = new RepaymentAudit();
         repaymentAudit.setApplyRepaymentAmount(new BigDecimal(123));
-        commonService.insertData(repaymentAudit);
+        commonService.save(repaymentAudit);
     }
 }

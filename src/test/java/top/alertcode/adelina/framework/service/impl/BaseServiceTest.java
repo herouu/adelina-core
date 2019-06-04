@@ -35,7 +35,7 @@ public class BaseServiceTest extends BaseTest {
 
     @Test
     public void testCommonService() {
-        RepaymentAudit byId = commonService.getById(RepaymentAudit.class, 1);
+        RepaymentAudit byId = commonService.cacheGetById(RepaymentAudit.class, 1);
         System.out.println(byId);
     }
 }
