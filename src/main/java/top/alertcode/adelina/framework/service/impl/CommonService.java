@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.alertcode.adelina.framework.cache.TableCacheDao;
 import top.alertcode.adelina.framework.mapper.BaseMapper;
+import top.alertcode.adelina.framework.utils.CollectionUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * @author fuqiang // TODO: 2019/6/4 未考虑并发场景 
+ * @author fuqiang // TODO: 2019/6/4 未考虑并发场景
  * @date 2019-06-03
  * @copyright fero.com.cn
  */
@@ -42,11 +45,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             return (T) tableCacheDao.get(getHName(clazz), Objects.toString(id));
         } else {
-            Object byId = super.getById(id);
-            if (Objects.isNull(byId)) {
-                return null;
-            }
-            T t = (T) byId;
+            T t = (T) super.getById(id);
             tableCacheDao.add(getHName(clazz), getId(t), JSON.toJSONString(t));
             return t;
         }
@@ -73,6 +72,22 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     }
 
 
+    public <T> boolean saveBatch(List<T> entityList) {
+        super.saveBatch(entityList);
+        HashMap<String, String> map = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(entityList)) {
+            for (Object o : entityList) {
+                map.put(getId(o), JSON.toJSONString(o));
+            }
+            String name = getHName(entityList.get(0).getClass());
+            tableCacheDao.addAll(name, map);
+        }
+        return true;
+    }
+
+//    region
+
+
     private String getId(Object entity) {
         try {
             return BeanUtils.getProperty(entity, "id");
@@ -89,5 +104,8 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     private String getHName(Class clazz) {
         return clazz.getSimpleName();
     }
+
+
+//  endregion
 
 }
