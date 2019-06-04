@@ -1,9 +1,7 @@
 package top.alertcode.adelina.framework.entity.service;
 
 import top.alertcode.adelina.framework.entity.entity.RepaymentAudit;
-import com.baomidou.mybatisplus.extension.service.IService;
 import top.alertcode.adelina.framework.service.IBaseService;
-import top.alertcode.adelina.framework.service.impl.BaseService;
 
 /**
  * <p>

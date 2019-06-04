@@ -40,7 +40,7 @@ public class RepaymentAuditController extends BaseController {
 
     @PutMapping("/deleteData")
     public JsonResponse deleteData(@RequestParam String id) {
-        return jsonData(commonService.deleteById(id));
+        return jsonData(commonService.deleteById(RepaymentAudit.class, id));
     }
 
     @PutMapping("/updateById")
