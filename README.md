@@ -1,4 +1,4 @@
-## train-framework-core 项目
+## train-framework-core 
 根据开源的一些框架进行整合，只做增强，不做改变，主要方便快速开发。
 
 
