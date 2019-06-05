@@ -131,3 +131,41 @@ public interface IBaseCacheService {
 
 
 ### 分布式事务 TODO:暂未实现
+
+### 列表分页 
+
+ dao层使用的是[mybatis-plus](),列表分页有两种方式：
+
+*  使用默认的page分页插件
+*  使用[PageHelper](https://pagehelper.github.io/)分页插件
+
+```java
+@Configuration
+public class ApplicationConfig {
+
+
+    @Bean
+    public PageInterceptor paginationInterceptor() {
+        return new PageInterceptor();
+    }
+}
+```
+
+* PageHelper使用Demo
+
+```java
+@Service
+public class UserServiceImpl extends BaseService implements IUserService {
+
+
+    @Override
+    public PageInfo getList() {
+        //分页参数        
+        PageHelper.startPage(1, 10);
+        // 分页数据集合        
+        List list = list();
+        PageInfo pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+}
+```
