@@ -1,5 +1,8 @@
 ## train-framework-core 
-<img align='center' src="https://bj.bcebos.com/v1/alertcode-blog/adelina-core.png"></img>
+<div width="100%" align="center">
+    <img src='https://bj.bcebos.com/v1/alertcode-blog/adelina-core.png'/>
+</div>
+
 
 根据开源的一些框架进行整合，只做增强，不做改变，主要方便快速开发。
 
