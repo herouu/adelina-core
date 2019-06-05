@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://192.168.0.221:3306/fero_repay_bak?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
-    username: simba
-    password: BeGYVXnw7&Kj@A!j
+    url: ENC(jSogyF4mt/LlY5RX+EhEQbwAJ57+j9ds4eL5D6dYxmdchYPu1ev7TFVmDCfOpMOgOKLVu2KfCSbiBDReVPuttatTB3yRkPMXN94S0FAzN8Hbb8pCxfVGzo7EtGDtnvdRjBNXSvCawmW0vvXGlVmxyuF08OFrClZY)
+    username: ENC(e17yz9DJb5ojAvMnUgJBdA==)
+    password: ENC(5N2wlNkx+6Rk0YPmb/0SNyqROyvQhl+NNkVmYRkwPrU=)
     driver-class-name:  com.mysql.cj.jdbc.Driver
   redis:
     database:
@@ -12,3 +12,12 @@ spring:
           database: 0
 swagger:
   base-package: top.alertcode.adelina.framework.entity.controller
+
+mybatis-plus:
+  global-config:
+    banner: false
+
+
+jasypt:
+  encryptor:
+    password: 7nZPf)pMwh

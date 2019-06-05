@@ -1,10 +1,9 @@
 package top.alertcode.adelina.framework.entity.service.impl;
 
+import org.springframework.stereotype.Service;
 import top.alertcode.adelina.framework.entity.entity.RepaymentAudit;
 import top.alertcode.adelina.framework.entity.mapper.RepaymentAuditMapper;
 import top.alertcode.adelina.framework.entity.service.IRepaymentAuditService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
 import top.alertcode.adelina.framework.service.impl.BaseService;
 
 /**
