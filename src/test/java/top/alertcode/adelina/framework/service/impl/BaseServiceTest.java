@@ -1,11 +1,15 @@
 package top.alertcode.adelina.framework.service.impl;
 
 import org.junit.Test;
+import org.redisson.api.RKeys;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import top.alertcode.adelina.framework.BaseTest;
 import top.alertcode.adelina.framework.entity.entity.RepaymentAudit;
 import top.alertcode.adelina.framework.entity.service.impl.RepaymentAuditServiceImpl;
+
+import java.util.Iterator;
 
 /**
  * @author fuqiang
@@ -21,8 +25,16 @@ public class BaseServiceTest extends BaseTest {
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private RedissonClient redisson;
+
     @Test
     public void getById() {
+        RKeys keys = redisson.getKeys();
+        Iterator<String> iterator = keys.getKeys().iterator();
+        if (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
         RepaymentAudit byId = service.getById(1);
         System.out.println(byId.toString());
     }
