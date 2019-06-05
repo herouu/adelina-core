@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.alertcode.adelina.framework.cache.TableCacheDao;
 import top.alertcode.adelina.framework.mapper.BaseMapper;
+import top.alertcode.adelina.framework.service.IBaseCacheService;
 import top.alertcode.adelina.framework.utils.CollectionUtils;
 
 import java.io.Serializable;
@@ -25,7 +26,7 @@ import java.util.Objects;
  * @copyright fero.com.cn
  */
 @Service
-public class CommonService extends BaseService implements BeanFactoryAware {
+public class CommonService extends BaseService implements BeanFactoryAware, IBaseCacheService {
 
     private static BeanFactory beanFactory;
 
@@ -43,6 +44,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     }
 
 
+    @Override
     public <T> T cacheGetById(Class<T> clazz, Serializable id) {
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             return (T) tableCacheDao.get(getHName(clazz), Objects.toString(id));
@@ -53,6 +55,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
         }
     }
 
+    @Override
     public <T> T cacheInsertData(T entity) {
         super.save(entity);
         tableCacheDao.add(getHName(entity.getClass()), getId(entity), JSON.toJSONString(entity));
@@ -60,11 +63,13 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     }
 
 
+    @Override
     public boolean cacheDeleteById(Class clazz, Serializable id) {
         tableCacheDao.delete(getHName(clazz), id.toString());
         return super.removeById(id);
     }
 
+    @Override
     public boolean cacheUpdateById(Object entity) {
         boolean b = super.updateById(entity);
         tableCacheDao.delete(getHName(entity.getClass()), getId(entity));
@@ -73,6 +78,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     }
 
 
+    @Override
     public <T> boolean cacheSaveBatch(Collection<T> entityList) {
         super.saveBatch(entityList);
         HashMap<String, String> map = new HashMap<>();
@@ -93,6 +99,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
+    @Override
     public <T> boolean cacheRemove(Wrapper<T> queryWrapper) {
         List list = super.list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
@@ -106,6 +113,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
      *
      * @param idList 主键ID列表
      */
+    @Override
     public <T> boolean cacheDeleteByIds(Collection<T> idList) {
         boolean b = super.removeByIds(idList);
         if (CollectionUtils.isNotEmpty(idList)) {
@@ -123,6 +131,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
      * @param entity        实体对象
      * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
      */
+    @Override
     public <T> void cacheUpdate(T entity, Wrapper<T> updateWrapper) {
         List<T> list = super.list(updateWrapper);
         HashMap<String, String> map = new HashMap<>();
@@ -136,6 +145,7 @@ public class CommonService extends BaseService implements BeanFactoryAware {
     /**
      * 根据ID 批量更新
      */
+    @Override
     public <T> void cacheUpdateBatchById(Collection<T> entityList) {
         HashMap<String, String> map = new HashMap<>();
         if (CollectionUtils.isNotEmpty(entityList)) {
@@ -144,7 +154,8 @@ public class CommonService extends BaseService implements BeanFactoryAware {
         }
     }
 
-    private <T> void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map) {
+    @Override
+    public <T> void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map) {
         for (T t : entityList) {
             map.put(getId(t), JSON.toJSONString(entityList));
         }

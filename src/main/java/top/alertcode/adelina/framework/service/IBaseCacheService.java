@@ -1,31 +1,18 @@
-## train-framework-core 项目
-根据开源的一些框架进行整合，只做增强，不做改变，主要方便快速开发。
+package top.alertcode.adelina.framework.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 
-### 特性
-#### application.yml敏感信息的加密
-* 利用jasypt进行加密 形如`ENC(**)`为jasypt的加密后的密文，下例中将mysql、redis的一些配置信息做了加密处理
-```yaml
-spring:
-  datasource:
-    url: ENC(YHeZy7uYWls7/xwSY9gnau+68QFs0i4fA7TmZbijkE+oKiimwZVJOt3DOouWEiM8npx7vhzVt5CgcKya/eNamd6FZoL87jU5b2hjDwPgDafwuB3iJwc/UVWapM2kVE5C4St5dK7pmfHeO51slu9WiiF2vH4/cqJINrDdNx305jI=)
-    username: ENC(+8iClaFiWU5/OaZ1zzJPzw==)
-    password: ENC(c2oZh4lcJK3Q+w7MSIL2pQ==)
-    driver-class-name:  com.mysql.cj.jdbc.Driver # mysql数据库新驱动class
-  redis:
-    host: ENC(oiy7f0H5Ttd7PnSlyZjSrcxavFjsD01L30SV5LXDXyk=)
-    port: 6379
-    database: 0
-    password: ENC(hgVNi5XVRechSZcGj0utvubfesSQqkJ7)
-```
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
 
-### 缓存
-&emsp;&emsp;对于分页列表带有条件查询的未进行缓存处理的定义，主要出于以下考虑
-* 对于数据量不是很大的情况可以优化数据库索引同样可以满足需求
-* 如果数据体量比较大，可以考虑搜索引擎
-&emsp;&emsp;以下是缓存的接口，泛型 <T> 代表数据库实体类：
-```java
-
+/**
+ * cache层接口
+ *
+ * @author fuqiang
+ * @date 2019-06-05
+ * @copyright fero.com.cn
+ */
 public interface IBaseCacheService {
 
     /**
@@ -112,10 +99,4 @@ public interface IBaseCacheService {
      * @param <T>
      */
     <T> void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
-```
-
-### 分布式锁 TODO:暂未实现
-
-
-
-### 分布式事务 TODO:暂未实现
+}
