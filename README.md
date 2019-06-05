@@ -4,7 +4,16 @@
 
 ### 特性
 #### application.yml敏感信息的加密
-* 利用jasypt进行加密 形如`ENC(**)`为jasypt的加密后的密文，下例中将mysql、redis的一些配置信息做了加密处理
+* 利用jasypt进行加密，添加jasypt加密salt
+
+```yaml
+jasypt:
+  encryptor:
+    password: 7nZPf)pMwh
+```
+
+形如`ENC(**)`为jasypt的加密后的密文，下例中将mysql、redis的一些配置信息做了加密处理
+
 ```yaml
 spring:
   datasource:
@@ -23,7 +32,8 @@ spring:
 &emsp;&emsp;对于分页列表带有条件查询的未进行缓存处理的定义，主要出于以下考虑
 * 对于数据量不是很大的情况可以优化数据库索引同样可以满足需求
 * 如果数据体量比较大，可以考虑搜索引擎
-&emsp;&emsp;以下是缓存的接口，泛型 <T> 代表数据库实体类：
+&emsp;&emsp;以下是缓存的接口，泛型 `<T>`代表数据库实体类：
+
 ```java
 
 public interface IBaseCacheService {
