@@ -1,6 +1,6 @@
 ## train-framework-core 
-
-![](https://bj.bcebos.com/v1/alertcode-blog/adelina-core.png)
+<img align='center' src="https://bj.bcebos.com/v1/alertcode-blog/adelina-core.png">
+</img>
 
 根据开源的一些框架进行整合，只做增强，不做改变，主要方便快速开发。
 
