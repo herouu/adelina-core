@@ -1,23 +1,20 @@
 spring:
   datasource:
-    url: ENC(jSogyF4mt/LlY5RX+EhEQbwAJ57+j9ds4eL5D6dYxmdchYPu1ev7TFVmDCfOpMOgOKLVu2KfCSbiBDReVPuttatTB3yRkPMXN94S0FAzN8Hbb8pCxfVGzo7EtGDtnvdRjBNXSvCawmW0vvXGlVmxyuF08OFrClZY)
-    username: ENC(e17yz9DJb5ojAvMnUgJBdA==)
-    password: ENC(5N2wlNkx+6Rk0YPmb/0SNyqROyvQhl+NNkVmYRkwPrU=)
+    url: ENC(YHeZy7uYWls7/xwSY9gnau+68QFs0i4fA7TmZbijkE+oKiimwZVJOt3DOouWEiM8npx7vhzVt5CgcKya/eNamd6FZoL87jU5b2hjDwPgDafwuB3iJwc/UVWapM2kVE5C4St5dK7pmfHeO51slu9WiiF2vH4/cqJINrDdNx305jI=)
+    username: ENC(+8iClaFiWU5/OaZ1zzJPzw==)
+    password: ENC(c2oZh4lcJK3Q+w7MSIL2pQ==)
     driver-class-name:  com.mysql.cj.jdbc.Driver
   redis:
-    database:
-      redis:
-          host: localhost
-          port: 6379
-          database: 0
+    host: ENC(oiy7f0H5Ttd7PnSlyZjSrcxavFjsD01L30SV5LXDXyk=)
+    port: 6379
+    database: 0
+    password: ENC(hgVNi5XVRechSZcGj0utvubfesSQqkJ7)
 swagger:
   base-package: top.alertcode.adelina.framework.entity.controller
 
 mybatis-plus:
   global-config:
     banner: false
-
-
 jasypt:
   encryptor:
     password: 7nZPf)pMwh
