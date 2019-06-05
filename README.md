@@ -28,7 +28,7 @@ spring:
     password: ENC(hgVNi5XVRechSZcGj0utvubfesSQqkJ7)
 ```
 
-### 缓存
+### 缓存 TODO: 暂未考虑缓存的线程安全
 
 &emsp;&emsp;对于分页列表带有条件查询的未进行缓存处理的定义，主要出于以下考虑
 * 对于数据量不是很大的情况可以优化数据库索引同样可以满足需求
