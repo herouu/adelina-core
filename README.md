@@ -1,4 +1,4 @@
-## adelina-core
+
 <div width="100%" align="center">
     <img src='https://bj.bcebos.com/v1/alertcode-blog/adelina-core.png'/>
 </div>
