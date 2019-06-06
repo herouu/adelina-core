@@ -32,6 +32,8 @@ spring:
     database: 0
     password: ENC(hgVNi5XVRechSZcGj0utvubfesSQqkJ7)
 ```
+### 单元测试 使用junit的超集，testNG
+* 后续满足接口的并发测试，考虑使用testNG测试框架
 
 ### 缓存 TODO: 暂未考虑缓存的线程安全
 
