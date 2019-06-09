@@ -3,9 +3,9 @@ package top.alertcode.adelina.framework.lock;
 import org.junit.Test;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
-import org.springframework.beans.factory.annotation.Autowired;
 import top.alertcode.adelina.framework.BaseTest;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class DisLockTest extends BaseTest {
 
-    @Autowired
-    private Redisson redisson;
+    @Resource
+    protected Redisson redisson;
 
     @Test
     public void getLock() {

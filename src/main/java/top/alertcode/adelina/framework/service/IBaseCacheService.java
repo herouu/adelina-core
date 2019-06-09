@@ -1,6 +1,7 @@
 package top.alertcode.adelina.framework.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import top.alertcode.adelina.framework.commons.enums.Model;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -24,6 +25,18 @@ public interface IBaseCacheService {
      * @return
      */
     <T> T cacheGetById(Class<T> clazz, Serializable id);
+
+
+    /**
+     * 根据实体id获取实体，若缓存不存在更新实体
+     *
+     * @param clazz
+     * @param id
+     * @param model 锁类型 分段锁->缓存熔断 重入锁->线程阻塞
+     * @param <T>
+     * @return
+     */
+    <T> T cacheGetById(Class<T> clazz, Serializable id, Model model);
 
     /**
      * 添加实体并添加缓存
