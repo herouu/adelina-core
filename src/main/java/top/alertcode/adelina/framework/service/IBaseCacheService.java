@@ -80,14 +80,14 @@ public interface IBaseCacheService {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
-    <T> boolean cacheRemove(Wrapper<T> queryWrapper);
+    <T> boolean cacheRemove(Class<T> clazz, Wrapper<T> queryWrapper);
 
     /**
      * 删除（根据ID 批量删除）数据库及缓存
      *
      * @param idList 主键ID列表
      */
-    <T> boolean cacheDeleteByIds(Collection<T> idList);
+    <T> boolean cacheDeleteByIds(Class<T> clazz, Collection<? extends Serializable> idList);
 
 
     /**

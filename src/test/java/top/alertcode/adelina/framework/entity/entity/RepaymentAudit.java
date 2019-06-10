@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -74,7 +75,7 @@ public class RepaymentAudit implements Serializable {
     private BigDecimal operateLendingAmount;
 
     @ApiModelProperty(value = "申请还款日期")
-    private LocalDateTime applyRepaymentDate;
+    private Date applyRepaymentDate;
 
     @ApiModelProperty(value = "申请还款金额")
     private BigDecimal applyRepaymentAmount;
