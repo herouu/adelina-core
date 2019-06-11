@@ -4,7 +4,6 @@ package top.alertcode.adelina.framework.entity.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.alertcode.adelina.framework.controller.BaseController;
-import top.alertcode.adelina.framework.entity.entity.RepaymentAudit;
 
 /**
  * <p>
@@ -16,7 +15,7 @@ import top.alertcode.adelina.framework.entity.entity.RepaymentAudit;
  */
 @RestController
 @RequestMapping("/entity/repayment-audit")
-public class RepaymentAuditController extends BaseController<RepaymentAudit> {
+public class RepaymentAuditController extends BaseController {
 
 }
 
