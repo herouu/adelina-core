@@ -2,6 +2,7 @@
 package top.alertcode.adelina.framework.controller;
 
 
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,8 +14,6 @@ import top.alertcode.adelina.framework.service.impl.BaseService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * SuperController
@@ -88,11 +87,8 @@ public class BaseController<T> {
 
     @GetMapping("/getById")
     public JsonResponse getById(@RequestParam Long id) {
-        Class clazz = this.getClass();
-        Type type = clazz.getGenericSuperclass();
-        ParameterizedType p = (ParameterizedType) type;
-        Class c = (Class) p.getActualTypeArguments()[0];
-        return jsonData(baseService.cacheGetById(c, id));
+        Class superClassGenericType = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+        return jsonData(baseService.cacheGetById(superClassGenericType, id));
     }
 
     @PutMapping("/insertData")
@@ -102,15 +98,17 @@ public class BaseController<T> {
 
     @PutMapping("/deleteById")
     public JsonResponse deleteById(@RequestParam String id) {
-        Class clazz = this.getClass();
-        Type type = clazz.getGenericSuperclass();
-        ParameterizedType p = (ParameterizedType) type;
-        Class c = (Class) p.getActualTypeArguments()[0];
-        return jsonData(baseService.cacheDeleteById(c, id));
+        return jsonData(baseService.cacheDeleteById(id));
     }
 
     @PutMapping("/updateById")
     public JsonResponse updateById(@RequestBody T obj) {
         return jsonData(baseService.updateById(obj));
     }
+
+    @GetMapping("/allList")
+    public JsonResponse allList() {
+        return jsonData(baseService.list());
+    }
+
 }

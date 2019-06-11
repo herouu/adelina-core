@@ -47,7 +47,7 @@ public class CommonServiceTest extends BaseTest {
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheDeleteById() {
-        service.cacheDeleteById(RepaymentAudit.class, 7L);
+        service.cacheDeleteById(7L);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)

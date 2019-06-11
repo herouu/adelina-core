@@ -2,6 +2,7 @@ package top.alertcode.adelina.framework.service.impl;
 
 import com.alibaba.fastjson.util.TypeUtils;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,7 @@ public class BaseService<T> extends ServiceImpl {
     ReentrantLock lock = new ReentrantLock();
 
     private ConcurrentHashMap<Serializable, String> mapLock = new ConcurrentHashMap();
+
 
 
     private final static String QUERY = "query";
@@ -160,7 +162,8 @@ public class BaseService<T> extends ServiceImpl {
 
 
     @Transactional(rollbackFor = Exception.class)
-    public synchronized boolean cacheDeleteById(Class clazz, Serializable id) {
+    public synchronized boolean cacheDeleteById(Serializable id) {
+        Class clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             log.info("删除缓存，线程：{}", Thread.currentThread().getId());
             tableCacheDao.delete(getHName(clazz), id.toString());
