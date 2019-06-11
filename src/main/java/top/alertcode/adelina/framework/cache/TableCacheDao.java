@@ -21,7 +21,7 @@ public class TableCacheDao {
         redisTemplate.opsForHash().put(tableName, key, value);
     }
 
-    public List mutiGet(String tableName, Collection<String> keys) {
+    public List<String> mutiGet(String tableName, Collection<String> keys) {
         return redisTemplate.opsForHash().multiGet(tableName, keys);
     }
 

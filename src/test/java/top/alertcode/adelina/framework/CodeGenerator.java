@@ -50,12 +50,11 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://192.168.0.221:3306/fero_repay_bak?useUnicode=true&useSSL=false&characterEncoding" +
-                "=utf8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/adelina?useUnicode=true&useSSL=false");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("simba");
-        dsc.setPassword("BeGYVXnw7&Kj@A!j");
+        dsc.setUsername("root");
+        dsc.setPassword("123456");
         mpg.setDataSource(dsc);
 
         // 包配置

@@ -1,14 +1,16 @@
 package top.alertcode.adelina.framework.service.impl;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.testng.annotations.Test;
 import top.alertcode.adelina.framework.BaseTest;
 import top.alertcode.adelina.framework.entity.entity.RepaymentAudit;
+import top.alertcode.adelina.framework.entity.service.impl.RepaymentAuditServiceImpl;
 import top.alertcode.adelina.framework.utils.DateUtils;
 
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author fuqiang
@@ -17,15 +19,16 @@ import java.util.Collections;
  */
 public class CommonServiceTest extends BaseTest {
     @Autowired
-    private CommonService commonService;
+    private RepaymentAuditServiceImpl service;
 
-    private static final int invocationCount = 4;
-    private static final int threadPoolSize = 4;
+
+    private static final int invocationCount = 2;
+    private static final int threadPoolSize = 2;
 
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheGetById() {
-        commonService.cacheGetById(RepaymentAudit.class, 2);
+        service.cacheGetById(RepaymentAudit.class, 2);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
@@ -37,11 +40,12 @@ public class CommonServiceTest extends BaseTest {
         RepaymentAudit repaymentAudit = new RepaymentAudit();
         repaymentAudit.setApplyRepaymentAmount(new BigDecimal(123));
         repaymentAudit.setLendingCode("setLendingCode");
-        commonService.cacheInsertData(repaymentAudit);
+        service.cacheInsertData(repaymentAudit);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheDeleteById() {
+        service.cacheDeleteById(RepaymentAudit.class, 7L);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
@@ -49,11 +53,17 @@ public class CommonServiceTest extends BaseTest {
         RepaymentAudit repaymentAudit = new RepaymentAudit();
         repaymentAudit.setId(14L);
         repaymentAudit.setApplyRepaymentDate(DateUtils.now());
-        commonService.cacheUpdateById(repaymentAudit);
+        service.cacheUpdateById(repaymentAudit);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheSaveBatch() {
+        RepaymentAudit repaymentAudit = new RepaymentAudit();
+        repaymentAudit.setLendingCode("setLendingCode123");
+        repaymentAudit.setNeedAmount(new BigDecimal(123));
+        RepaymentAudit clone = SerializationUtils.clone(repaymentAudit);
+        List<RepaymentAudit> repaymentAudits = Arrays.asList(repaymentAudit, clone);
+        service.cacheSaveBatch(repaymentAudits);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
@@ -63,7 +73,7 @@ public class CommonServiceTest extends BaseTest {
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheDeleteByIds() {
-        commonService.cacheDeleteByIds(RepaymentAudit.class, Collections.singletonList(11));
+        service.cacheDeleteByIds(RepaymentAudit.class, new Long[]{5L});
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
@@ -78,9 +88,4 @@ public class CommonServiceTest extends BaseTest {
     public void testCacheTbUpdateBatch() {
     }
 
-    @Test(invocationCount = 5, threadPoolSize = 5)
-    @Rollback
-    public void cacheDeleteById() {
-        commonService.cacheDeleteById(RepaymentAudit.class, 13);
-    }
 }

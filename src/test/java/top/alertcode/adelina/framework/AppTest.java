@@ -24,15 +24,12 @@ public class AppTest {
         //加密所需的salt(盐)
         textEncryptor.setPassword("7nZPf)pMwh");
         //要加密的数据（数据库的用户名或密码）
-        String username = textEncryptor.encrypt("adelina");
-        String password = textEncryptor.encrypt("adelina");
-        String host = textEncryptor.encrypt("adelina.alertcode.top");
-        String redisPwd = textEncryptor.encrypt("adelina_!QAZ");
-        String url = textEncryptor.encrypt("jdbc:mysql://adelina.alertcode" +
-                ".top:3306/adelina_dev?characterEncoding=utf8" +
+        String username = textEncryptor.encrypt("root");
+        String password = textEncryptor.encrypt("123456");
+        String host = textEncryptor.encrypt("localhost");
+        String url = textEncryptor.encrypt("jdbc:mysql://localhost:3306/adelina?characterEncoding=utf8" +
                 "&serverTimezone=Asia/Shanghai&useSSL=false");
         System.out.println("hosts:" + host);
-        System.out.println("redisPwd:" + redisPwd);
         System.out.println("username:" + username);
         System.out.println("password:" + password);
         System.out.println("url:" + url);

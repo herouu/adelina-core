@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @date 2019-06-05
  * @copyright fero.com.cn
  */
-public interface IBaseCacheService {
+public interface IBaseCacheService<T> {
 
     /**
      * 根据实体id获取实体，若缓存不存在更新实体
@@ -24,7 +24,7 @@ public interface IBaseCacheService {
      * @param <T>
      * @return
      */
-    <T> T cacheGetById(Class<T> clazz, Serializable id);
+    T cacheGetById(Class<T> clazz, Serializable id);
 
 
     /**
@@ -71,7 +71,7 @@ public interface IBaseCacheService {
      * @param <T>
      * @return
      */
-    <T> boolean cacheSaveBatch(Collection<T> entityList);
+    boolean cacheSaveBatch(Collection<T> entityList);
 
 
     /**
@@ -80,14 +80,14 @@ public interface IBaseCacheService {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
-    <T> boolean cacheRemove(Class<T> clazz, Wrapper<T> queryWrapper);
+    boolean cacheRemove(Class<T> clazz, Wrapper<T> queryWrapper);
 
     /**
      * 删除（根据ID 批量删除）数据库及缓存
      *
      * @param idList 主键ID列表
      */
-    <T> boolean cacheDeleteByIds(Class<T> clazz, Collection<? extends Serializable> idList);
+    boolean cacheDeleteByIds(Class<T> clazz, Long[] idList);
 
 
     /**
@@ -96,13 +96,13 @@ public interface IBaseCacheService {
      * @param entity        实体对象
      * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
      */
-    <T> void cacheUpdate(T entity, Wrapper<T> updateWrapper);
+    void cacheUpdate(T entity, Wrapper<T> updateWrapper);
 
 
     /**
      * 根据ID 批量更新数据库与缓存
      */
-    <T> void cacheUpdateBatchById(Collection<T> entityList);
+    void cacheUpdateBatchById(Collection<T> entityList);
 
     /**
      * 批量更新数据库及缓存
@@ -111,5 +111,5 @@ public interface IBaseCacheService {
      * @param map
      * @param <T>
      */
-    <T> void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
+    void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
 }
