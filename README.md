@@ -200,8 +200,10 @@ public class UserServiceImpl extends BaseService implements IUserService {
 }
 ```
 ### BaseController 提供5个默认的方法 
+&emsp;&emsp;对于简单的单表业务，可以直接使用，对于复杂的业务需要自定义接口或重写接口
+
 ```java
- @GetMapping("/getById")
+    @GetMapping("/getById")
     public JsonResponse getById(@RequestParam Long id) {
         Class superClassGenericType = ReflectionKit.getSuperClassGenericType(getClass(), 0);
         return jsonData(baseService.cacheGetById(superClassGenericType, id));
@@ -226,4 +228,5 @@ public class UserServiceImpl extends BaseService implements IUserService {
     public JsonResponse allList() {
         return jsonData(baseService.list());
     }
+    
 ```
