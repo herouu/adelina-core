@@ -44,10 +44,10 @@ public class RepaymentAudit implements Serializable {
     private String updatedBy;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
     @ApiModelProperty(value = "还款主id")
     private Long repaymentId;

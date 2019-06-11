@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import top.alertcode.adelina.framework.cache.TableCacheDao;
@@ -15,10 +14,10 @@ import top.alertcode.adelina.framework.commons.constant.PageCons;
 import top.alertcode.adelina.framework.commons.enums.Model;
 import top.alertcode.adelina.framework.exception.FrameworkUtilException;
 import top.alertcode.adelina.framework.exception.ProjectException;
-import top.alertcode.adelina.framework.mapper.BaseMapper;
 import top.alertcode.adelina.framework.utils.ArrayUtils;
 import top.alertcode.adelina.framework.utils.CollectionUtils;
 import top.alertcode.adelina.framework.utils.JsonUtils;
+import top.alertcode.adelina.framework.utils.NumberUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -41,12 +40,10 @@ import java.util.stream.Stream;
  * @author Bob
  * @version $Id: $Id
  */
-//@Transactional(readOnly = true)
 @Slf4j
-public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl {
+public class BaseService<T> extends ServiceImpl {
     @Resource
     protected HttpServletRequest request;
-
     /**
      * <p>getPage.</p>
      *
@@ -68,10 +65,6 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl {
     }
 
 
-    private static BeanFactory beanFactory;
-
-    @Autowired
-    protected BaseMapper baseMapper;
     @Autowired
     private TableCacheDao tableCacheDao;
 
@@ -192,7 +185,7 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl {
     @Transactional(rollbackFor = Exception.class)
     public synchronized boolean cacheSaveBatch(Collection<T> entityList) {
         if (CollectionUtils.isNotEmpty(entityList)) {
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, String> map = new HashMap<>(16);
             saveBatch(entityList);
             for (Object o : entityList) {
                 map.put(getId(o), JsonUtils.writeValueAsString(o));
@@ -210,11 +203,14 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
-    public synchronized <T> boolean cacheRemove(Class<T> clazz, Wrapper<T> queryWrapper) {
-        List<T> list = super.list(queryWrapper);
-        Long[] ids = list.stream().map(this::getId).collect(Collectors.toSet()).toArray(new Long[]{});
-        if (ArrayUtils.isNotEmpty(ids)) {
-            cacheDeleteByIds(clazz, ids);
+    public synchronized boolean cacheRemove(Class<T> clazz, Wrapper<T> queryWrapper) {
+        List<T> list = list(queryWrapper);
+        if (CollectionUtils.isNotEmpty(list)) {
+            Long[] ids =
+                    list.stream().map(this::getId).filter(Objects::nonNull).map(NumberUtils::toLong).collect(Collectors.toList()).toArray(new Long[]{});
+            if (ArrayUtils.isNotEmpty(ids)) {
+                cacheDeleteByIds(clazz, ids);
+            }
         }
         return true;
     }
@@ -224,16 +220,16 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl {
      *
      * @param idList 主键ID列表
      */
-    public <T> boolean cacheDeleteByIds(Class<T> clazz, Long[] idList) {
+    public boolean cacheDeleteByIds(Class<T> clazz, Long[] idList) {
         if (ArrayUtils.isNotEmpty(idList)) {
             List<String> ids = Stream.of(idList).map(Objects::toString).collect(Collectors.toList());
             lock.lock();
             try {
-                List<String> list = tableCacheDao.mutiGet(getHName(clazz), ids);
-                List<String> collect = list.stream().filter(Objects::nonNull).collect(Collectors.toList());
+                List<String> collect = tableCacheDao.mutiGet(getHName(clazz), ids)
+                        .stream().filter(Objects::nonNull).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(collect)) {
                     tableCacheDao.delete(getHName(clazz),
-                            list.stream().map(item -> JsonUtils.readValue(item, clazz)).map(this::getId).collect(Collectors.toSet()).toArray(new String[]{}));
+                            collect.stream().map(item -> JsonUtils.readValue(item, clazz)).map(this::getId).collect(Collectors.toSet()).toArray(new String[]{}));
                     return super.removeByIds(Stream.of(idList).collect(Collectors.toList()));
                 }
             } finally {
@@ -250,12 +246,18 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl {
      * @param entity        实体对象
      * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
      */
+    @Transactional(rollbackFor = Exception.class)
     public synchronized <T> void cacheUpdate(T entity, Wrapper<T> updateWrapper) {
-        List<T> list = super.list(updateWrapper);
-        HashMap<String, String> map = new HashMap<>();
+        update(entity, updateWrapper);
+        List<T> list = list(updateWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
-            super.removeByIds(list);
-            cacheTbUpdateBatch(list, map);
+            tableCacheDao.delete(getHName(entity.getClass()),
+                    list.stream().map(this::getId).collect(Collectors.toSet()).toArray(new String[]{}));
+            HashMap<String, String> map = new HashMap<>(16);
+            for (Object o : list) {
+                map.put(getId(o), JsonUtils.writeValueAsString(o));
+            }
+            tableCacheDao.addAll(getHName(entity.getClass()), map);
         }
     }
 
@@ -263,22 +265,22 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl {
     /**
      * 根据ID 批量更新
      */
-    public synchronized <T> void cacheUpdateBatchById(Collection<T> entityList) {
-        HashMap<String, String> map = new HashMap<>();
+    public synchronized void cacheUpdateBatchById(Collection<T> entityList) {
         if (CollectionUtils.isNotEmpty(entityList)) {
             super.updateBatchById(entityList);
-            cacheTbUpdateBatch(entityList, map);
+            Collection<T> collection = listByIds(entityList.stream().map(this::getId).collect(Collectors.toList()));
+            T t = CollectionUtils.get(entityList, 0);
+            cacheBatchReset(t.getClass(), collection);
         }
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public synchronized <T> void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map) {
+    private synchronized void cacheBatchReset(Class<?> clazz, Collection<T> entityList) {
+        HashMap<String, String> map = new HashMap<>(16);
         for (T t : entityList) {
-            map.put(getId(t), JsonUtils.writeValueAsString(entityList));
+            map.put(getId(t), JsonUtils.writeValueAsString(t));
         }
-        String[] str = null;
-        tableCacheDao.delete(getHName(entityList.getClass()), map.keySet().toArray(str));
-        tableCacheDao.addAll(getHName(entityList.getClass()), map);
+        tableCacheDao.delete(getHName(clazz), map.keySet().toArray(new String[]{}));
+        tableCacheDao.addAll(getHName(clazz), map);
     }
 
 
