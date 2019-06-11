@@ -35,8 +35,8 @@ spring:
 ### 单元测试 使用junit的超集，testNG
 * 后续满足接口的并发测试，考虑使用testNG测试框架
 
-### 缓存 TODO: 暂未考虑缓存的线程安全
-
+### 缓存
+&emsp;&emsp;考虑并发场景下的缓存与数据库的问题，预防缓存雪崩（暂未考虑缓存击穿下的布隆过滤器）
 &emsp;&emsp;对于分页列表带有条件查询的未进行缓存处理的定义，主要出于以下考虑
 * 对于数据量不是很大的情况可以优化数据库索引同样可以满足需求
 * 如果数据体量比较大，可以考虑搜索引擎
@@ -198,4 +198,32 @@ public class UserServiceImpl extends BaseService implements IUserService {
         return pageInfo;
     }
 }
+```
+### BaseController 提供5个默认的方法 
+```java
+ @GetMapping("/getById")
+    public JsonResponse getById(@RequestParam Long id) {
+        Class superClassGenericType = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+        return jsonData(baseService.cacheGetById(superClassGenericType, id));
+    }
+
+    @PutMapping("/insertData")
+    public JsonResponse insertData(@RequestBody T obj) {
+        return jsonData(baseService.cacheInsertData(obj));
+    }
+
+    @PutMapping("/deleteById")
+    public JsonResponse deleteById(@RequestParam String id) {
+        return jsonData(baseService.cacheDeleteById(id));
+    }
+
+    @PutMapping("/updateById")
+    public JsonResponse updateById(@RequestBody T obj) {
+        return jsonData(baseService.updateById(obj));
+    }
+
+    @GetMapping("/allList")
+    public JsonResponse allList() {
+        return jsonData(baseService.list());
+    }
 ```
