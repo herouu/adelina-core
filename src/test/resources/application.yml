@@ -9,6 +9,9 @@ spring:
     port: 6379
     database: 0
     password:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 swagger:
   base-package: top.alertcode.adelina.framework.entity.controller
 
