@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -45,6 +47,7 @@ import java.util.stream.Stream;
 public class BaseService<T> extends ServiceImpl {
     @Resource
     protected HttpServletRequest request;
+
     /**
      * <p>getPage.</p>
      *
@@ -65,6 +68,18 @@ public class BaseService<T> extends ServiceImpl {
         return page;
     }
 
+    public PageInfo<T> pageList(Wrapper<T> queryWrapper) {
+        int index = 1;
+        Integer cursor = ObjectUtils.defaultIfNull(TypeUtils.castToInt(request.getParameter(PageCons.PAGE_PAGE)),
+                index);
+        Integer limit = ObjectUtils.defaultIfNull(TypeUtils.castToInt(request.getParameter(PageCons.PAGE_ROWS)),
+                PageCons.DEFAULT_LIMIT);
+        PageHelper.startPage(cursor, limit);
+        List<T> list = list(queryWrapper);
+        return new PageInfo<>(list);
+
+    }
+
 
     @Autowired
     private TableCacheDao tableCacheDao;
@@ -72,7 +87,6 @@ public class BaseService<T> extends ServiceImpl {
     ReentrantLock lock = new ReentrantLock();
 
     private ConcurrentHashMap<Serializable, String> mapLock = new ConcurrentHashMap();
-
 
 
     private final static String QUERY = "query";
@@ -86,11 +100,12 @@ public class BaseService<T> extends ServiceImpl {
 //    }
 
 
-    public <T> T cacheGetById(Class<T> clazz, Serializable id) {
-        return cacheGetByIdSegmentLock(clazz, id);
+    public <T> T cacheGetById(Serializable id) {
+        return cacheGetByIdSegmentLock(id);
     }
 
-    private <T> T cacheGetByIdSegmentLock(Class<T> clazz, Serializable id) {
+    private <T> T cacheGetByIdSegmentLock(Serializable id) {
+        Class<T> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             log.info("从缓存中取数据：线程={}", Thread.currentThread().getId());
             return JsonUtils.readValue(tableCacheDao.get(getHName(clazz), Objects.toString(id)), clazz);
@@ -113,21 +128,22 @@ public class BaseService<T> extends ServiceImpl {
     }
 
     /**
-     * @param clazz
      * @param id
      * @param model SegmentLock 分段锁 ReentrantLock 重入锁
      * @param <T>
      * @return
      */
-    public <T> T cacheGetById(Class<T> clazz, Serializable id, Model model) {
+    public <T> T cacheGetById(Serializable id, Model model) {
         if (model == Model.SegmentLock) {
-            return cacheGetByIdSegmentLock(clazz, id);
+            return cacheGetByIdSegmentLock(id);
         }
-        return cacheGetByIdLock(clazz, id);
+
+        return cacheGetByIdLock(id);
     }
 
 
-    private <T> T cacheGetByIdLock(Class<T> clazz, Serializable id) {
+    private <T> T cacheGetByIdLock(Serializable id) {
+        Class<T> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             log.info("从缓存中取数据：线程={}", Thread.currentThread().getId());
             return JsonUtils.readValue(tableCacheDao.get(getHName(clazz), Objects.toString(id)), clazz);
@@ -206,13 +222,13 @@ public class BaseService<T> extends ServiceImpl {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
-    public synchronized boolean cacheRemove(Class<T> clazz, Wrapper<T> queryWrapper) {
+    public synchronized boolean cacheRemove(Wrapper<T> queryWrapper) {
         List<T> list = list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
             Long[] ids =
                     list.stream().map(this::getId).filter(Objects::nonNull).map(NumberUtils::toLong).collect(Collectors.toList()).toArray(new Long[]{});
             if (ArrayUtils.isNotEmpty(ids)) {
-                cacheDeleteByIds(clazz, ids);
+                cacheDeleteByIds(ids);
             }
         }
         return true;
@@ -223,10 +239,11 @@ public class BaseService<T> extends ServiceImpl {
      *
      * @param idList 主键ID列表
      */
-    public boolean cacheDeleteByIds(Class<T> clazz, Long[] idList) {
+    public boolean cacheDeleteByIds(Long[] idList) {
         if (ArrayUtils.isNotEmpty(idList)) {
-            List<String> ids = Stream.of(idList).map(Objects::toString).collect(Collectors.toList());
             lock.lock();
+            List<String> ids = Stream.of(idList).map(Objects::toString).collect(Collectors.toList());
+            Class<T> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
             try {
                 List<String> collect = tableCacheDao.mutiGet(getHName(clazz), ids)
                         .stream().filter(Objects::nonNull).collect(Collectors.toList());
@@ -272,12 +289,12 @@ public class BaseService<T> extends ServiceImpl {
         if (CollectionUtils.isNotEmpty(entityList)) {
             super.updateBatchById(entityList);
             Collection<T> collection = listByIds(entityList.stream().map(this::getId).collect(Collectors.toList()));
-            T t = CollectionUtils.get(entityList, 0);
-            cacheBatchReset(t.getClass(), collection);
+            cacheBatchReset(collection);
         }
     }
 
-    private synchronized void cacheBatchReset(Class<?> clazz, Collection<T> entityList) {
+    private synchronized void cacheBatchReset(Collection<T> entityList) {
+        Class clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
         HashMap<String, String> map = new HashMap<>(16);
         for (T t : entityList) {
             map.put(getId(t), JsonUtils.writeValueAsString(t));

@@ -30,7 +30,7 @@ public class CommonServiceTest extends BaseTest {
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheGetById() {
-        service.cacheGetById(RepaymentAudit.class, 2);
+        service.cacheGetById(2);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
@@ -71,13 +71,13 @@ public class CommonServiceTest extends BaseTest {
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheRemove() {
         QueryWrapper<RepaymentAudit> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("lending_code", "setLendingCode1234");
-        service.cacheRemove(RepaymentAudit.class, queryWrapper);
+        queryWrapper.eq("lending_code", "setLendingCode");
+        service.cacheRemove(queryWrapper);
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
     public void testCacheDeleteByIds() {
-        service.cacheDeleteByIds(RepaymentAudit.class, new Long[]{34L});
+        service.cacheDeleteByIds(new Long[]{34L});
     }
 
     @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
@@ -105,10 +105,6 @@ public class CommonServiceTest extends BaseTest {
         repaymentAudit1.setVersion("1");
         List<RepaymentAudit> repaymentAudits = Arrays.asList(repaymentAudit, repaymentAudit1);
         service.cacheUpdateBatchById(repaymentAudits);
-    }
-
-    @Test(invocationCount = invocationCount, threadPoolSize = threadPoolSize)
-    public void testCacheTbUpdateBatch() {
     }
 
 }

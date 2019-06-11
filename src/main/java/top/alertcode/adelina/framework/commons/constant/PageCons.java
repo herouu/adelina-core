@@ -18,7 +18,7 @@ public class PageCons {
      */
     public final static String PAGE_ROWS = "pageSize";
     /**
-     * 默认每页条目20,�?大条目数100
+     * 默认每页条目20,最大条目数100
      */
     public final static int DEFAULT_LIMIT = 20;
     /**
