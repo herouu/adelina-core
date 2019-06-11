@@ -90,32 +90,70 @@ public class BaseController<T> {
     protected BaseService baseService;
 
 
+    /**
+     * <p>getById.</p>
+     *
+     * @param id a {@link java.lang.Long} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
     @GetMapping("/getById")
     public JsonResponse getById(@RequestParam Long id) {
         return jsonData(baseService.cacheGetById(id));
     }
 
-    @PutMapping("/insertData")
+    /**
+     * <p>insertData.</p>
+     *
+     * @param obj a T object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
+    @PostMapping("/insertData")
     public JsonResponse insertData(@RequestBody T obj) {
         return jsonData(baseService.cacheInsertData(obj));
     }
 
-    @PutMapping("/deleteById")
+    /**
+     * <p>deleteById.</p>
+     *
+     * @param id a {@link java.lang.String} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
+    @DeleteMapping("/deleteById")
     public JsonResponse deleteById(@RequestParam String id) {
         return jsonData(baseService.cacheDeleteById(id));
     }
 
+    /**
+     * <p>updateById.</p>
+     *
+     * @param obj a T object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
     @PutMapping("/updateById")
     public JsonResponse updateById(@RequestBody T obj) {
         return jsonData(baseService.updateById(obj));
     }
 
+    /**
+     * <p>allList.</p>
+     *
+     * @param object a {@link java.util.Map} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
     @PostMapping("/allList")
     public JsonResponse allList(@RequestBody Map<String, Params> object) {
         QueryWrapper<T> wrapper = gettQueryWrapper(object);
         return jsonData(baseService.list(wrapper));
     }
 
+    /**
+     * <p>pageList.</p>
+     *
+     * @param pageNum  a {@link java.lang.Integer} object.
+     * @param pageSize a {@link java.lang.Integer} object.
+     * @param object   a {@link java.util.Map} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
     @PostMapping("/pageList")
     public JsonResponse pageList(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestBody Map<String, Params> object) {
         QueryWrapper<T> wrapper = gettQueryWrapper(object);

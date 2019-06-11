@@ -1017,7 +1017,6 @@ public final class MapUtils {
      * @param <K> a K object.
      * @param <V> a V object.
      * @return a {@link org.apache.commons.collections4.map.MultiValueMap} object.
-     * @param <C> a C object.
      */
     public static <K, V, C extends Collection<V>> MultiValueMap<K, V> multiValueMap(final Map<K, C> map,
                                                                                     final Class<C> collectionClass) {
@@ -1032,7 +1031,6 @@ public final class MapUtils {
      * @param <K> a K object.
      * @param <V> a V object.
      * @return a {@link org.apache.commons.collections4.map.MultiValueMap} object.
-     * @param <C> a C object.
      */
     public static <K, V, C extends Collection<V>> MultiValueMap<K, V> multiValueMap(final Map<K, C> map,
                                                                                     final Factory<C> collectionFactory) {

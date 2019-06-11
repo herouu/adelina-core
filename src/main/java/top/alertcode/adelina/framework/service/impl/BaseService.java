@@ -9,6 +9,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,6 @@ import top.alertcode.adelina.framework.commons.enums.Model;
 import top.alertcode.adelina.framework.exception.FrameworkUtilException;
 import top.alertcode.adelina.framework.exception.ProjectException;
 import top.alertcode.adelina.framework.utils.ArrayUtils;
-import top.alertcode.adelina.framework.utils.CollectionUtils;
 import top.alertcode.adelina.framework.utils.JsonUtils;
 import top.alertcode.adelina.framework.utils.NumberUtils;
 
@@ -209,7 +210,7 @@ public class BaseService<T> extends ServiceImpl {
             for (Object o : entityList) {
                 map.put(getId(o), JsonUtils.writeValueAsString(o));
             }
-            String name = getHName(CollectionUtils.get(entityList, 0).getClass());
+            String name = getHName(IterableUtils.get(entityList, 0).getClass());
             tableCacheDao.addAll(name, map);
         }
         return true;

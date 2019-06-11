@@ -59,6 +59,12 @@ public final class DateFormatUtils extends org.apache.commons.lang3.time.DateFor
         return sdf.format(date);
     }
 
+    /**
+     * <p>formatDate.</p>
+     *
+     * @param dateStr a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String formatDate(String dateStr) {
         try {
             return format(dateStr, DateFormatUtils.ISO_8601_EXTENDED_DATE_FORMAT.getPattern());
