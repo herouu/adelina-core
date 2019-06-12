@@ -1,8 +1,7 @@
-package top.alertcode.adelina.framework.entity.entity;
+package top.alertcode.adelina.framework.audit.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,18 +18,16 @@ import java.util.Date;
  * </p>
  *
  * @author bob
- * @since 2019-06-03
+ * @since 2019-06-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "RepaymentAudit对象", description = "还款审核表")
-@TableName("repayment_audit")
+@ApiModel(value = "RepaymentAudit对象" , description = "还款审核表")
 public class RepaymentAudit implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @ApiModelProperty
-    @TableId(type = IdType.AUTO)
+
+    @TableId(value = "id" , type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "版本号")
@@ -43,10 +40,10 @@ public class RepaymentAudit implements Serializable {
     private String updatedBy;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @ApiModelProperty(value = "更新时间")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @ApiModelProperty(value = "还款主id")
     private Long repaymentId;
@@ -67,7 +64,7 @@ public class RepaymentAudit implements Serializable {
     private String lendingCode;
 
     @ApiModelProperty(value = "放款时间")
-    private Date operateLendingDatetime;
+    private LocalDateTime operateLendingDatetime;
 
     @ApiModelProperty(value = "放款方式")
     private String repaymentMethod;
@@ -76,7 +73,7 @@ public class RepaymentAudit implements Serializable {
     private BigDecimal operateLendingAmount;
 
     @ApiModelProperty(value = "申请还款日期")
-    private Date applyRepaymentDate;
+    private LocalDateTime applyRepaymentDate;
 
     @ApiModelProperty(value = "申请还款金额")
     private BigDecimal applyRepaymentAmount;

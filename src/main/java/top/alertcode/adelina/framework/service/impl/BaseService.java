@@ -3,7 +3,6 @@ package top.alertcode.adelina.framework.service.impl;
 import com.alibaba.fastjson.util.TypeUtils;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -46,6 +45,8 @@ import java.util.stream.Stream;
  */
 @Slf4j
 public class BaseService<T> extends ServiceImpl {
+
+
     @Resource
     protected HttpServletRequest request;
 
@@ -55,19 +56,7 @@ public class BaseService<T> extends ServiceImpl {
      * @param <T> a T object.
      * @return a {@link com.baomidou.mybatisplus.extension.plugins.pagination.Page} object.
      */
-    protected <T> Page<T> getPage() {
-        int index = 1;
-        // 页数
-        Integer cursor = ObjectUtils.defaultIfNull(TypeUtils.castToInt(request.getParameter(PageCons.PAGE_PAGE)),
-                index);
-        // 分页大小
-        Integer limit = ObjectUtils.defaultIfNull(TypeUtils.castToInt(request.getParameter(PageCons.PAGE_ROWS)),
-                PageCons.DEFAULT_LIMIT);
-        // 是否查询分页
-        limit = limit > PageCons.MAX_LIMIT ? PageCons.MAX_LIMIT : limit;
-        Page<T> page = new Page<>(cursor, limit);
-        return page;
-    }
+
 
     public PageInfo<T> pageList(Wrapper<T> queryWrapper) {
         int index = 1;
@@ -92,13 +81,6 @@ public class BaseService<T> extends ServiceImpl {
 
     private final static String QUERY = "query";
     private final static String DELETE = "delete";
-
-
-//    public void setBeanFactory(BeanFactory bFactory) throws BeansException {
-//        if (beanFactory == null && bFactory != null) {
-//            BaseService.beanFactory = bFactory;
-//        }
-//    }
 
 
     public <T> T cacheGetById(Serializable id) {

@@ -3,8 +3,10 @@ package top.alertcode.adelina.framework.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import top.alertcode.adelina.framework.commons.enums.OperateEnum;
@@ -26,7 +28,7 @@ import java.util.Set;
  * @version $Id: $Id
  */
 @Slf4j
-public class BaseController<T> {
+public class BaseController<M extends BaseService<T>, T> {
 
     /**
      * The Request.
@@ -41,6 +43,9 @@ public class BaseController<T> {
     @Resource
     protected HttpServletResponse response;
 
+
+    @Resource
+    ApplicationContext applicationContext;
     /**
      * 成功返回
      *
@@ -86,8 +91,10 @@ public class BaseController<T> {
     }
 
 
-    @Resource
-    protected BaseService baseService;
+    private M getBean() {
+        Class<M> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+        return applicationContext.getBean(StringUtils.firstToLowerCase(clazz.getSimpleName()), clazz);
+    }
 
 
     /**
@@ -98,7 +105,8 @@ public class BaseController<T> {
      */
     @GetMapping("/getById")
     public JsonResponse getById(@RequestParam Long id) {
-        return jsonData(baseService.cacheGetById(id));
+        Object o = getBean().cacheGetById(id);
+        return jsonData(o);
     }
 
     /**
@@ -109,7 +117,7 @@ public class BaseController<T> {
      */
     @PostMapping("/insertData")
     public JsonResponse insertData(@RequestBody T obj) {
-        return jsonData(baseService.cacheInsertData(obj));
+        return jsonData(getBean().cacheInsertData(obj));
     }
 
     /**
@@ -120,7 +128,7 @@ public class BaseController<T> {
      */
     @DeleteMapping("/deleteById")
     public JsonResponse deleteById(@RequestParam String id) {
-        return jsonData(baseService.cacheDeleteById(id));
+        return jsonData(getBean().cacheDeleteById(id));
     }
 
     /**
@@ -131,7 +139,7 @@ public class BaseController<T> {
      */
     @PutMapping("/updateById")
     public JsonResponse updateById(@RequestBody T obj) {
-        return jsonData(baseService.updateById(obj));
+        return jsonData(getBean().updateById(obj));
     }
 
     /**
@@ -143,7 +151,7 @@ public class BaseController<T> {
     @PostMapping("/allList")
     public JsonResponse allList(@RequestBody Map<String, Params> object) {
         QueryWrapper<T> wrapper = gettQueryWrapper(object);
-        return jsonData(baseService.list(wrapper));
+        return jsonData(getBean().list(wrapper));
     }
 
     /**
@@ -155,9 +163,10 @@ public class BaseController<T> {
      * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
      */
     @PostMapping("/pageList")
-    public JsonResponse pageList(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false) Integer pageSize, @RequestBody Map<String, Params> object) {
+    public JsonResponse pageList(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false)
+            Integer pageSize, @RequestBody Map<String, Params> object) {
         QueryWrapper<T> wrapper = gettQueryWrapper(object);
-        return jsonData(baseService.pageList(wrapper));
+        return jsonData(getBean().pageList(wrapper));
     }
 
     private QueryWrapper<T> gettQueryWrapper(@RequestBody Map<String, Params> object) {

@@ -24,7 +24,7 @@ public interface IBaseCacheService<T> {
      * @param <T>
      * @return
      */
-    T cacheGetById(Class<T> clazz, Serializable id);
+    T cacheGetById(Serializable id);
 
 
     /**
@@ -36,7 +36,7 @@ public interface IBaseCacheService<T> {
      * @param <T>
      * @return
      */
-    <T> T cacheGetById(Class<T> clazz, Serializable id, Model model);
+    <T> T cacheGetById(Serializable id, Model model);
 
     /**
      * 添加实体并添加缓存
@@ -54,7 +54,7 @@ public interface IBaseCacheService<T> {
      * @param id
      * @return
      */
-    boolean cacheDeleteById(Class clazz, Serializable id);
+    boolean cacheDeleteById(Serializable id);
 
     /**
      * 根据id更新缓存及数据库
@@ -80,14 +80,14 @@ public interface IBaseCacheService<T> {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
-    boolean cacheRemove(Class<T> clazz, Wrapper<T> queryWrapper);
+    boolean cacheRemove(Wrapper<T> queryWrapper);
 
     /**
      * 删除（根据ID 批量删除）数据库及缓存
      *
      * @param idList 主键ID列表
      */
-    boolean cacheDeleteByIds(Class<T> clazz, Long[] idList);
+    boolean cacheDeleteByIds(Long[] idList);
 
 
     /**

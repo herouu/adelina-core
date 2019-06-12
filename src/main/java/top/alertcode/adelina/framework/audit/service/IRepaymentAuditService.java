@@ -1,4 +1,5 @@
-package top.alertcode.adelina.framework.entity.service;
+package top.alertcode.adelina.framework.audit.service;
+
 
 /**
  * <p>
@@ -6,7 +7,7 @@ package top.alertcode.adelina.framework.entity.service;
  * </p>
  *
  * @author bob
- * @since 2019-06-03
+ * @since 2019-06-12
  */
 public interface IRepaymentAuditService {
 

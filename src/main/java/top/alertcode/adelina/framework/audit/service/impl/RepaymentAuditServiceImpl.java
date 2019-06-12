@@ -1,8 +1,8 @@
-package top.alertcode.adelina.framework.entity.service.impl;
+package top.alertcode.adelina.framework.audit.service.impl;
 
 import org.springframework.stereotype.Service;
-import top.alertcode.adelina.framework.entity.entity.RepaymentAudit;
-import top.alertcode.adelina.framework.entity.service.IRepaymentAuditService;
+import top.alertcode.adelina.framework.audit.entity.RepaymentAudit;
+import top.alertcode.adelina.framework.audit.service.IRepaymentAuditService;
 import top.alertcode.adelina.framework.service.impl.BaseService;
 
 /**
@@ -11,7 +11,7 @@ import top.alertcode.adelina.framework.service.impl.BaseService;
  * </p>
  *
  * @author bob
- * @since 2019-06-03
+ * @since 2019-06-12
  */
 @Service
 public class RepaymentAuditServiceImpl extends BaseService<RepaymentAudit> implements IRepaymentAuditService {

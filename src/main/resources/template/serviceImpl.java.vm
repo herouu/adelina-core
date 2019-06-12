@@ -3,8 +3,6 @@ package ${package.ServiceImpl}import org.springframework.stereotype.Service;
 ;
 ${package.Entity}
         .${entity};
-${package.Mapper}
-        .${table.mapperName};
 ${package.Service}
         .${table.serviceName};
 ${superServiceImplClassPackage}
@@ -20,11 +18,11 @@ ${superServiceImplClassPackage}
  */
 @Service
 #if(${kotlin})
-open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+open class ${table.serviceImplName} : ${superServiceImplClass}< ${entity}>(), ${table.serviceName} {
 
         }
 #else
-        public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}>implements ${table.serviceName} {
+        public class ${table.serviceImplName} extends ${superServiceImplClass}<${entity}>implements ${table.serviceName} {
 
         }
 #end

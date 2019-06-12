@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.apache.commons.lang3.StringUtils;
 import top.alertcode.adelina.framework.controller.BaseController;
+import top.alertcode.adelina.framework.service.impl.BaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,7 @@ public class CodeGenerator {
             }
         });
         */
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -102,9 +104,10 @@ public class CodeGenerator {
 
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        //templateConfig.setEntity("templates/entity2.java");
-        // templateConfig.setService();
-        // templateConfig.setController();
+        templateConfig.setEntity("template/entity.java");
+        templateConfig.setService("template/service.java");
+        templateConfig.setServiceImpl("template/serviceImpl.java");
+        templateConfig.setController("template/controller.java");
 
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
@@ -117,8 +120,9 @@ public class CodeGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.setSuperControllerClass(BaseController.class.getName());
+        strategy.setSuperServiceImplClass(BaseService.class.getName());
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
-        strategy.setSuperEntityColumns("id");
+//        strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
