@@ -208,30 +208,76 @@ public class UserServiceImpl extends BaseService implements IUserService {
 &emsp;&emsp;对于简单的单表业务，可以直接使用，对于复杂的业务需要自定义接口或重写接口
 
 ```java
+   /**
+     * <p>getById.</p>
+     *
+     * @param id a {@link java.lang.Long} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
     @GetMapping("/getById")
     public JsonResponse getById(@RequestParam Long id) {
-        Class superClassGenericType = ReflectionKit.getSuperClassGenericType(getClass(), 0);
-        return jsonData(baseService.cacheGetById(superClassGenericType, id));
+        Object o = getBean().cacheGetById(id);
+        return jsonData(o);
     }
 
-    @PutMapping("/insertData")
+    /**
+     * <p>insertData.</p>
+     *
+     * @param obj a T object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
+    @PostMapping("/insertData")
     public JsonResponse insertData(@RequestBody T obj) {
-        return jsonData(baseService.cacheInsertData(obj));
+        return jsonData(getBean().cacheInsertData(obj));
     }
 
-    @PutMapping("/deleteById")
+    /**
+     * <p>deleteById.</p>
+     *
+     * @param id a {@link java.lang.String} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
+    @DeleteMapping("/deleteById")
     public JsonResponse deleteById(@RequestParam String id) {
-        return jsonData(baseService.cacheDeleteById(id));
+        return jsonData(getBean().cacheDeleteById(id));
     }
 
+    /**
+     * <p>updateById.</p>
+     *
+     * @param obj a T object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
     @PutMapping("/updateById")
     public JsonResponse updateById(@RequestBody T obj) {
-        return jsonData(baseService.updateById(obj));
+        return jsonData(getBean().updateById(obj));
     }
 
-    @GetMapping("/allList")
-    public JsonResponse allList() {
-        return jsonData(baseService.list());
+    /**
+     * <p>allList.</p>
+     *
+     * @param object a {@link java.util.Map} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
+    @PostMapping("/allList")
+    public JsonResponse allList(@RequestBody Map<String, Params> object) {
+        QueryWrapper<T> wrapper = gettQueryWrapper(object);
+        return jsonData(getBean().list(wrapper));
+    }
+
+    /**
+     * <p>pageList.</p>
+     *
+     * @param pageNum  a {@link java.lang.Integer} object.
+     * @param pageSize a {@link java.lang.Integer} object.
+     * @param object   a {@link java.util.Map} object.
+     * @return a {@link top.alertcode.adelina.framework.responses.JsonResponse} object.
+     */
+    @PostMapping("/pageList")
+    public JsonResponse pageList(@RequestParam(required = false) Integer pageNum, @RequestParam(required = false)
+            Integer pageSize, @RequestBody Map<String, Params> object) {
+        QueryWrapper<T> wrapper = gettQueryWrapper(object);
+        return jsonData(getBean().pageList(wrapper));
     }
     
 ```
