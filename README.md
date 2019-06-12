@@ -1,6 +1,6 @@
 
 <div width="100%" align="center">
-    <img src='/doc/img/adelina-core.png'/>
+    <img src='https://github.com/alertcode/adelina-core/blob/master/doc/img/adelina-core.png'/>
 </div>
 
 
