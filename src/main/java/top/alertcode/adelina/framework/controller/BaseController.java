@@ -92,7 +92,7 @@ public class BaseController<M extends BaseService<T>, T> {
 
 
     private M getBean() {
-        Class<M> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+        Class<M> clazz = (Class<M>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
         return applicationContext.getBean(StringUtils.firstToLowerCase(clazz.getSimpleName()), clazz);
     }
 

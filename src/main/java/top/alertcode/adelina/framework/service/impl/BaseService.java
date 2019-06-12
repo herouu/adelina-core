@@ -53,7 +53,6 @@ public class BaseService<T> extends ServiceImpl {
     /**
      * <p>getPage.</p>
      *
-     * @param <T> a T object.
      * @return a {@link com.baomidou.mybatisplus.extension.plugins.pagination.Page} object.
      */
 
@@ -88,10 +87,13 @@ public class BaseService<T> extends ServiceImpl {
     }
 
     private <T> T cacheGetByIdSegmentLock(Serializable id) {
-        Class<T> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+        Class<T> clazz = (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             log.info("从缓存中取数据：线程={}", Thread.currentThread().getId());
-            return JsonUtils.readValue(tableCacheDao.get(getHName(clazz), Objects.toString(id)), clazz);
+            Object o = tableCacheDao.get(getHName(clazz), Objects.toString(id));
+            if (Objects.nonNull(o)) {
+                return (T) o;
+            }
         }
         boolean lock = false;
         final String lockKey = QUERY + getHName(clazz) + id;
@@ -126,16 +128,18 @@ public class BaseService<T> extends ServiceImpl {
 
 
     private <T> T cacheGetByIdLock(Serializable id) {
-        Class<T> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+        Class<T> clazz = (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
         if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
             log.info("从缓存中取数据：线程={}", Thread.currentThread().getId());
-            return JsonUtils.readValue(tableCacheDao.get(getHName(clazz), Objects.toString(id)), clazz);
+            Object o = tableCacheDao.get(getHName(clazz), Objects.toString(id));
+            return (T) o;
         }
         lock.lock();
         try {
             if (tableCacheDao.exists(getHName(clazz), Objects.toString(id))) {
                 log.info("从缓存中取数据：线程={}", Thread.currentThread().getId());
-                return JsonUtils.readValue(tableCacheDao.get(getHName(clazz), Objects.toString(id)), clazz);
+                Object o = tableCacheDao.get(getHName(clazz), Objects.toString(id));
+                return (T) o;
             }
             return getT(id, getHName(clazz));
         } finally {
@@ -149,13 +153,13 @@ public class BaseService<T> extends ServiceImpl {
             return null;
         }
         log.info("从数据库中取数据：线程={}", Thread.currentThread().getId());
-        tableCacheDao.add(hName, getId(t), JsonUtils.writeValueAsString(t));
+        tableCacheDao.add(hName, getId(t), t);
         return t;
     }
 
     public <T> T cacheInsertData(T entity) {
         super.save(entity);
-        tableCacheDao.add(getHName(entity.getClass()), getId(entity), JsonUtils.writeValueAsString(entity));
+        tableCacheDao.add(getHName(entity.getClass()), getId(entity), entity);
         return entity;
     }
 
@@ -177,7 +181,7 @@ public class BaseService<T> extends ServiceImpl {
         if (tableCacheDao.exists(getHName(entity.getClass()), getId(entity))) {
             boolean b = super.updateById(entity);
             tableCacheDao.delete(getHName(entity.getClass()), getId(entity));
-            tableCacheDao.add(getHName(entity.getClass()), getId(entity), JsonUtils.writeValueAsString(entity));
+            tableCacheDao.add(getHName(entity.getClass()), getId(entity), entity);
             return b;
         }
         return false;
@@ -226,7 +230,7 @@ public class BaseService<T> extends ServiceImpl {
         if (ArrayUtils.isNotEmpty(idList)) {
             lock.lock();
             List<String> ids = Stream.of(idList).map(Objects::toString).collect(Collectors.toList());
-            Class<T> clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
+            Class<T> clazz = (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), 0);
             try {
                 List<String> collect = tableCacheDao.mutiGet(getHName(clazz), ids)
                         .stream().filter(Objects::nonNull).collect(Collectors.toList());

@@ -27,7 +27,7 @@ public class TableCacheDao {
      * @param key       a {@link java.lang.String} object.
      * @param value     a {@link java.lang.String} object.
      */
-    public void add(String tableName, String key, String value) {
+    public void add(String tableName, String key, Object value) {
         redisTemplate.opsForHash().put(tableName, key, value);
     }
 
@@ -127,8 +127,8 @@ public class TableCacheDao {
      * @param key a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
      */
-    public String get(String tableName, String key) {
-        return Objects.toString(redisTemplate.opsForHash().get(tableName, key));
+    public Object get(String tableName, String key) {
+        return redisTemplate.opsForHash().get(tableName, key);
     }
 
     /**
