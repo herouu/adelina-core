@@ -1,12 +1,9 @@
-package ${package.ServiceImpl}import org.springframework.stereotype.Service;
+package ${package.ServiceImpl};
 
-;
-${package.Entity}
-        .${entity};
-${package.Service}
-        .${table.serviceName};
-${superServiceImplClassPackage}
-        ;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -20,9 +17,9 @@ ${superServiceImplClassPackage}
 #if(${kotlin})
 open class ${table.serviceImplName} : ${superServiceImplClass}< ${entity}>(), ${table.serviceName} {
 
-        }
+}
 #else
-        public class ${table.serviceImplName} extends ${superServiceImplClass}<${entity}>implements ${table.serviceName} {
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${entity}> implements ${table.serviceName} {
 
-        }
+}
 #end

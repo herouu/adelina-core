@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import org.apache.commons.lang3.StringUtils;
 import top.alertcode.adelina.framework.controller.BaseController;
@@ -47,6 +48,7 @@ public class CodeGenerator {
         gc.setAuthor("bob");
         gc.setOpen(false);
         gc.setSwagger2(true); //实体属性 Swagger2 注解
+        gc.setDateType(DateType.ONLY_DATE);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
@@ -73,7 +75,7 @@ public class CodeGenerator {
             }
         };
         // 如果模板引擎是 velocity
-        String templatePath = "/templates/mapper.xml.vm";
+        String templatePath = "/templates/mapper.xml.vm" ;
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出

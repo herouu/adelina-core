@@ -1,5 +1,6 @@
 package ${package.Controller};
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 #if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import ${package.ServiceImpl}.${table.serviceImplName};
  * @author ${author}
  * @since ${date}
  */
+@Api(tags = "$!{table.comment}")
 #if(${restControllerStyle})
 @RestController
 #else

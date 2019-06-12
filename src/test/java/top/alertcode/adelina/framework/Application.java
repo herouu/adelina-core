@@ -52,6 +52,7 @@ public class Application {
         return redisTemplate;
     }
 
+
     @Autowired
     private Environment environment;
 
