@@ -16,17 +16,18 @@ import java.util.Date;
  * 系统用户表
  * </p>
  *
- * @author bob
+ * @author alert
  * @since 2019-06-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "SysUser对象" , description = "系统用户表")
+@ApiModel(value = "SysUser对象", description = "系统用户表")
 public class SysUser implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id" , type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty(value = "用户名")

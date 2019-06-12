@@ -1,6 +1,5 @@
-package top.alertcode.adelina.framework;
+package top.alertcode.adelina.framework.generator;
 
-import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
@@ -8,44 +7,45 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import top.alertcode.adelina.framework.controller.BaseController;
 import top.alertcode.adelina.framework.service.impl.BaseService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
+
+@Component
 public class CodeGenerator {
 
-    /**
-     * <p>
-     * 读取控制台内容
-     * </p>
-     */
-    public static String scanner(String tip) {
-        Scanner scanner = new Scanner(System.in);
-        StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
-        if (scanner.hasNext()) {
-            String ipt = scanner.next();
-            if (StringUtils.isNotEmpty(ipt)) {
-                return ipt;
-            }
-        }
-        throw new MybatisPlusException("请输入正确的" + tip + "！");
-    }
+    @Autowired
+    private Environment environment;
 
-    public static void main(String[] args) {
+
+    /**
+     * 代码生成器
+     *
+     * @param author            the author 作者名称
+     * @param modelName         the model name 模块名称
+     * @param tableNames        the table names 表名 多个表'，'分割
+     * @param parentPackageName the parent package name 包名
+     * @param env               the env  包路径所在环境  dev or test
+     */
+    public void exec(String author, String modelName, String tableNames, String parentPackageName, String env) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         final String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("bob");
+        if ("test".equals(env)) {
+            gc.setOutputDir(projectPath + "/src/test/java");
+        } else {
+            gc.setOutputDir(projectPath + "/src/main/java");
+        }
+        gc.setAuthor(author);
         gc.setOpen(false);
         gc.setSwagger2(true); //实体属性 Swagger2 注解
         gc.setDateType(DateType.ONLY_DATE);
@@ -53,18 +53,17 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/adelina?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL" +
-                "=false");
+        dsc.setUrl(environment.getProperty("spring.datasource.url"));
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setDriverName(environment.getProperty("spring.datasource.driver-class-name"));
+        dsc.setUsername(environment.getProperty("spring.datasource.username"));
+        dsc.setPassword(environment.getProperty("spring.datasource.password"));
         mpg.setDataSource(dsc);
 
         // 包配置
         final PackageConfig pc = new PackageConfig();
-        pc.setModuleName(scanner("模块名"));
-        pc.setParent("top.alertcode.adelina.framework");
+        pc.setModuleName(modelName);
+        pc.setParent(parentPackageName);
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -75,7 +74,7 @@ public class CodeGenerator {
             }
         };
         // 如果模板引擎是 velocity
-        String templatePath = "/templates/mapper.xml.vm" ;
+        String templatePath = "/templates/mapper.xml.vm";
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
@@ -123,7 +122,7 @@ public class CodeGenerator {
         strategy.setRestControllerStyle(true);
         strategy.setSuperControllerClass(BaseController.class.getName());
         strategy.setSuperServiceImplClass(BaseService.class.getName());
-        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+        strategy.setInclude(tableNames.split(","));
 //        strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");

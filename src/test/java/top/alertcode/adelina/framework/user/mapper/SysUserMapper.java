@@ -8,7 +8,7 @@ import top.alertcode.adelina.framework.user.entity.SysUser;
  * 系统用户表 Mapper 接口
  * </p>
  *
- * @author bob
+ * @author alert
  * @since 2019-06-12
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {

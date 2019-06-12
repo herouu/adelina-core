@@ -10,7 +10,7 @@ import java.util.HashMap;
 /**
  * cache层接口
  *
- * @author fuqiang
+ * @author alertcode
  * @date 2019-06-05
  * @copyright fero.com.cn
  */
@@ -19,18 +19,15 @@ public interface IBaseCacheService<T> {
     /**
      * 根据实体id获取实体，若缓存不存在更新实体
      *
-     * @param clazz
      * @param id
-     * @param <T>
      * @return
      */
-    T cacheGetById(Serializable id);
+    <T> T cacheGetById(Serializable id);
 
 
     /**
      * 根据实体id获取实体，若缓存不存在更新实体
      *
-     * @param clazz
      * @param id
      * @param model 锁类型 分段锁->缓存熔断 重入锁->线程阻塞
      * @param <T>
@@ -50,7 +47,6 @@ public interface IBaseCacheService<T> {
     /**
      * 根据id 删除缓存及数据库
      *
-     * @param clazz
      * @param id
      * @return
      */
@@ -68,7 +64,6 @@ public interface IBaseCacheService<T> {
      * 批量保存 数据库及缓存
      *
      * @param entityList
-     * @param <T>
      * @return
      */
     boolean cacheSaveBatch(Collection<T> entityList);
@@ -109,7 +104,6 @@ public interface IBaseCacheService<T> {
      *
      * @param entityList
      * @param map
-     * @param <T>
      */
     void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
 }

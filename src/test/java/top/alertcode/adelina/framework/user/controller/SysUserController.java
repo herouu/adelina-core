@@ -12,7 +12,7 @@ import top.alertcode.adelina.framework.user.service.impl.SysUserServiceImpl;
  * 系统用户表 前端控制器
  * </p>
  *
- * @author bob
+ * @author alert
  * @since 2019-06-12
  */
 @Api(tags = "系统用户表")

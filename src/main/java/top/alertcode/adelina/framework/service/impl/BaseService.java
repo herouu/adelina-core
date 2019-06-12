@@ -18,6 +18,7 @@ import top.alertcode.adelina.framework.commons.constant.PageCons;
 import top.alertcode.adelina.framework.commons.enums.Model;
 import top.alertcode.adelina.framework.exception.FrameworkUtilException;
 import top.alertcode.adelina.framework.exception.ProjectException;
+import top.alertcode.adelina.framework.service.IBaseCacheService;
 import top.alertcode.adelina.framework.utils.ArrayUtils;
 import top.alertcode.adelina.framework.utils.JsonUtils;
 import top.alertcode.adelina.framework.utils.NumberUtils;
@@ -44,7 +45,7 @@ import java.util.stream.Stream;
  * @version $Id: $Id
  */
 @Slf4j
-public class BaseService<T> extends ServiceImpl {
+public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> {
 
 
     @Resource
@@ -254,7 +255,7 @@ public class BaseService<T> extends ServiceImpl {
      * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
      */
     @Transactional(rollbackFor = Exception.class)
-    public synchronized <T> void cacheUpdate(T entity, Wrapper<T> updateWrapper) {
+    public synchronized void cacheUpdate(T entity, Wrapper<T> updateWrapper) {
         update(entity, updateWrapper);
         List<T> list = list(updateWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
@@ -278,6 +279,11 @@ public class BaseService<T> extends ServiceImpl {
             Collection<T> collection = listByIds(entityList.stream().map(this::getId).collect(Collectors.toList()));
             cacheBatchReset(collection);
         }
+    }
+
+    @Override
+    public void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map) {
+
     }
 
     private synchronized void cacheBatchReset(Collection<T> entityList) {

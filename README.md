@@ -44,18 +44,26 @@ spring:
 &emsp;&emsp;以下是缓存的接口，泛型 `<T>`代表数据库实体类：
 
 ```java
-
-public interface IBaseCacheService {
+public interface IBaseCacheService<T> {
 
     /**
      * 根据实体id获取实体，若缓存不存在更新实体
      *
-     * @param clazz
      * @param id
+     * @return
+     */
+     <T> T cacheGetById(Serializable id);
+
+
+    /**
+     * 根据实体id获取实体，若缓存不存在更新实体
+     *
+     * @param id
+     * @param model 锁类型 分段锁->缓存熔断 重入锁->线程阻塞
      * @param <T>
      * @return
      */
-    <T> T cacheGetById(Class<T> clazz, Serializable id);
+    <T> T cacheGetById(Serializable id, Model model);
 
     /**
      * 添加实体并添加缓存
@@ -69,11 +77,10 @@ public interface IBaseCacheService {
     /**
      * 根据id 删除缓存及数据库
      *
-     * @param clazz
      * @param id
      * @return
      */
-    boolean cacheDeleteById(Class clazz, Serializable id);
+    boolean cacheDeleteById(Serializable id);
 
     /**
      * 根据id更新缓存及数据库
@@ -87,10 +94,9 @@ public interface IBaseCacheService {
      * 批量保存 数据库及缓存
      *
      * @param entityList
-     * @param <T>
      * @return
      */
-    <T> boolean cacheSaveBatch(Collection<T> entityList);
+    boolean cacheSaveBatch(Collection<T> entityList);
 
 
     /**
@@ -99,14 +105,14 @@ public interface IBaseCacheService {
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
-    <T> boolean cacheRemove(Wrapper<T> queryWrapper);
+    boolean cacheRemove(Wrapper<T> queryWrapper);
 
     /**
      * 删除（根据ID 批量删除）数据库及缓存
      *
      * @param idList 主键ID列表
      */
-    <T> boolean cacheDeleteByIds(Collection<T> idList);
+    boolean cacheDeleteByIds(Long[] idList);
 
 
     /**
@@ -115,22 +121,21 @@ public interface IBaseCacheService {
      * @param entity        实体对象
      * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
      */
-    <T> void cacheUpdate(T entity, Wrapper<T> updateWrapper);
+    void cacheUpdate(T entity, Wrapper<T> updateWrapper);
 
 
     /**
      * 根据ID 批量更新数据库与缓存
      */
-    <T> void cacheUpdateBatchById(Collection<T> entityList);
+    void cacheUpdateBatchById(Collection<T> entityList);
 
     /**
      * 批量更新数据库及缓存
      *
      * @param entityList
      * @param map
-     * @param <T>
      */
-    <T> void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
+    void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
 ```
 
 ### 分布式锁 
@@ -232,3 +237,29 @@ public class UserServiceImpl extends BaseService implements IUserService {
 ```
 
 ### 代码生成器
+#### 接口
+```java
+  /**
+     * 代码生成器
+     *
+     * @param author            the author 作者名称
+     * @param modelName         the model name 模块名称
+     * @param tableNames        the table names 表名 多个表'，'分割
+     * @param parentPackageName the parent package name 包名
+     * @param env               the env  包路径所在环境  dev or test
+     */
+    public void exec(String author, String modelName, String tableNames, String parentPackageName, String env) 
+```
+
+#### 使用
+```java
+    
+ @Autowired
+ private CodeGenerator codeGenerator;   
+    
+ @Test
+    public void testExec() {
+        codeGenerator.exec("alert", "user", "sys_user", "top.alertcode.adelina.framework", "test");
+    }
+
+```
