@@ -33,7 +33,21 @@ spring:
     password: ENC(hgVNi5XVRechSZcGj0utvubfesSQqkJ7)
 ```
 ### 单元测试 使用junit的超集，testNG
-* 后续满足接口的并发测试，考虑使用testNG测试框架
+* 满足接口的并发测试，使用testNG测试框架
+* 使用
+```java
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class BaseTest extends AbstractTestNGSpringContextTests {
+
+
+}
+```
 
 ### 缓存
 &emsp;&emsp;考虑并发场景下的缓存与数据库的问题，预防缓存雪崩（暂未考虑缓存击穿下的布隆过滤器）
@@ -204,7 +218,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
     }
 }
 ```
-### BaseController 提供5个默认的方法 
+### BaseController 提供6个默认的方法 
 &emsp;&emsp;对于简单的单表业务，可以直接使用，对于复杂的业务需要自定义接口或重写接口
 
 ```java
