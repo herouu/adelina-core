@@ -21,8 +21,7 @@ jasypt:
 形如`ENC(**)`为jasypt的加密后的密文，下例中将mysql、redis的一些配置信息做了加密处理
 
 ```yaml
-spring:
-  datasource:
+ datasource:
     url: ENC(rax4pFsibTzq+Gwwr4zom4mR1fK3HMMwLuFQYRHinrMkM1j0nwBDTi9XIVRkstB6jlFvLm8eY+W4M8lE1mQ2ZWCm60KlAmC1UN84x+E/r1CX2kLQh1Tutw3C4oExeGATTNoXAkeFqo/5ReUZ5nX9cg==)
     username: ENC(vunokJzoW3WYocMPrhbUrA==)
     password: ENC(E7WcA36p0hEAo+86ixtl2g==)
