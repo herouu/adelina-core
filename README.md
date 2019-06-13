@@ -180,9 +180,6 @@ public interface IBaseCacheService<T> {
     }
 
 ```
-* zookeeper TODO://暂未实现
-
-### 分布式事务 TODO:暂未实现
 
 ### 列表分页 
 
@@ -328,3 +325,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
     }
 
 ```
+
+### 分布式事务 todo 
+目前没有什么实际应用的场景，暂不整合。不了解分布式事务的请参考这篇文章【[再有人问你分布式事务，把这篇扔给他
+](https://juejin.im/post/5bbb0d8df265da0abd3533a5)】,有需要请关注这个大厂开源项目【[seata](https://github.com/seata/seata)】
+ 
