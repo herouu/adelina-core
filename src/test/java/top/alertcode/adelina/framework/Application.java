@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring4all.swagger.EnableSwagger2Doc;
 import org.mybatis.spring.annotation.MapperScan;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -56,17 +59,14 @@ public class Application {
     @Autowired
     private Environment environment;
 
-//    @Bean
-//    public RedissonClient getRedisson() {
-//        Config config = new Config();
-//        //单机模式  依次设置redis地址和密码
-//        config.useSingleServer().
-//                setAddress("redis://" + environment.getProperty("spring.redis.host") + ":" + environment
-//                .getProperty("spring.redis.port")).
-//                setPassword(environment.getProperty("spring.redis.password"));
-//        config.setNettyThreads(128);
-//        config.setThreads(20);
-//        return Redisson.create(config);
-//    }
+    @Bean
+    public RedissonClient redissonClient() {
+        Config config = new Config();
+        //单机模式  依次设置redis地址和密码
+        String format = String.format("redis://%s:%s", environment.getProperty("spring.redis.host"),
+                environment.getProperty("spring.redis.port"));
+        config.useSingleServer().setAddress(format);
+        return Redisson.create(config);
+    }
 }
 

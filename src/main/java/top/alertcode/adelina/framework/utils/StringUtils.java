@@ -31,4 +31,10 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static boolean notEqualsIgnoreCase(final CharSequence cs1, final CharSequence cs2) {
         return !equalsIgnoreCase(cs1, cs2);
     }
+
+    private final static String LOCK_KEY = "LOCK_KEY:LOCK_";
+
+    public static String getLockKey(String key) {
+        return LOCK_KEY + key;
+    }
 }

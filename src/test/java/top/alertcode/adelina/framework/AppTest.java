@@ -26,8 +26,8 @@ public class AppTest {
         //要加密的数据（数据库的用户名或密码）
         String username = textEncryptor.encrypt("root");
         String password = textEncryptor.encrypt("123456");
-        String host = textEncryptor.encrypt("localhost");
-        String url = textEncryptor.encrypt("jdbc:mysql://localhost:3306/adelina?characterEncoding=utf8" +
+        String host = textEncryptor.encrypt("127.0.0.1");
+        String url = textEncryptor.encrypt("jdbc:mysql://127.0.0.1:3306/adelina?characterEncoding=utf8" +
                 "&serverTimezone=Asia/Shanghai&useSSL=false");
         System.out.println("hosts:" + host);
         System.out.println("username:" + username);
