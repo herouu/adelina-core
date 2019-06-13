@@ -23,21 +23,24 @@ jasypt:
 ```yaml
 spring:
   datasource:
-    url: ENC(YHeZy7uYWls7/xwSY9gnau+68QFs0i4fA7TmZbijkE+oKiimwZVJOt3DOouWEiM8npx7vhzVt5CgcKya/eNamd6FZoL87jU5b2hjDwPgDafwuB3iJwc/UVWapM2kVE5C4St5dK7pmfHeO51slu9WiiF2vH4/cqJINrDdNx305jI=)
-    username: ENC(+8iClaFiWU5/OaZ1zzJPzw==)
-    password: ENC(c2oZh4lcJK3Q+w7MSIL2pQ==)
-    driver-class-name:  com.mysql.cj.jdbc.Driver # mysql数据库新驱动class
+    url: ENC(rax4pFsibTzq+Gwwr4zom4mR1fK3HMMwLuFQYRHinrMkM1j0nwBDTi9XIVRkstB6jlFvLm8eY+W4M8lE1mQ2ZWCm60KlAmC1UN84x+E/r1CX2kLQh1Tutw3C4oExeGATTNoXAkeFqo/5ReUZ5nX9cg==)
+    username: ENC(vunokJzoW3WYocMPrhbUrA==)
+    password: ENC(E7WcA36p0hEAo+86ixtl2g==)
+    driver-class-name:  com.mysql.cj.jdbc.Driver
   redis:
-    host: ENC(oiy7f0H5Ttd7PnSlyZjSrcxavFjsD01L30SV5LXDXyk=)
+    host: ENC(xVyDwkDlZh+aY2OJ9G2CN+niaGr85SvK)
     port: 6379
     database: 0
-    password: ENC(hgVNi5XVRechSZcGj0utvubfesSQqkJ7)
+    password:
 ```
+
 ### 单元测试 使用junit的超集，testNG
 
 * 满足接口的并发测试，使用testNG测试框架
 * 使用
+
 ```java
+
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
