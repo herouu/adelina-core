@@ -9,6 +9,7 @@
 
 ### 特性
 #### application.yml敏感信息的加密
+
 * 利用jasypt进行加密，添加jasypt加密salt
 
 ```yaml
@@ -33,6 +34,7 @@ spring:
     password: ENC(hgVNi5XVRechSZcGj0utvubfesSQqkJ7)
 ```
 ### 单元测试 使用junit的超集，testNG
+
 * 满足接口的并发测试，使用testNG测试框架
 * 使用
 ```java
@@ -50,6 +52,7 @@ public class BaseTest extends AbstractTestNGSpringContextTests {
 ```
 
 ### 缓存
+
 &emsp;&emsp;考虑并发场景下的缓存与数据库的问题，预防缓存雪崩（暂未考虑缓存击穿下的布隆过滤器）
 &emsp;&emsp;对于分页列表带有条件查询的未进行缓存处理的定义，主要出于以下考虑
 * 对于数据量不是很大的情况可以优化数据库索引同样可以满足需求
@@ -147,6 +150,7 @@ public interface IBaseCacheService<T> {
 ```
 
 ### 分布式锁 
+
 * 基于redisson，使用redisson的
 `RLock lock = redisson.getLock("lockName")`
 
@@ -213,6 +217,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 }
 ```
 ### BaseController 提供6个默认的方法 
+
 &emsp;&emsp;对于简单的单表业务，可以直接使用，对于复杂的业务需要自定义接口或重写接口
 
 ```java
@@ -292,6 +297,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 
 ### 代码生成器
 #### 接口
+
 ```java
   /**
      * 代码生成器
@@ -306,8 +312,8 @@ public class UserServiceImpl extends BaseService implements IUserService {
 ```
 
 #### 使用
+
 ```java
-    
  @Autowired
  private CodeGenerator codeGenerator;   
     
