@@ -55,9 +55,8 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
      * <p>getPage.</p>
      *
      * @return a {@link com.baomidou.mybatisplus.extension.plugins.pagination.Page} object.
+     * @param queryWrapper a {@link com.baomidou.mybatisplus.core.conditions.Wrapper} object.
      */
-
-
     public PageInfo<T> pageList(Wrapper<T> queryWrapper) {
         int index = 1;
         Integer cursor = ObjectUtils.defaultIfNull(TypeUtils.castToInt(request.getParameter(PageCons.PAGE_PAGE)),
@@ -83,6 +82,9 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     private final static String DELETE = "delete";
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T> T cacheGetById(Serializable id) {
         return cacheGetByIdSegmentLock(id);
@@ -114,12 +116,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
         }
     }
 
-    /**
-     * @param id
-     * @param model SegmentLock 分段锁 ReentrantLock 重入锁
-     * @param <T>
-     * @return
-     */
+    /** {@inheritDoc} */
     @Override
     public <T> T cacheGetById(Serializable id, Model model) {
         if (model == Model.SegmentLock) {
@@ -160,6 +157,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
         return t;
     }
 
+    /** {@inheritDoc} */
     @Override
     public <T> T cacheInsertData(T entity) {
         super.save(entity);
@@ -168,6 +166,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     }
 
 
+    /** {@inheritDoc} */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized boolean cacheDeleteById(Serializable id) {
@@ -181,6 +180,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized boolean cacheUpdateById(Object entity) {
@@ -194,6 +194,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     }
 
 
+    /** {@inheritDoc} */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized boolean cacheSaveBatch(Collection<T> entityList) {
@@ -211,11 +212,10 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
 
 
     /**
-     * 根据 entity 条件，删除记录
+     * {@inheritDoc}
      *
-     * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
+     * 根据 entity 条件，删除记录
      */
-
     @Override
     public synchronized boolean cacheRemove(Wrapper<T> queryWrapper) {
         List<T> list = list(queryWrapper);
@@ -230,9 +230,9 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     }
 
     /**
-     * 删除（根据ID 批量删除）
+     * {@inheritDoc}
      *
-     * @param idList 主键ID列表
+     * 删除（根据ID 批量删除）
      */
     @Override
     public boolean cacheDeleteByIds(Long[] idList) {
@@ -257,10 +257,9 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
 
 
     /**
-     * 根据 whereEntity 条件，更新记录
+     * {@inheritDoc}
      *
-     * @param entity        实体对象
-     * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
+     * 根据 whereEntity 条件，更新记录
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -280,6 +279,8 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
 
 
     /**
+     * {@inheritDoc}
+     *
      * 根据ID 批量更新
      */
     @Override

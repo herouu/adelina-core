@@ -6,7 +6,7 @@ public class OperateEnumTest {
 
     @Test
     public void testGetOperateEnum() {
-        OperateEnum and = OperateEnum.getOperateEnum("and");
-        OperateEnum in = OperateEnum.getOperateEnum("ss");
+//        OperateEnum and = OperateEnum.getOperateEnum("and");
+//        OperateEnum in = OperateEnum.getOperateEnum("ss");
     }
 }
