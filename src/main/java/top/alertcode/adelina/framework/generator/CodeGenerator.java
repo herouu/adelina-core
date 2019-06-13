@@ -18,6 +18,12 @@ import java.util.List;
 
 
 @Component
+/**
+ * <p>CodeGenerator class.</p>
+ *
+ * @author alertcode
+ * @version $Id: $Id
+ */
 public class CodeGenerator {
 
     @Autowired

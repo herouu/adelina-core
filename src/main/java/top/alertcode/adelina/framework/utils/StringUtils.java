@@ -34,6 +34,12 @@ public final class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     private final static String LOCK_KEY = "LOCK_KEY:LOCK_";
 
+    /**
+     * <p>getLockKey.</p>
+     *
+     * @param key a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
+     */
     public static String getLockKey(String key) {
         return LOCK_KEY + key;
     }

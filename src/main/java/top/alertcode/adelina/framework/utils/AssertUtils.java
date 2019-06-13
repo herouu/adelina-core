@@ -20,6 +20,9 @@ public final class AssertUtils extends Assert {
      * {@inheritDoc}
      *
      * <p>isTrue.</p>
+     *
+     * @param expression a boolean.
+     * @param message a {@link java.lang.String} object.
      */
     public static void isTrue(boolean expression, String message) {
         if (!expression) {
@@ -73,6 +76,9 @@ public final class AssertUtils extends Assert {
      * {@inheritDoc}
      *
      * <p>notNull.</p>
+     *
+     * @param object a {@link java.lang.Object} object.
+     * @param message a {@link java.lang.String} object.
      */
     public static void notNull(Object object, String message) {
         if (object == null) {
@@ -237,10 +243,6 @@ public final class AssertUtils extends Assert {
      * {@inheritDoc}
      *
      * <p>isInstanceOf.</p>
-     *
-     * @param type a {@link java.lang.Class} object.
-     * @param obj a {@link java.lang.Object} object.
-     * @param message a {@link java.lang.String} object.
      */
     public static void isInstanceOf(Class<?> type, Object obj, String message) {
         notNull(type, "Type to check against must not be null");
@@ -261,10 +263,6 @@ public final class AssertUtils extends Assert {
      * {@inheritDoc}
      *
      * <p>isAssignable.</p>
-     *
-     * @param superType a {@link java.lang.Class} object.
-     * @param subType a {@link java.lang.Class} object.
-     * @param message a {@link java.lang.String} object.
      */
     public static void isAssignable(Class<?> superType, Class<?> subType, String message) {
         notNull(superType, "Type to check against must not be null");

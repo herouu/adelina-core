@@ -85,7 +85,7 @@ public class TableCacheDao {
      * @return a long.
      */
     public long delete(String tableName, String... keys) {
-        return redisTemplate.opsForHash().delete(tableName, keys);
+        return redisTemplate.opsForHash().delete(tableName, (Object[]) keys);
     }
 
     /**

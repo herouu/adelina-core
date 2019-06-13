@@ -1,5 +1,6 @@
 package top.alertcode.adelina.framework.utils;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,53 +35,52 @@ public class ZipUtils {
             return primStr;
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        GZIPOutputStream gzip=null;
+        GZIPOutputStream gzip = null;
         try {
             gzip = new GZIPOutputStream(out);
             gzip.write(primStr.getBytes());
         } catch (IOException e) {
-            log.error("-------------压缩字符串发生异常：{}",e.getMessage());
-        }finally{
-            if(gzip!=null){
+            log.error("-------------压缩字符串发生异常：{}", e.getMessage());
+        } finally {
+            if (gzip != null) {
                 try {
                     gzip.close();
                 } catch (IOException e) {
-                    log.warn("-------------释放资源出现异常：{}",e.getMessage());
+                    log.warn("-------------释放资源出现异常：{}", e.getMessage());
                 }
             }
         }
-        return new sun.misc.BASE64Encoder().encode(out.toByteArray());
+        return Base64.encodeBase64String(out.toByteArray());
     }
 
     /**
-     *
      * 对使用gzip压缩的字符串进行解压�?
      *
      * @param compressedStr gzip压缩结果的Base64字符�?
      * @return 解压缩结�?
      */
-    public static String unGzip(String compressedStr){
-        if(compressedStr==null){
+    public static String unGzip(String compressedStr) {
+        if (compressedStr == null) {
             return null;
         }
-        ByteArrayOutputStream out= new ByteArrayOutputStream();
-        ByteArrayInputStream in=null;
-        GZIPInputStream ginzip=null;
-        byte[] compressed=null;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ByteArrayInputStream in = null;
+        GZIPInputStream ginzip = null;
+        byte[] compressed = null;
         String decompressed = null;
         try {
-            compressed = new sun.misc.BASE64Decoder().decodeBuffer(compressedStr);
-            in=new ByteArrayInputStream(compressed);
-            ginzip=new GZIPInputStream(in);
+            compressed = Base64.decodeBase64(compressedStr);
+            in = new ByteArrayInputStream(compressed);
+            ginzip = new GZIPInputStream(in);
 
             byte[] buffer = new byte[1024];
             int offset = -1;
             while ((offset = ginzip.read(buffer)) != -1) {
                 out.write(buffer, 0, offset);
             }
-            decompressed=out.toString();
+            decompressed = out.toString();
         } catch (IOException e) {
-            log.error("-------------解压缩字符串发生异常：{}",e.getMessage());
+            log.error("-------------解压缩字符串发生异常：{}", e.getMessage());
         } finally {
             if (ginzip != null) {
                 try {
@@ -125,9 +125,9 @@ public class ZipUtils {
             zout.write(str.getBytes());
             zout.closeEntry();
             compressed = out.toByteArray();
-            compressedStr = new sun.misc.BASE64Encoder().encodeBuffer(compressed);
+            compressedStr = Base64.encodeBase64String(compressed);
         } catch (IOException e) {
-            log.error("-------------压缩字符串发生异常：{}",e.getMessage());
+            log.error("-------------压缩字符串发生异常：{}", e.getMessage());
             compressed = null;
         } finally {
             if (zout != null) {
@@ -162,7 +162,7 @@ public class ZipUtils {
         ZipInputStream zin = null;
         String decompressed = null;
         try {
-            byte[] compressed = new sun.misc.BASE64Decoder().decodeBuffer(compressedStr);
+            byte[] compressed = Base64.decodeBase64(compressedStr);
             out = new ByteArrayOutputStream();
             in = new ByteArrayInputStream(compressed);
             zin = new ZipInputStream(in);
@@ -174,7 +174,7 @@ public class ZipUtils {
             }
             decompressed = out.toString();
         } catch (IOException e) {
-            log.error("-------------压缩字符串发生异常：{}",e.getMessage());
+            log.error("-------------压缩字符串发生异常：{}", e.getMessage());
             decompressed = null;
         } finally {
             if (zin != null) {
