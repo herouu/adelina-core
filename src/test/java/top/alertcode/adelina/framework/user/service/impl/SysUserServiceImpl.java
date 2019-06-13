@@ -12,6 +12,7 @@ import top.alertcode.adelina.framework.user.service.ISysUserService;
  *
  * @author alert
  * @since 2019-06-12
+ * @version $Id: $Id
  */
 @Service
 public class SysUserServiceImpl extends BaseService<SysUser> implements ISysUserService {

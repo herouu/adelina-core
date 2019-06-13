@@ -5,34 +5,36 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>top.alertcode</groupId>
-    <artifactId>train-framework-core</artifactId>
+    <artifactId>adelina-core</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
+
+    <name>adelina-core</name>
+    <!-- 根据开源的一些框架的整合，主要方便快速开发 -->
+    <url>https://www.alertcode.top/adelina-core/</url>
+
+    <!--License Information-->
     <licenses>
         <license>
-            <name>The Apache Software License, Version 2.0</name>
+            <name>The Apache License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
         </license>
     </licenses>
-    <scm>
-        <tag>master</tag>
-        <url>git@github.com:alertcode/train-framework-core.git</url>
-        <connection>scm:git:git@github.com:alertcode/train-framework-core.git</connection>
-        <developerConnection>scm:git:git@github.com:alertcode/train-framework-core.git</developerConnection>
-    </scm>
+    <!--    Developer Information-->
     <developers>
         <developer>
-            <name>alertcode</name>
+            <name>Fu Bob</name>
             <email>2269648132@qq.com</email>
             <organization>alertcode.top</organization>
         </developer>
     </developers>
+    <!--    SCM Information-->
+    <scm>
+        <connection>scm:git:git://github.com/alertcode/adelina-core.git</connection>
+        <developerConnection>scm:git:ssh://github.com:alertcode/adelina-core.git</developerConnection>
+        <url>https://github.com/alertcode/adelina-core/master</url>
+    </scm>
 
-
-    <name>train-framework-core</name>
-    <!-- 根据开源的一些框架的整合，主要方便快速开发 -->
-    <url>https://www.alertcode.top/train-framework-core/</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -213,119 +215,92 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>ossrh</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>ossrh</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-    </profiles>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
-        <!--<plugins>-->
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-source-plugin</artifactId>-->
-        <!--<version>2.2.1</version>-->
-        <!--<executions>-->
-        <!--<execution>-->
-        <!--&lt;!&ndash;<phase>package</phase>&ndash;&gt;-->
-        <!--<goals>-->
-        <!--<goal>jar-no-fork</goal>-->
-        <!--</goals>-->
-        <!--</execution>-->
-        <!--</executions>-->
-        <!--</plugin>-->
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-javadoc-plugin</artifactId>-->
-        <!--<version>3.0.1</version>-->
-        <!--<configuration>-->
-        <!--<sourcepath>target/generated-sources/delombok</sourcepath>-->
-        <!--</configuration>-->
-        <!--<executions>-->
-        <!--<execution>-->
-        <!--<id>attach-javadocs</id>-->
-        <!--</execution>-->
-        <!--</executions>-->
-        <!--</plugin>-->
-        <!--<plugin>-->
-        <!--<groupId>org.projectlombok</groupId>-->
-        <!--<artifactId>lombok-maven-plugin</artifactId>-->
-        <!--<version>1.18.0.0</version>-->
-        <!--<configuration>-->
-        <!--<encoding>UTF-8</encoding>-->
-        <!--<sourceDirectory>src/main/java</sourceDirectory>-->
-        <!--</configuration>-->
-        <!--</plugin>-->
-        <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-gpg-plugin</artifactId>-->
-        <!--<version>1.6</version>-->
-        <!--<executions>-->
-        <!--<execution>-->
-        <!--<id>sign-artifacts</id>-->
-        <!--<phase>verify</phase>-->
-        <!--<goals>-->
-        <!--<goal>sign</goal>-->
-        <!--</goals>-->
-        <!--</execution>-->
-        <!--</executions>-->
-        <!--</plugin>-->
-        <!--</plugins>-->
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>1.18.0.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <sourceDirectory>src/main/java</sourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->

@@ -20,9 +20,9 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * @author fuqiang
- * @date 2019-06-03
- * @copyright fero.com.cn
+ * <p>Application class.</p>
+ *
+ * @since 1.0.0
  */
 @SpringBootApplication
 @EnableSwagger2Doc
@@ -30,11 +30,22 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @MapperScan("top.alertcode.adelina.framework.*.mapper")
 public class Application {
 
+    /**
+     * <p>main.</p>
+     *
+     * @param args an array of {@link java.lang.String} objects.
+     */
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
     }
 
 
+    /**
+     * <p>redisTemplate.</p>
+     *
+     * @param redisConnectionFactory a {@link org.springframework.data.redis.connection.RedisConnectionFactory} object.
+     * @return a {@link org.springframework.data.redis.core.RedisTemplate} object.
+     */
     @Bean
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
@@ -59,6 +70,11 @@ public class Application {
     @Autowired
     private Environment environment;
 
+    /**
+     * <p>redissonClient.</p>
+     *
+     * @return a {@link org.redisson.api.RedissonClient} object.
+     */
     @Bean
     public RedissonClient redissonClient() {
         Config config = new Config();

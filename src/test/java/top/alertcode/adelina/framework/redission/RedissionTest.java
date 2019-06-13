@@ -11,15 +11,19 @@ import top.alertcode.adelina.framework.utils.StringUtils;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author fuqiang
- * @date 2019-06-13
- * @copyright fero.com.cn
+ * <p>RedissionTest class.</p>
+ *
+ * @version $Id: $Id
+ * @since 1.0.0
  */
 public class RedissionTest extends BaseTest {
 
     @Autowired
     private RedissonClient redissonClient;
 
+    /**
+     * <p>redissonTest.</p>
+     */
     @Test
     public void redissonTest() {
         RKeys keys = redissonClient.getKeys();
@@ -28,6 +32,9 @@ public class RedissionTest extends BaseTest {
         }
     }
 
+    /**
+     * <p>lockDemo.</p>
+     */
     @Test
     public void lockDemo() {
         RLock lock = redissonClient.getLock(StringUtils.getLockKey("123"));
@@ -51,6 +58,9 @@ public class RedissionTest extends BaseTest {
     }
 
 
+    /**
+     * <p>lockDemo1.</p>
+     */
     @Test
     public void lockDemo1() {
         RLock lock = redissonClient.getLock("lockName1");

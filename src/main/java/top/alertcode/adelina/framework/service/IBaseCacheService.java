@@ -9,9 +9,6 @@ import java.util.Collection;
 /**
  * cache层接口
  *
- * @author alertcode
- * @date 2019-06-05
- * @copyright fero.com.cn
  */
 public interface IBaseCacheService<T> {
 
@@ -28,7 +25,7 @@ public interface IBaseCacheService<T> {
      * 根据实体id获取实体，若缓存不存在更新实体
      *
      * @param id
-     * @param model 锁类型 分段锁->缓存熔断 重入锁->线程阻塞
+     * @param model 锁类型 分段锁 缓存熔断 重入锁 线程阻塞
      * @param <T>
      * @return
      */

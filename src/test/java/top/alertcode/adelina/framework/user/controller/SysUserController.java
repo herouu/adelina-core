@@ -14,6 +14,7 @@ import top.alertcode.adelina.framework.user.service.impl.SysUserServiceImpl;
  *
  * @author alert
  * @since 2019-06-12
+ * @version $Id: $Id
  */
 @Api(tags = "系统用户表")
 @RestController

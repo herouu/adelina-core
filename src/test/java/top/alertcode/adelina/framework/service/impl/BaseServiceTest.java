@@ -11,9 +11,7 @@
 //import java.util.List;
 //
 ///**
-// * @author fuqiang
-// * @date 2019-06-03
-// * @copyright fero.com.cn
+
 // */
 //public class BaseServiceTest extends BaseTest {
 //

@@ -18,6 +18,7 @@ import java.util.Date;
  *
  * @author alert
  * @since 2019-06-12
+ * @version $Id: $Id
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -7,6 +7,10 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple App.
+ *
+ * @author alertcode
+ * @version $Id: $Id
+ * @since 1.0.0
  */
 public class AppTest {
     /**
@@ -18,6 +22,9 @@ public class AppTest {
     }
 
 
+    /**
+     * <p>configEncryptor.</p>
+     */
     @Test
     public void configEncryptor() {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();

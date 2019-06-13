@@ -8,6 +8,7 @@ package top.alertcode.adelina.framework.user.service;
  *
  * @author alert
  * @since 2019-06-12
+ * @version $Id: $Id
  */
 public interface ISysUserService {
 

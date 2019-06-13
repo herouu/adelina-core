@@ -6,9 +6,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 /**
+ * <p>BaseTest class.</p>
+ *
  * @author fuqiang
  * @date 2019-06-03
- * @copyright fero.com.cn
+ * @version $Id: $Id
+ * @since 1.0.0
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

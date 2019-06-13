@@ -10,6 +10,7 @@ import top.alertcode.adelina.framework.user.entity.SysUser;
  *
  * @author alert
  * @since 2019-06-12
+ * @version $Id: $Id
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
