@@ -5,7 +5,6 @@ import top.alertcode.adelina.framework.commons.enums.Model;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
 
 /**
  * cache层接口
@@ -99,11 +98,4 @@ public interface IBaseCacheService<T> {
      */
     void cacheUpdateBatchById(Collection<T> entityList);
 
-    /**
-     * 批量更新数据库及缓存
-     *
-     * @param entityList
-     * @param map
-     */
-    void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
 }

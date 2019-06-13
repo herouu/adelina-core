@@ -83,6 +83,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     private final static String DELETE = "delete";
 
 
+    @Override
     public <T> T cacheGetById(Serializable id) {
         return cacheGetByIdSegmentLock(id);
     }
@@ -119,6 +120,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
      * @param <T>
      * @return
      */
+    @Override
     public <T> T cacheGetById(Serializable id, Model model) {
         if (model == Model.SegmentLock) {
             return cacheGetByIdSegmentLock(id);
@@ -158,6 +160,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
         return t;
     }
 
+    @Override
     public <T> T cacheInsertData(T entity) {
         super.save(entity);
         tableCacheDao.add(getHName(entity.getClass()), getId(entity), entity);
@@ -165,6 +168,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     }
 
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized boolean cacheDeleteById(Serializable id) {
         Class clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
@@ -177,6 +181,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
         return false;
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized boolean cacheUpdateById(Object entity) {
         if (tableCacheDao.exists(getHName(entity.getClass()), getId(entity))) {
@@ -189,6 +194,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     }
 
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized boolean cacheSaveBatch(Collection<T> entityList) {
         if (CollectionUtils.isNotEmpty(entityList)) {
@@ -210,6 +216,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
      * @param queryWrapper 实体包装类 {@link com.baomidou.mybatisplus.core.conditions.query.QueryWrapper}
      */
 
+    @Override
     public synchronized boolean cacheRemove(Wrapper<T> queryWrapper) {
         List<T> list = list(queryWrapper);
         if (CollectionUtils.isNotEmpty(list)) {
@@ -227,6 +234,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
      *
      * @param idList 主键ID列表
      */
+    @Override
     public boolean cacheDeleteByIds(Long[] idList) {
         if (ArrayUtils.isNotEmpty(idList)) {
             lock.lock();
@@ -254,6 +262,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
      * @param entity        实体对象
      * @param updateWrapper 实体对象封装操作类 {@link com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper}
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized void cacheUpdate(T entity, Wrapper<T> updateWrapper) {
         update(entity, updateWrapper);
@@ -273,17 +282,13 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     /**
      * 根据ID 批量更新
      */
+    @Override
     public synchronized void cacheUpdateBatchById(Collection<T> entityList) {
         if (CollectionUtils.isNotEmpty(entityList)) {
             super.updateBatchById(entityList);
             Collection<T> collection = listByIds(entityList.stream().map(this::getId).collect(Collectors.toList()));
             cacheBatchReset(collection);
         }
-    }
-
-    @Override
-    public void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map) {
-
     }
 
     private synchronized void cacheBatchReset(Collection<T> entityList) {

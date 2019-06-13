@@ -66,7 +66,7 @@ public interface IBaseCacheService<T> {
      * @param id
      * @return
      */
-     <T> T cacheGetById(Serializable id);
+    <T> T cacheGetById(Serializable id);
 
 
     /**
@@ -143,13 +143,7 @@ public interface IBaseCacheService<T> {
      */
     void cacheUpdateBatchById(Collection<T> entityList);
 
-    /**
-     * 批量更新数据库及缓存
-     *
-     * @param entityList
-     * @param map
-     */
-    void cacheTbUpdateBatch(Collection<T> entityList, HashMap<String, String> map);
+}
 ```
 
 ### 分布式锁 
