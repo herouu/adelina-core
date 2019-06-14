@@ -6,12 +6,12 @@
 
     <groupId>top.alertcode</groupId>
     <artifactId>adelina-core</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
 
     <name>adelina-core</name>
-    <!-- 根据开源的一些框架的整合，主要方便快速开发 -->
     <url>https://www.alertcode.top/adelina-core/</url>
+    <description>根据开源的一些框架的整合，主要方便快速开发</description>
 
     <!--License Information-->
     <licenses>
@@ -217,28 +217,32 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
+            <id>nexu</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>nexu</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+            <!--<groupId>org.sonatype.plugins</groupId>-->
+            <!--<artifactId>nexus-staging-maven-plugin</artifactId>-->
+            <!--<version>1.6.8</version>-->
+            <!--<extensions>true</extensions>-->
+            <!--<configuration>-->
+            <!--<serverId>ossrh</serverId>-->
+            <!--<nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+            <!--<autoReleaseAfterClose>false</autoReleaseAfterClose>-->
+            <!--<sslAllowAll>true</sslAllowAll>-->
+            <!--<stagingProgressPauseDurationSeconds>20</stagingProgressPauseDurationSeconds>-->
+            <!--<stagingProgressTimeoutMinutes>20</stagingProgressTimeoutMinutes>-->
+            <!--<detectBuildFailures>true</detectBuildFailures>-->
+            <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -279,17 +283,17 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release</releaseProfiles>
-                    <goals>deploy</goals>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-release-plugin</artifactId>-->
+            <!--<version>2.5.3</version>-->
+            <!--<configuration>-->
+            <!--<autoVersionSubmodules>true</autoVersionSubmodules>-->
+            <!--<useReleaseProfile>false</useReleaseProfile>-->
+            <!--<releaseProfiles>release</releaseProfiles>-->
+            <!--<goals>deploy</goals>-->
+            <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
