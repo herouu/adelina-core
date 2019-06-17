@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,10 @@ public class CodeGenerator {
      * @param tableNames        the table names 表名 多个表'，'分割
      * @param parentPackageName the parent package name 包名
      * @param env               the env  包路径所在环境  dev or test
+     * @param entityPackage     the entityPackage  自定义entityPackage包名称
      */
-    public void exec(String author, String modelName, String tableNames, String parentPackageName, String env) {
+    public void exec(String author, final String modelName, String tableNames, String parentPackageName, String env,
+                     String entityPackage) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -68,9 +71,19 @@ public class CodeGenerator {
 
         // 包配置
         final PackageConfig pc = new PackageConfig();
-        pc.setModuleName(modelName);
-        pc.setParent(parentPackageName);
-        mpg.setPackageInfo(pc);
+        if (StringUtils.isBlank(entityPackage)) {
+            pc.setModuleName(modelName);
+            pc.setParent(parentPackageName);
+            mpg.setPackageInfo(pc);
+        } else {
+            pc.setParent(parentPackageName);
+            pc.setController(modelName + "." + pc.getController());
+            pc.setMapper(modelName + "." + pc.getMapper());
+            pc.setService(modelName + "." + pc.getService());
+            pc.setServiceImpl(modelName + "." + pc.getServiceImpl());
+            pc.setEntity(entityPackage);
+            mpg.setPackageInfo(pc);
+        }
 
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
@@ -88,7 +101,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
+                return projectPath + "/src/main/resources/mapper/" + modelName
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });

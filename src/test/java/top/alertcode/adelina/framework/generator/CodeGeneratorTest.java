@@ -20,6 +20,7 @@ public class CodeGeneratorTest extends BaseTest {
      */
     @Test
     public void testExec() {
-        codeGenerator.exec("alert", "audit", "repayment_audit", "top.alertcode.adelina.framework", "test");
+        codeGenerator.exec("alert", "audit", "repayment_audit", "top.alertcode.adelina.framework", "test", "commons" +
+                ".audit.entity");
     }
 }

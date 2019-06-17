@@ -301,7 +301,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
 #### 接口
 
 ```java
-  /**
+    /**
      * 代码生成器
      *
      * @param author            the author 作者名称
@@ -309,8 +309,10 @@ public class UserServiceImpl extends BaseService implements IUserService {
      * @param tableNames        the table names 表名 多个表'，'分割
      * @param parentPackageName the parent package name 包名
      * @param env               the env  包路径所在环境  dev or test
+     * @param entityPackage     the entityPackage  自定义entityPackage包名称
      */
-    public void exec(String author, String modelName, String tableNames, String parentPackageName, String env) 
+    public void exec(String author, final String modelName, String tableNames, String parentPackageName, String env,
+                     String entityPackage);
 ```
 #### 使用jRebel 无需重启项目，即可更新接口  
 
