@@ -312,6 +312,7 @@ public class UserServiceImpl extends BaseService implements IUserService {
      */
     public void exec(String author, String modelName, String tableNames, String parentPackageName, String env) 
 ```
+#### 使用jRebel 无需重启项目，即可更新接口  
 
 #### 使用
 
