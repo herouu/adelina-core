@@ -7,18 +7,16 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 import top.alertcode.adelina.framework.controller.BaseController;
 import top.alertcode.adelina.framework.service.impl.BaseService;
+import top.alertcode.adelina.framework.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Component
 /**
  * <p>CodeGenerator class.</p>
  *
@@ -39,52 +37,92 @@ public class CodeGenerator {
      * @param tableNames        the table names 表名 多个表'，'分割
      * @param parentPackageName the parent package name 包名
      * @param env               the env  包路径所在环境  dev or test
-     * @param entityPackage     the entityPackage  自定义entityPackage包名称
      */
-    public void exec(String author, final String modelName, String tableNames, String parentPackageName, String env,
-                     String entityPackage) {
+    public void exec(String author, final String modelName, String tableNames, String parentPackageName, String env) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
-
-        // 全局配置
-        GlobalConfig gc = new GlobalConfig();
         final String projectPath = System.getProperty("user.dir");
-        if ("test".equals(env)) {
-            gc.setOutputDir(projectPath + "/src/test/java");
-        } else {
-            gc.setOutputDir(projectPath + "/src/main/java");
-        }
-        gc.setAuthor(author);
-        gc.setOpen(false);
-        gc.setSwagger2(true); //实体属性 Swagger2 注解
-        gc.setDateType(DateType.ONLY_DATE);
-        mpg.setGlobalConfig(gc);
-
+        // 全局配置
+        GlobalConfig globalConfig = buildConfig(author, env, projectPath);
+        mpg.setGlobalConfig(globalConfig);
         // 数据源配置
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(environment.getProperty("spring.datasource.url"));
-        // dsc.setSchemaName("public");
-        dsc.setDriverName(environment.getProperty("spring.datasource.driver-class-name"));
-        dsc.setUsername(environment.getProperty("spring.datasource.username"));
-        dsc.setPassword(environment.getProperty("spring.datasource.password"));
+        DataSourceConfig dsc = getDataSourceConfig();
         mpg.setDataSource(dsc);
-
         // 包配置
-        final PackageConfig pc = new PackageConfig();
-        if (StringUtils.isBlank(entityPackage)) {
-            pc.setModuleName(modelName);
-            pc.setParent(parentPackageName);
-            mpg.setPackageInfo(pc);
-        } else {
-            pc.setParent(parentPackageName);
-            pc.setController(modelName + "." + pc.getController());
-            pc.setMapper(modelName + "." + pc.getMapper());
-            pc.setService(modelName + "." + pc.getService());
-            pc.setServiceImpl(modelName + "." + pc.getServiceImpl());
-            pc.setEntity(entityPackage);
-            mpg.setPackageInfo(pc);
-        }
+        PackageConfig packageConfig = simplePacPc(modelName, parentPackageName);
+        mpg.setPackageInfo(packageConfig);
+        // 注入配置
+        InjectionConfig cfg = getInjectionConfig(modelName, projectPath, null);
+        mpg.setCfg(cfg);
+        // 配置模板
+        TemplateConfig templateConfig = getTemplateConfig(null);
+        mpg.setTemplate(templateConfig);
+        // 策略配置
+        StrategyConfig strategy = getStrategyConfig(tableNames, packageConfig);
+        mpg.setStrategy(strategy);
+        mpg.execute();
+    }
 
+    public void exec(String author, final String modelName, String tableNames, String parentPackageName, String env,
+                     String entityPath) {
+        // 代码生成器
+        AutoGenerator mpg = new AutoGenerator();
+        final String projectPath = System.getProperty("user.dir");
+        // 全局配置
+        GlobalConfig globalConfig = buildConfig(author, env, projectPath);
+        mpg.setGlobalConfig(globalConfig);
+        // 数据源配置
+        DataSourceConfig dsc = getDataSourceConfig();
+        mpg.setDataSource(dsc);
+        // 包配置
+        PackageConfig packageConfig = simplePacPc(modelName, parentPackageName);
+        mpg.setPackageInfo(packageConfig);
+        // 注入配置
+        InjectionConfig cfg = getInjectionConfig(modelName, projectPath, entityPath);
+        mpg.setCfg(cfg);
+        // 配置模板
+        TemplateConfig templateConfig = getTemplateConfig(entityPath);
+        mpg.setTemplate(templateConfig);
+        // 策略配置
+        StrategyConfig strategy = getStrategyConfig(tableNames, packageConfig);
+        mpg.setStrategy(strategy);
+        mpg.execute();
+    }
+
+
+    private TemplateConfig getTemplateConfig(String entitydDIYPath) {
+        TemplateConfig templateConfig = new TemplateConfig();
+
+        // 配置自定义输出模板
+        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
+        templateConfig.setEntity("template/entity.java");
+        templateConfig.setService("template/service.java");
+        templateConfig.setServiceImpl("template/serviceImpl.java");
+        templateConfig.setController("template/controller.java");
+        if (StringUtils.isNotBlank(entitydDIYPath)) {
+            templateConfig.setEntity(null);
+        }
+        templateConfig.setXml(null);
+        return templateConfig;
+    }
+
+    private StrategyConfig getStrategyConfig(String tableNames, PackageConfig packageConfig) {
+        StrategyConfig strategy = new StrategyConfig();
+        strategy.setNaming(NamingStrategy.underline_to_camel);
+        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
+//        strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
+        strategy.setEntityLombokModel(true);
+        strategy.setRestControllerStyle(true);
+        strategy.setSuperControllerClass(BaseController.class.getName());
+        strategy.setSuperServiceImplClass(BaseService.class.getName());
+        strategy.setInclude(tableNames.split(","));
+//        strategy.setSuperEntityColumns("id");
+        strategy.setControllerMappingHyphenStyle(true);
+        strategy.setTablePrefix(packageConfig.getModuleName() + "_");
+        return strategy;
+    }
+
+    private InjectionConfig getInjectionConfig(String modelName, String projectPath, String diyEntityPath) {
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
             @Override
@@ -105,49 +143,49 @@ public class CodeGenerator {
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
-        /*
-        cfg.setFileCreate(new IFileCreate() {
-            @Override
-            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-                // 判断自定义文件夹是否需要创建
-                checkDir("调用默认方法创建的目录");
-                return false;
-            }
-        });
-        */
 
+        if (StringUtils.isNotBlank(diyEntityPath)) {
+            String entityTemplatePath = "template/entity.java.vm";
+            focList.add(new FileOutConfig(entityTemplatePath) {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    return diyEntityPath + "/entity/" + modelName + "/" + tableInfo.getEntityName() + StringPool.DOT_JAVA;
+                }
+            });
+        }
         cfg.setFileOutConfigList(focList);
-        mpg.setCfg(cfg);
+        return cfg;
+    }
 
-        // 配置模板
-        TemplateConfig templateConfig = new TemplateConfig();
 
-        // 配置自定义输出模板
-        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        templateConfig.setEntity("template/entity.java");
-        templateConfig.setService("template/service.java");
-        templateConfig.setServiceImpl("template/serviceImpl.java");
-        templateConfig.setController("template/controller.java");
+    private PackageConfig simplePacPc(String modelName, String parentPackageName) {
+        PackageConfig pc = new PackageConfig();
+        pc.setModuleName(modelName);
+        pc.setParent(parentPackageName);
+        return pc;
+    }
 
-        templateConfig.setXml(null);
-        mpg.setTemplate(templateConfig);
+    private DataSourceConfig getDataSourceConfig() {
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setUrl(environment.getProperty("spring.datasource.url"));
+        dsc.setDriverName(environment.getProperty("spring.datasource.driver-class-name"));
+        dsc.setUsername(environment.getProperty("spring.datasource.username"));
+        dsc.setPassword(environment.getProperty("spring.datasource.password"));
+        return dsc;
+    }
 
-        // 策略配置
-        StrategyConfig strategy = new StrategyConfig();
-        strategy.setNaming(NamingStrategy.underline_to_camel);
-        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
-        strategy.setEntityLombokModel(true);
-        strategy.setRestControllerStyle(true);
-        strategy.setSuperControllerClass(BaseController.class.getName());
-        strategy.setSuperServiceImplClass(BaseService.class.getName());
-        strategy.setInclude(tableNames.split(","));
-//        strategy.setSuperEntityColumns("id");
-        strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(pc.getModuleName() + "_");
-        mpg.setStrategy(strategy);
-//        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
-        mpg.execute();
+    private GlobalConfig buildConfig(String author, String env, String projectPath) {
+        GlobalConfig gc = new GlobalConfig();
+        if ("test".equals(env)) {
+            gc.setOutputDir(projectPath + "/src/test/java");
+        } else {
+            gc.setOutputDir(projectPath + "/src/main/java");
+        }
+        gc.setAuthor(author);
+        gc.setOpen(false);
+        gc.setSwagger2(true);
+        gc.setDateType(DateType.ONLY_DATE);
+        return gc;
     }
 
 }
