@@ -202,7 +202,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
             HashMap<String, String> map = new HashMap<>(16);
             saveBatch(entityList);
             for (Object o : entityList) {
-                map.put(getId(o), JsonUtils.writeValueAsString(o));
+                map.put(getId(o), JsonUtils.toJson(o));
             }
             String name = getHName(IterableUtils.get(entityList, 0).getClass());
             tableCacheDao.addAll(name, map);
@@ -245,7 +245,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
                         .stream().filter(Objects::nonNull).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(collect)) {
                     tableCacheDao.delete(getHName(clazz),
-                            collect.stream().map(item -> JsonUtils.readValue(item, clazz)).map(this::getId).collect(Collectors.toSet()).toArray(new String[]{}));
+                            collect.stream().map(item -> JsonUtils.toBean(item, clazz)).map(this::getId).collect(Collectors.toSet()).toArray(new String[]{}));
                     return super.removeByIds(Stream.of(idList).collect(Collectors.toList()));
                 }
             } finally {
@@ -271,7 +271,7 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
                     list.stream().map(this::getId).collect(Collectors.toSet()).toArray(new String[]{}));
             HashMap<String, String> map = new HashMap<>(16);
             for (Object o : list) {
-                map.put(getId(o), JsonUtils.writeValueAsString(o));
+                map.put(getId(o), JsonUtils.toJson(o));
             }
             tableCacheDao.addAll(getHName(entity.getClass()), map);
         }
@@ -296,14 +296,14 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
         Class clazz = ReflectionKit.getSuperClassGenericType(getClass(), 0);
         HashMap<String, String> map = new HashMap<>(16);
         for (T t : entityList) {
-            map.put(getId(t), JsonUtils.writeValueAsString(t));
+            map.put(getId(t), JsonUtils.toJson(t));
         }
         tableCacheDao.delete(getHName(clazz), map.keySet().toArray(new String[]{}));
         tableCacheDao.addAll(getHName(clazz), map);
     }
 
 
-//    region
+    //    region
 
 
     private String getId(Object entity) {
@@ -319,6 +319,6 @@ public class BaseService<T> extends ServiceImpl implements IBaseCacheService<T> 
     }
 
 
-//  endregion
+    //  endregion
 
 }

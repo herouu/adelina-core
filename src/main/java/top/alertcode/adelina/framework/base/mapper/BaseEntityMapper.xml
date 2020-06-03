@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.alertcode.adelina.framework.base.dao.BaseEntityDao">
+
+    <!--<bind name="commonsSql" value="applySql"/>-->
+    <!--<bind name="commonsSqlHead" value="'apply.'"/>-->
+    <!--<include refid="cn.com.fero.component.dao.BaseEntityDao.where_commons_sql"/>-->
+    <!-- 通用处理 -->
+    <sql id="where_commons_sql_body">
+        <if test="commonsSql != null and commonsSql.buildNode(commonsSqlHead)">
+            <if test="commonsSql.listInNode != null and commonsSql.listInNode.length > 0 ">
+                <foreach collection="commonsSql.listInNode" item="node" open="" separator="" close="">
+                    AND `${commonsSqlHead}${node.sqlName}` IN
+                    <foreach collection="node.arr" item="value" open="(" separator="," close=")">
+                        #{value}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="commonsSql.listOutNode != null and commonsSql.listOutNode.length > 0 ">
+                <foreach collection="commonsSql.listOutNode" item="node" open="" separator="" close="">
+                    AND (`${commonsSqlHead}${node.sqlName}` IS NULL OR `${commonsSqlHead}${node.sqlName}` NOT IN
+                    <foreach collection="node.arr" item="value" open="(" separator="," close=")">
+                        #{value}
+                    </foreach>)
+                </foreach>
+            </if>
+            <if test="commonsSql.listLikeNode != null and commonsSql.listLikeNode.length > 0 ">
+                <foreach collection="commonsSql.listLikeNode" item="node" open="" separator="" close="">
+                    AND `${commonsSqlHead}${node.sqlName}` like concat('%','${@cn.com.fero.component.sql.BaseEntitySql@getLikeText(node.value1)}','%') ESCAPE '/'
+                </foreach>
+            </if>
+            <if test="commonsSql.listSqlDate != null and commonsSql.listSqlDate.length > 0 ">
+                <foreach collection="commonsSql.listSqlDate" item="node" open="" separator="" close="">
+                    <if test="node.value1!=null and node.value2 != null">
+                        AND (`${commonsSqlHead}${node.sqlName}` BETWEEN '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value1)}'
+                        AND '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value2)}')
+                    </if>
+                    <if test="node.value1!=null and node.value2 == null">
+                        AND `${commonsSqlHead}${node.sqlName}` &gt;= '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value1)}'
+                    </if>
+                    <if test="node.value1==null and node.value2 != null">
+                        AND `${commonsSqlHead}${node.sqlName}` &lt;= '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value2)}'
+                    </if>
+                </foreach>
+            </if>
+            <if test="commonsSql.listSqlNumber != null and commonsSql.listSqlNumber.length > 0 ">
+                <foreach collection="commonsSql.listSqlNumber" item="node" open="" separator="" close="">
+                    <if test="node.value1!=null">
+                        AND `${commonsSqlHead}${node.sqlName}` &gt;= #{node.value1}
+                    </if>
+                    <if test="node.value2 != null">
+                        AND `${commonsSqlHead}${node.sqlName}` &lt;= #{node.value2}
+                    </if>
+                </foreach>
+            </if>
+            <if test="commonsSql.listFindOneNode != null and commonsSql.listFindOneNode.length > 0 ">
+                <foreach collection="commonsSql.listFindOneNode" item="node" open="" separator="" close="">
+                    AND
+                    <foreach collection="node.arr" item="value" open="(" separator=" OR " close=")">
+                        FIND_IN_SET(#{value},`${commonsSqlHead}${node.sqlName}`)&gt;0
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="commonsSql.listFindAllNode != null and commonsSql.listFindAllNode.length > 0 ">
+                <foreach collection="commonsSql.listFindAllNode" item="node" open="" separator="" close="">
+                    AND
+                    <foreach collection="node.arr" item="value" open="(" separator=" AND " close=")">
+                        FIND_IN_SET(#{value},`${commonsSqlHead}${node.sqlName}`)&gt;0
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="commonsSql.listNullNode != null and commonsSql.listNullNode.length > 0 ">
+                <foreach collection="commonsSql.listNullNode" item="node" open="" separator="" close="">
+                    <choose>
+                        <when test="node.value1==true">
+                            AND `${commonsSqlHead}${node.sqlName}` IS NULL
+                        </when>
+                        <otherwise>
+                            AND `${commonsSqlHead}${node.sqlName}` IS NOT NULL
+                        </otherwise>
+                    </choose>
+                </foreach>
+            </if>
+        </if>
+    </sql>
+    <sql id="where_commons_sql">
+        <include refid="top.alertcode.adelina.framework.base.dao.BaseEntityDao.where_commons_sql_body"/>
+        <if test="commonsSql != null">
+            <if test="commonsSql.inChildSql != null and commonsSql.inChildSql.length > 0 ">
+                AND
+                <foreach collection="commonsSql.inChildSql" item="_child" open="(" separator="OR" close=")">
+                    <bind name="commonsSql" value="_child"/>
+                    (1  <include refid="top.alertcode.adelina.framework.base.dao.BaseEntityDao.where_commons_sql_body"/> )
+                </foreach>
+            </if>
+        </if>
+    </sql>
+    <!--<bind name="commonsSql" value="applySql.getEntitySqlTable('apply')"/>-->
+    <!--<bind name="commonsSqlHead" value="'apply.'"/>-->
+    <!--<include refid="cn.com.fero.component.dao.BaseEntityDao.result_commons_entity"/>-->
+    <!-- 通用处理 -->
+    <sql id="result_commons_entity">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                ${filed.columnName} AS `${commonsSqlHead}${filed.columnName}`
+            </foreach>
+        </if>
+    </sql>
+    <sql id="result_commons_entity_select">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+               `${commonsSqlHead}${filed.columnName}`
+            </foreach>
+        </if>
+    </sql>
+    <sql id="result_commons_entity_add">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                NULL AS `${commonsSqlHead}${filed.columnName}`
+            </foreach>
+        </if>
+    </sql>
+    <sql id="result_commons_entity_group_concat_map">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                GROUP_CONCAT(IFNULL(REPLACE(IF(LEFT(`${commonsSqlHead}${filed.columnName}`,1)='!',CONCAT('!',`${commonsSqlHead}${filed.columnName}`),`${commonsSqlHead}${filed.columnName}`),',',',,'),'!'))  `gcm_${commonsSqlHead}${filed.columnName}`
+            </foreach>
+        </if>
+    </sql>
+    <!--   -->
+    <sql id="where_java_sql_body">
+        <if test="commonsSql != null and commonsSql.buildNode(commonsSqlHead)">
+            <if test="commonsSql.listInNode != null and commonsSql.listInNode.length > 0 ">
+                <foreach collection="commonsSql.listInNode" item="node" open="" separator="" close="">
+                    AND `${commonsSqlHead}${node.javaName}` IN
+                    <foreach collection="node.arr" item="value" open="(" separator="," close=")">
+                        #{value}
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="commonsSql.listOutNode != null and commonsSql.listOutNode.length > 0 ">
+                <foreach collection="commonsSql.listOutNode" item="node" open="" separator="" close="">
+                    AND (`${commonsSqlHead}${node.javaName}` IS NULL OR `${commonsSqlHead}${node.javaName}` NOT IN
+                    <foreach collection="node.arr" item="value" open="(" separator="," close=")">
+                        #{value}
+                    </foreach>)
+                </foreach>
+            </if>
+            <if test="commonsSql.listLikeNode != null and commonsSql.listLikeNode.length > 0 ">
+                <foreach collection="commonsSql.listLikeNode" item="node" open="" separator="" close="">
+                    AND `${commonsSqlHead}${node.javaName}` like concat('%','${@cn.com.fero.component.sql.BaseEntitySql@getLikeText(node.value1)}','%') ESCAPE '/'
+                </foreach>
+            </if>
+            <if test="commonsSql.listSqlDate != null and commonsSql.listSqlDate.length > 0 ">
+                <foreach collection="commonsSql.listSqlDate" item="node" open="" separator="" close="">
+                    <if test="node.value1!=null and node.value2 != null">
+                        AND (`${commonsSqlHead}${node.javaName}` BETWEEN '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value1)}'
+                        AND '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value2)}')
+                    </if>
+                    <if test="node.value1!=null and node.value2 == null">
+                        AND `${commonsSqlHead}${node.javaName}` &gt;= '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value1)}'
+                    </if>
+                    <if test="node.value1==null and node.value2 != null">
+                        AND `${commonsSqlHead}${node.javaName}` &lt;= '${@cn.com.fero.component.sql.BaseEntitySql@getDateTime(node.value2)}'
+                    </if>
+                </foreach>
+            </if>
+            <if test="commonsSql.listSqlNumber != null and commonsSql.listSqlNumber.length > 0 ">
+                <foreach collection="commonsSql.listSqlNumber" item="node" open="" separator="" close="">
+                    <if test="node.value1!=null">
+                        AND `${commonsSqlHead}${node.javaName}` &gt;= #{node.value1}
+                    </if>
+                    <if test="node.value2 != null">
+                        AND `${commonsSqlHead}${node.javaName}` &lt;= #{node.value2}
+                    </if>
+                </foreach>
+            </if>
+            <if test="commonsSql.listFindOneNode != null and commonsSql.listFindOneNode.length > 0 ">
+                <foreach collection="commonsSql.listFindOneNode" item="node" open="" separator="" close="">
+                    AND
+                    <foreach collection="node.arr" item="value" open="(" separator=" OR " close=")">
+                        FIND_IN_SET(#{value},`${commonsSqlHead}${node.javaName}`)&gt;0
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="commonsSql.listFindAllNode != null and commonsSql.listFindAllNode.length > 0 ">
+                <foreach collection="commonsSql.listFindAllNode" item="node" open="" separator="" close="">
+                    AND
+                    <foreach collection="node.arr" item="value" open="(" separator=" AND " close=")">
+                        FIND_IN_SET(#{value},`${commonsSqlHead}${node.javaName}`)&gt;0
+                    </foreach>
+                </foreach>
+            </if>
+            <if test="commonsSql.listNullNode != null and commonsSql.listNullNode.length > 0 ">
+                <foreach collection="commonsSql.listNullNode" item="node" open="" separator="" close="">
+                    <choose>
+                        <when test="node.value1==true">
+                            AND `${commonsSqlHead}${node.javaName}` IS NULL
+                        </when>
+                        <otherwise>
+                            AND `${commonsSqlHead}${node.javaName}` IS NOT NULL
+                        </otherwise>
+                    </choose>
+                </foreach>
+            </if>
+        </if>
+    </sql>
+    <sql id="where_java_sql">
+        <include refid="top.alertcode.adelina.framework.base.dao.BaseEntityDao.where_java_sql_body"/>
+        <if test="commonsSql != null">
+            <if test="commonsSql.inChildSql != null and commonsSql.inChildSql.length > 0 ">
+                AND
+                <foreach collection="commonsSql.inChildSql" item="_child" open="(" separator="OR" close=")">
+                    <bind name="commonsSql" value="_child"/>
+                     (1  <include refid="top.alertcode.adelina.framework.base.dao.BaseEntityDao.where_java_sql_body"/> )
+                </foreach>
+            </if>
+        </if>
+    </sql>
+    <sql id="result_java_entity">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                ${filed.columnName} AS `${commonsSqlHead}${filed.attributeName}`
+            </foreach>
+        </if>
+    </sql>
+    <sql id="result_java_entity_select">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                `${commonsSqlHead}${filed.attributeName}`
+            </foreach>
+        </if>
+    </sql>
+    <sql id="result_java_entity_add">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                NULL AS `${commonsSqlHead}${filed.attributeName}`
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="from_java_entity">
+        SELECT
+        <include refid="top.alertcode.adelina.framework.base.dao.BaseEntityDao.result_java_entity"/>
+        FROM `${commonsSqlTable.getTableName()}`
+    </sql>
+
+    <sql id="from_base_java_simple">
+        <bind name="commonsSqlTable" value="baseSql.getEntitySqlTable('')"/>
+        <bind name="commonsSqlHead" value="''"/>
+        <include refid="top.alertcode.adelina.framework.base.dao.BaseEntityDao.from_java_entity"/>
+    </sql>
+    <sql id="where_base_java_simple">
+        <bind name="commonsSql" value="baseSql"/>
+        <bind name="commonsSqlHead" value="''"/>
+        <include refid="top.alertcode.adelina.framework.base.dao.BaseEntityDao.where_java_sql"/>
+    </sql>
+    <!-- 排序规则 -->
+    <sql id="orderBy_java">
+        <if test="orderBySql != null and orderBySql.hasSql()==true">
+            ${orderBySql.orderBy(true)}
+        </if>
+    </sql>
+
+    <sql id="result_java_entity_group_concat_map">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                GROUP_CONCAT(IFNULL(REPLACE(IF(LEFT(`${commonsSqlHead}${filed.attributeName}`,1)='!',CONCAT('!',`${commonsSqlHead}${filed.attributeName}`),`${commonsSqlHead}${filed.attributeName}`),',',',,'),'!'))  `gcm.${commonsSqlHead}${filed.columnName}`
+            </foreach>
+        </if>
+    </sql>
+    <sql id="result_java_entity_group_concat_node">
+        <if test="commonsSqlTable!=null and commonsSqlTable.sqlColumns!=null">
+            <bind name="commonsGroupIndex" value="#root.containsKey('commonsGroupIndex')?commonsGroupIndex:1"/>
+            <foreach collection="commonsSqlTable.sqlColumns" item="filed" index="index" separator=",">
+                <bind name="commonsGroupIndex" value="commonsGroupIndex+1"/>
+                '${commonsSqlHead}' `gcn.n${commonsGroupIndex}.head`,
+                '${filed.attributeName}' `gcn.n${commonsGroupIndex}.name`,
+                GROUP_CONCAT(IFNULL(REPLACE(IF(LEFT(`${commonsSqlHead}${filed.attributeName}`,1)='!',CONCAT('!',`${commonsSqlHead}${filed.attributeName}`),`${commonsSqlHead}${filed.attributeName}`),',',',,'),'!'))  `gcn.n${commonsGroupIndex}.value`
+            </foreach>
+        </if>
+    </sql>
+</mapper>
