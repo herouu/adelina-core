@@ -1,14 +1,14 @@
 spring:
   datasource:
-#    url: ENC(rax4pFsibTzq+Gwwr4zom4mR1fK3HMMwLuFQYRHinrMkM1j0nwBDTi9XIVRkstB6jlFvLm8eY+W4M8lE1mQ2ZWCm60KlAmC1UN84x+E/r1CX2kLQh1Tutw3C4oExeGATTNoXAkeFqo/5ReUZ5nX9cg==)
-#    username: ENC(vunokJzoW3WYocMPrhbUrA==)
-#    password: ENC(E7WcA36p0hEAo+86ixtl2g==)
-    url: jdbc:mysql://localhost:3306/wjb_boot
-    username: ENC(vunokJzoW3WYocMPrhbUrA==)
-    password: ENC(E7WcA36p0hEAo+86ixtl2g==)
+    #    url: ENC(rax4pFsibTzq+Gwwr4zom4mR1fK3HMMwLuFQYRHinrMkM1j0nwBDTi9XIVRkstB6jlFvLm8eY+W4M8lE1mQ2ZWCm60KlAmC1UN84x+E/r1CX2kLQh1Tutw3C4oExeGATTNoXAkeFqo/5ReUZ5nX9cg==)
+    #    username: ENC(vunokJzoW3WYocMPrhbUrA==)
+    #    password: ENC(E7WcA36p0hEAo+86ixtl2g==)
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: root
     driver-class-name:  com.mysql.cj.jdbc.Driver
   redis:
-    host: ENC(zZ7O8iqXj4rRChxEoKS5Qf+MXMZ0pYWN)
+    host: localhost
     port: 6379
     database: 0
     password:
@@ -18,6 +18,7 @@ spring:
 
 swagger:
   base-package: top.alertcode.adelina.framework
+
 
 mybatis-plus:
   global-config:

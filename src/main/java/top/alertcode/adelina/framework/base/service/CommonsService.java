@@ -27,7 +27,6 @@ import top.alertcode.adelina.framework.utils.*;
 import java.util.*;
 
 /**
-
  * Created by zhangxu on 2018/6/19.
  */
 @Service
@@ -222,7 +221,7 @@ public class CommonsService implements BeanFactoryAware {
 
     public <T> Integer forEachUpdateExcludeNull(T dataObject) {
         EntitySqlTable entitySqlTable = EntitySqlFactory.getClassMap(dataObject.getClass());
-        T dbEntity = selectById(dataObject.getClass(), BeanUtils.getPropertyValue(dataObject, "id"));
+        T dbEntity = (T) selectById(dataObject.getClass(), BeanUtils.getPropertyValue(dataObject, "id"));
         //判断传递过来的属性是否为空，为空使用原始数据
         for (EntitySqlColumn sqlColumn : entitySqlTable.getSqlColumns()) {
             Object value = BeanUtils.getPropertyValue(dataObject, sqlColumn.getAttributeName());
@@ -335,7 +334,7 @@ public class CommonsService implements BeanFactoryAware {
      * @param tClass
      */
 
-    public <T> T selectById(Class tClass, Long id) {
+    public <T> T selectById(Class<T> tClass, Long id) {
         return findDataById(tClass, id, 1);
     }
 
@@ -627,7 +626,7 @@ public class CommonsService implements BeanFactoryAware {
      * @param id     数据主键ID
      * @param sourceType  1：先从缓存中获取，缓存中没有再从数据库中获取，2:直接从数据库中获取
      */
-    private <T> T findDataById(Class tClass, Long id, int sourceType) {
+    private <T> T findDataById(Class<T> tClass, Long id, int sourceType) {
         long begin = System.currentTimeMillis();
         EntitySqlTable entitySqlTable = EntitySqlFactory.getClassMap(tClass);
         if (sourceType == 1) {
@@ -750,7 +749,7 @@ public class CommonsService implements BeanFactoryAware {
             //删除缓存中的数据
             removeDataFromCache(entitySqlTable, key);
             //从数据库中获取数据
-            T object = this.findDataById(entitySqlTable.getEntityClass(), Long.parseLong(key), 2);
+            T object = (T) this.findDataById(entitySqlTable.getEntityClass(), Long.parseLong(key), 2);
             if (object == null) {
                 log.error("不能正确从数据库中获取数据：className:{} ,Id:{}", entitySqlTable.getClassName(), key);
                 throw new IllegalArgumentException("更新缓存失败");

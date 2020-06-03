@@ -11,7 +11,7 @@
         where id = #{id}
     </select>
 
-    <select id="selectByWhereString" resultType="java.util.HashMap">
+    <select id="selectByWhereString" resultType="java.util.Map">
         select
         <foreach collection="param1.sqlColumns" item="filed" index="index" separator=",">
             ${filed.columnName} ${filed.attributeName}
@@ -22,7 +22,7 @@
         </if>
     </select>
 
-    <select id="selectByCondition" resultType="java.util.HashMap">
+    <select id="selectByCondition" resultType="java.util.Map">
         select
         <choose>
             <when test="param2 == null">

@@ -18,6 +18,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import top.alertcode.adelina.framework.base.dao.CommonsDao;
 
 /**
  * <p>Application class.</p>
@@ -27,7 +28,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @SpringBootApplication
 @EnableSwagger2Doc
 @EnableCaching
-@MapperScan("top.alertcode.adelina.framework.*.mapper")
+@MapperScan("top.alertcode.adelina.framework")
 public class Application {
 
     /**
@@ -75,14 +76,15 @@ public class Application {
      *
      * @return a {@link org.redisson.api.RedissonClient} object.
      */
-    @Bean
-    public RedissonClient redissonClient() {
-        Config config = new Config();
-        //单机模式  依次设置redis地址和密码
-        String format = String.format("redis://%s:%s", environment.getProperty("spring.redis.host"),
-                environment.getProperty("spring.redis.port"));
-        config.useSingleServer().setAddress(format);
-        return Redisson.create(config);
-    }
+    // @Bean
+    // public RedissonClient redissonClient() {
+    //     Config config = new Config();
+    //     //单机模式  依次设置redis地址和密码
+    //     String format = String.format("redis://%s:%s", environment.getProperty("spring.redis.host"),
+    //             environment.getProperty("spring.redis.port"));
+    //     config.useSingleServer().setAddress(format);
+    //     return Redisson.create(config);
+    // }
+
 }
 
