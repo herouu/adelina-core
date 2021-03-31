@@ -41,7 +41,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
-        <guava.version>27.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <jsonWebToken.version>0.9.1</jsonWebToken.version>
         <shiro.spring.version>1.4.0</shiro.spring.version>
         <commons.io.version>2.6</commons.io.version>
