@@ -44,7 +44,7 @@
         <guava.version>27.1-jre</guava.version>
         <jsonWebToken.version>0.9.1</jsonWebToken.version>
         <shiro.spring.version>1.4.0</shiro.spring.version>
-        <commons.io.version>2.6</commons.io.version>
+        <commons.io.version>2.7</commons.io.version>
         <commons-collections4.version>4.2</commons-collections4.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
         <fastjson.version>1.2.58</fastjson.version>
